@@ -17,8 +17,11 @@ public class OssLicense {
 
     @Column(nullable = false, length = 50)
     private String license_name;
+
     @Column(nullable = false, length = 2083)
     private String license_url;
-    @Column(nullable = false, length = 50)
-    private String license_type_name;
+
+    @ManyToOne
+    @JoinColumn(name="license_type_name")
+    private OssLicenseType license_type_name;
 }
