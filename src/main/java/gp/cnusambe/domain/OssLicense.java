@@ -1,9 +1,6 @@
 package gp.cnusambe.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,7 +18,14 @@ public class OssLicense {
     @Column(nullable = false, length = 2083)
     private String license_url;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="license_type_name")
     private OssLicenseType license_type_name;
+
+    @Builder
+    public OssLicense(String license_name, String license_url, OssLicenseType license_type_name){
+        this.license_name = license_name;
+        this.license_url = license_url;
+        this.license_type_name = license_type_name;
+    }
 }
