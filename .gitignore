@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/resources/application-local.properties
+/src/main/java/gp/cnusambe/controller/ProfileController.java
+/src/main/java/gp/cnusambe/config/ProfileLocal.java
+/src/main/java/gp/cnusambe/config/ProfileConfig.java
