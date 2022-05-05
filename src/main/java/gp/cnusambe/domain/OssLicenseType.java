@@ -1,24 +1,22 @@
 package gp.cnusambe.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 public class OssLicenseType {
 
     @Id
-    @Column(length = 10)
-    private String license_type_name;
+    @Column(name = "license_type_name",length = 20)
+    @JsonProperty("license_type_name")
+    private String licenseTypeName;
 
-    public OssLicenseType(String license_type_name){
-        this.license_type_name = license_type_name;
-    }
 
 }
