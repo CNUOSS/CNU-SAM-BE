@@ -1,5 +1,6 @@
 package gp.cnusambe.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,20 +13,23 @@ public class OssLicense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String license_name;
+    @Column(name = "license_name",nullable = false, length = 50)
+    @JsonProperty("license_name")
+    private String licenseName;
 
-    @Column(nullable = false, length = 2083)
-    private String license_url;
+    @Column(name = "license_url",nullable = false, length = 2083)
+    @JsonProperty("license_url")
+    private String licenseUrl;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="license_type_name")
-    private OssLicenseType license_type_name;
+    @JsonProperty("oss_license_type")
+    private OssLicenseType ossLicenseType;
 
     @Builder
-    public OssLicense(String license_name, String license_url, OssLicenseType license_type_name){
-        this.license_name = license_name;
-        this.license_url = license_url;
-        this.license_type_name = license_type_name;
+    public OssLicense(String licenseName, String licenseUrl, OssLicenseType ossLicenseType){
+        this.licenseName = licenseName;
+        this.licenseUrl = licenseUrl;
+        this.ossLicenseType = ossLicenseType;
     }
 }
