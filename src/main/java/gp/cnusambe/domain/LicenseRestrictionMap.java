@@ -1,7 +1,41 @@
 package gp.cnusambe.domain;
 
-public class LicenseRestrictionMap {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.Optional;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class LicenseRestrictionMap {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String restriction_name;
+
+    //column : oss_license_id
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    @JsonProperty("oss_license")
+    private OssLicense ossLicense;
+
+    //column : restriction
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="restriction_name")
+    @JsonProperty("restriction")
+    private Restriction restriction;
+
+
+    public LicenseRestrictionMap(OssLicense license, Restriction restriction) {
+        this.ossLicense = license;
+        this.restriction = restriction;
+    }
+
 }

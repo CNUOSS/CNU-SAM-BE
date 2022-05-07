@@ -2,6 +2,7 @@ package gp.cnusambe.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,11 +16,13 @@ import javax.persistence.Id;
 @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Entity
+@JsonRootName("restriction")
 public class Restriction {
 
     @Id
     @Column(length = 50)
     @JsonProperty("restriction_name")
     private String restrictionName;
+
 
 }
