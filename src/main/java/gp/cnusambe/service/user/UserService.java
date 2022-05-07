@@ -4,17 +4,19 @@ import gp.cnusambe.domain.user.User;
 import gp.cnusambe.payload.request.SignupRequest;
 import gp.cnusambe.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
     public User signUp(SignupRequest request) {
         User user = User.builder()
                 .userId(request.getUserId())
-                .password(request.getPassword())
+                .password(encoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
         return userRepository.save(user);
