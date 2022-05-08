@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -65,6 +66,28 @@ public class UserController {
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponse> refreshToken(@RequestBody LogoutOrRefreshRequest request) {
+        String uuid = request.getUuid();
+        String userId = request.getUserId();
+        String oldAccessToken = request.getAccessToken();
+        String oldRefreshToken = redisUtil.getData(uuid).orElseThrow(RefreshTokenException::new);
+
+        if (!jwtTokenProvider.validateJwtToken(oldAccessToken)) {
+            throw new RefreshTokenException();
+        }
+
+        if(!userId.equals(jwtTokenProvider.getUserIdFromJwtToken(oldRefreshToken)) && !userId.equals(jwtTokenProvider.getUserIdFromJwtToken(oldAccessToken))) {
+            throw new RefreshTokenException();
+        }
+
+        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) userDetailsServiceImp.loadUserByUsername(userId);
+        LoginResponse jwtResponse = generateAndSaveToken(userDetailsImpl);
+        deleteToken(uuid, oldAccessToken);
+
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
+    }
+
     private LoginResponse generateAndSaveToken(UserDetailsImpl userDetailsImpl) {
         String userId = userDetailsImpl.getUserId();
         String uuid = UUID.randomUUID().toString();
@@ -74,5 +97,12 @@ public class UserController {
         redisUtil.setDataExpire(uuid, refreshToken, (int) JwtTokenProvider.REFRESH_EXPIRATION_SECONDS);
 
         return new LoginResponse(userId, accessToken, uuid);
+    }
+
+    private void deleteToken(String uuid, String oldAccessToken) {
+        if (redisUtil.getData(uuid).isPresent()) {
+            redisUtil.deleteData(uuid);
+        }
+        redisUtil.setDataExpire(oldAccessToken, oldAccessToken, (int)JwtTokenProvider.TOKEN_EXPIRATION_SECONDS);
     }
 }

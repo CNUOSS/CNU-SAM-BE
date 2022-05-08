@@ -6,10 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 
 @Getter
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class LoginResponse {
-    @JsonProperty("token_type")
-    private final String TOKEN_TYPE = "Bearer";
+    private final String tokenType = "Bearer";
     private String userId;
     private String accessToken;
     private String uuid;

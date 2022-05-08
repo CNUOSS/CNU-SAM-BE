@@ -5,6 +5,7 @@ import gp.cnusambe.security.jwt.JwtAuthEntryPoint;
 import gp.cnusambe.security.jwt.JwtAuthFilter;
 import gp.cnusambe.security.jwt.JwtTokenProvider;
 import gp.cnusambe.service.user.UserDetailsServiceImpl;
+import gp.cnusambe.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final JwtAuthEntryPoint unauthorizedHandler;
     private final JwtAccessDeniedHandler accessDeniedHandler;
+    private final RedisUtil redisUtil;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JwtAuthFilter authTokenFilter() {
-        return new JwtAuthFilter(jwtTokenProvider, userDetailsServiceImpl);
+        return new JwtAuthFilter(jwtTokenProvider, userDetailsServiceImpl, redisUtil);
     }
 
     @Override
