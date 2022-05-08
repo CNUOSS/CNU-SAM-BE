@@ -88,6 +88,12 @@ public class UserController {
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestBody LogoutOrRefreshRequest request) {
+        deleteToken(request.getUuid(), request.getAccessToken());
+        return ResponseEntity.noContent().build();
+    }
+
     private LoginResponse generateAndSaveToken(UserDetailsImpl userDetailsImpl) {
         String userId = userDetailsImpl.getUserId();
         String uuid = UUID.randomUUID().toString();
