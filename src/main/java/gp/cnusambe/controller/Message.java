@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Message {
     private Object oss_license;
-    private Object license_restriction_map;
+    private Object[] license_restriction_map;
 
     public Message(){
         this.oss_license = null;
