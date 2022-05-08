@@ -13,7 +13,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
-    public final static long TOKEN_EXPIRATION_SECONDS = 30 * 60 * 1000L;
+    public final static long TOKEN_EXPIRATION_SECONDS = 1000L * 60 * 30;
     public final static long REFRESH_EXPIRATION_SECONDS = 1000L * 60 * 120;
 
     private final Key key;

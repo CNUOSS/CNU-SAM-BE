@@ -10,13 +10,13 @@ import lombok.Getter;
 public class LoginResponse {
     @JsonProperty("token_type")
     private final String TOKEN_TYPE = "Bearer";
+    private String userId;
     private String accessToken;
     private String uuid;
-    private String userId;
 
-    public LoginResponse(String accessToken, String uuid, String userId) {
+    public LoginResponse(String userId, String accessToken, String uuid) {
+        this.userId = userId;
         this.accessToken = accessToken;
         this.uuid = uuid;
-        this.userId = userId;
     }
 }
