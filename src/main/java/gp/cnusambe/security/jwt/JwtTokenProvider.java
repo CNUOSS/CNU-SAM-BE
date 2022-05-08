@@ -13,7 +13,8 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
-    public final long TOKEN_EXPIRATION_SECONDS = 30 * 60 * 1000L;
+    public final static long TOKEN_EXPIRATION_SECONDS = 30 * 60 * 1000L;
+    public final static long REFRESH_EXPIRATION_SECONDS = 1000L * 60 * 120;
 
     private final Key key;
 
@@ -23,9 +24,22 @@ public class JwtTokenProvider {
     }
 
     public String generateJwtToken(UserDetailsImpl userDetailsImpl) {
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + TOKEN_EXPIRATION_SECONDS);
+        return generateJwtToken(userDetailsImpl, TOKEN_EXPIRATION_SECONDS);
+    }
 
+    public String generateRefreshToken(UserDetailsImpl userDetailsImpl) {
+        return generateJwtToken(userDetailsImpl, REFRESH_EXPIRATION_SECONDS);
+    }
+
+    public String generateJwtToken(UserDetailsImpl userDetailsImpl, long expirationMs) {
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + expirationMs);
+
+        if (expirationMs == TOKEN_EXPIRATION_SECONDS) {
+            log.debug("AccessToken : " + now + "\n" + validity);
+        } else if (expirationMs == REFRESH_EXPIRATION_SECONDS) {
+            log.debug("RefreshToken : " + now + "\n" + validity);
+        }
         return Jwts.builder()
                 .setSubject(userDetailsImpl.getUserId())
                 .claim(AUTHORITIES_KEY, userDetailsImpl.getAuthorities())
