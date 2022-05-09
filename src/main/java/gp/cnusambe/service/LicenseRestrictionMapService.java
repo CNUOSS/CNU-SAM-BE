@@ -23,17 +23,15 @@ public class LicenseRestrictionMapService {
         this.restrictionRepository = restrictionRepository;
     }
     
-    public LicenseRestrictionMap[] create(OssLicense license, Object restrictions){
+    public ArrayList<String> create(OssLicense license, Object restrictions){
         ArrayList<String> restrictionList = (ArrayList<String>) restrictions;
-        LicenseRestrictionMap[] restrictionMaps = new LicenseRestrictionMap[restrictionList.size()];
         for(int index = 0; index < restrictionList.size(); index++){
             Optional<Restriction> restriction = this.restrictionRepository.findById(restrictionList.get(index));
             LicenseRestrictionMap map = new LicenseRestrictionMap(license,restriction.get());
             LicenseRestrictionMap licenseRestrictionMap = this.licenseRestrictionMapRepository.save(map);
-            restrictionMaps[index] = licenseRestrictionMap;
         }
 
-        return restrictionMaps;
+        return restrictionList;
     }
 
 
