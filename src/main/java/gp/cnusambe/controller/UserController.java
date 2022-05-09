@@ -1,18 +1,21 @@
 package gp.cnusambe.controller;
 
 import gp.cnusambe.domain.User;
+import gp.cnusambe.error.AccessTokenException;
 import gp.cnusambe.error.InvalidPasswordException;
 import gp.cnusambe.error.RefreshTokenException;
 import gp.cnusambe.payload.request.LoginRequest;
 import gp.cnusambe.payload.request.LogoutOrRefreshRequest;
 import gp.cnusambe.payload.request.SignupRequest;
 import gp.cnusambe.payload.response.LoginResponse;
+import gp.cnusambe.payload.response.UserInfoResponse;
 import gp.cnusambe.security.JwtTokenProvider;
 import gp.cnusambe.security.UserDetailsImpl;
 import gp.cnusambe.service.UserDetailsServiceImpl;
 import gp.cnusambe.service.UserService;
 import gp.cnusambe.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,12 +23,17 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.UUID;
+
+import static gp.cnusambe.security.JwtAuthFilter.AUTHORIZATION_HEADER;
+import static gp.cnusambe.security.JwtAuthFilter.BEARER_PREFIX;
 
 @RequiredArgsConstructor
 @RestController
@@ -49,7 +57,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
@@ -57,10 +65,9 @@ public class UserController {
         } catch (BadCredentialsException e) {
             throw new InvalidPasswordException();
         }
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetailsImpl userDetailsImpl = (UserDetailsImpl)authentication.getPrincipal();
+        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
         LoginResponse jwtResponse = generateAndSaveToken(userDetailsImpl);
 
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
@@ -76,11 +83,9 @@ public class UserController {
         if (!jwtTokenProvider.validateJwtToken(oldAccessToken)) {
             throw new RefreshTokenException();
         }
-
-        if(!userId.equals(jwtTokenProvider.getUserIdFromJwtToken(oldRefreshToken)) && !userId.equals(jwtTokenProvider.getUserIdFromJwtToken(oldAccessToken))) {
+        if (!userId.equals(jwtTokenProvider.getUserIdFromJwtToken(oldRefreshToken)) && !userId.equals(jwtTokenProvider.getUserIdFromJwtToken(oldAccessToken))) {
             throw new RefreshTokenException();
         }
-
         UserDetailsImpl userDetailsImpl = (UserDetailsImpl) userDetailsServiceImp.loadUserByUsername(userId);
         LoginResponse jwtResponse = generateAndSaveToken(userDetailsImpl);
         deleteToken(uuid, oldAccessToken);
@@ -92,6 +97,15 @@ public class UserController {
     public ResponseEntity<Void> logout(@RequestBody LogoutOrRefreshRequest request) {
         deleteToken(request.getUuid(), request.getAccessToken());
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/reload")
+    public ResponseEntity<UserInfoResponse> reload(@RequestHeader HttpHeaders header) {
+        String token = parseJwt(header);
+        String userId = jwtTokenProvider.getUserIdFromJwtToken(token);
+        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) userDetailsServiceImp.loadUserByUsername(userId);
+        UserInfoResponse userInfoResponse = new UserInfoResponse(userDetailsImpl.getUserId(), userDetailsImpl.getAuthorities().stream().findFirst().get().toString());
+        return new ResponseEntity<>(userInfoResponse, HttpStatus.OK);
     }
 
     private LoginResponse generateAndSaveToken(UserDetailsImpl userDetailsImpl) {
@@ -110,6 +124,16 @@ public class UserController {
         if (redisUtil.getData(uuid).isPresent()) {
             redisUtil.deleteData(uuid);
         }
-        redisUtil.setDataExpire(oldAccessToken, oldAccessToken, (int)JwtTokenProvider.TOKEN_EXPIRATION_SECONDS);
+        redisUtil.setDataExpire(oldAccessToken, oldAccessToken, (int) JwtTokenProvider.TOKEN_EXPIRATION_SECONDS);
+    }
+
+    private String parseJwt(HttpHeaders request) {
+        String headerAuth = request.getFirst(AUTHORIZATION_HEADER);
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(BEARER_PREFIX)) {
+            return headerAuth.substring(7);
+        }
+        else{
+            throw new AccessTokenException();
+        }
     }
 }
