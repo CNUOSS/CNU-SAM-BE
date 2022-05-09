@@ -11,10 +11,12 @@ public class LoginResponse {
     private String userId;
     private String accessToken;
     private String uuid;
+    private String role;
 
-    public LoginResponse(String userId, String accessToken, String uuid) {
+    public LoginResponse(String userId, String accessToken, String uuid, String role) {
         this.userId = userId;
         this.accessToken = accessToken;
         this.uuid = uuid;
+        this.role = role;
     }
 }
