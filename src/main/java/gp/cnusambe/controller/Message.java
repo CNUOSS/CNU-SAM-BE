@@ -3,14 +3,16 @@ package gp.cnusambe.controller;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
+
 @Data
 @AllArgsConstructor
 public class Message {
     private Object oss_license;
-    private Object[] license_restriction_map;
+    private ArrayList<String> restriction;
 
     public Message(){
         this.oss_license = null;
-        this.license_restriction_map = null;
+        this.restriction = null;
     }
 }
