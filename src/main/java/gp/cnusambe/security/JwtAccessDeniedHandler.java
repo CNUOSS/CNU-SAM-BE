@@ -1,7 +1,7 @@
 package gp.cnusambe.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gp.cnusambe.error.ErrorInfo;
+import gp.cnusambe.payload.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
         try (OutputStream os = response.getOutputStream()) {
             ObjectMapper objectMapper = new ObjectMapper();
-            ErrorInfo errorInfo = new ErrorInfo("접근 권한이 없습니다.", HttpStatus.FORBIDDEN.toString(), request.getRequestURI());
+            ErrorResponse errorInfo = new ErrorResponse("접근 권한이 없습니다.", HttpStatus.FORBIDDEN.toString(), request.getRequestURI());
             objectMapper.writeValue(os, errorInfo);
             os.flush();
         }

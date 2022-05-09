@@ -1,4 +1,4 @@
-package gp.cnusambe.error;
+package gp.cnusambe.exception;
 
 public class RefreshTokenException extends RuntimeException {
     public RefreshTokenException() {

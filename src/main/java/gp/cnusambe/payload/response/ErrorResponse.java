@@ -1,4 +1,4 @@
-package gp.cnusambe.error;
+package gp.cnusambe.payload.response;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,13 +8,13 @@ import lombok.Getter;
 
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ErrorInfo {
+public class ErrorResponse {
     private String errorMsg;
     private String statusCode;
     private String uriRequested;
     private String timestamp;
 
-    public ErrorInfo(String errorMsg, String statusCode, String uriRequested) {
+    public ErrorResponse(String errorMsg, String statusCode, String uriRequested) {
         this.errorMsg = errorMsg;
         this.statusCode = statusCode;
         this.uriRequested = uriRequested;

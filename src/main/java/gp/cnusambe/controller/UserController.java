@@ -1,9 +1,9 @@
 package gp.cnusambe.controller;
 
 import gp.cnusambe.domain.User;
-import gp.cnusambe.error.AccessTokenException;
-import gp.cnusambe.error.InvalidPasswordException;
-import gp.cnusambe.error.RefreshTokenException;
+import gp.cnusambe.exception.AccessTokenException;
+import gp.cnusambe.exception.InvalidPasswordException;
+import gp.cnusambe.exception.RefreshTokenException;
 import gp.cnusambe.payload.request.LoginRequest;
 import gp.cnusambe.payload.request.LogoutOrRefreshRequest;
 import gp.cnusambe.payload.request.SignupRequest;

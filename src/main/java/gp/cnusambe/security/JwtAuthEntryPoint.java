@@ -1,7 +1,7 @@
 package gp.cnusambe.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gp.cnusambe.error.ErrorInfo;
+import gp.cnusambe.payload.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
         try (OutputStream os = response.getOutputStream()) {
             ObjectMapper objectMapper = new ObjectMapper();
-            ErrorInfo errorInfo = new ErrorInfo("가입되지 않은 사용자입니다. 회원 가입을 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED.toString(), request.getRequestURI());
+            ErrorResponse errorInfo = new ErrorResponse("가입되지 않은 사용자입니다. 회원 가입을 먼저 진행해주세요.", HttpStatus.UNAUTHORIZED.toString(), request.getRequestURI());
             objectMapper.writeValue(os, errorInfo);
             os.flush();
         }
