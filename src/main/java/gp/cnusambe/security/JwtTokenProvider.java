@@ -1,4 +1,4 @@
-package gp.cnusambe.security.jwt;
+package gp.cnusambe.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

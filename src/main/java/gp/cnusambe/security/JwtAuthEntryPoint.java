@@ -1,4 +1,4 @@
-package gp.cnusambe.security.jwt;
+package gp.cnusambe.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gp.cnusambe.error.ErrorInfo;

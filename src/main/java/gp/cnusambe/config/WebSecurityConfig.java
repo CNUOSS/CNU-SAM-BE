@@ -1,10 +1,10 @@
 package gp.cnusambe.config;
 
-import gp.cnusambe.security.jwt.JwtAccessDeniedHandler;
-import gp.cnusambe.security.jwt.JwtAuthEntryPoint;
-import gp.cnusambe.security.jwt.JwtAuthFilter;
-import gp.cnusambe.security.jwt.JwtTokenProvider;
-import gp.cnusambe.service.user.UserDetailsServiceImpl;
+import gp.cnusambe.security.JwtAccessDeniedHandler;
+import gp.cnusambe.security.JwtAuthEntryPoint;
+import gp.cnusambe.security.JwtAuthFilter;
+import gp.cnusambe.security.JwtTokenProvider;
+import gp.cnusambe.service.UserDetailsServiceImpl;
 import gp.cnusambe.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

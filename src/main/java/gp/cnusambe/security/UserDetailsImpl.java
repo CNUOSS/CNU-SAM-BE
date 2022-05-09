@@ -1,6 +1,6 @@
-package gp.cnusambe.security.jwt;
+package gp.cnusambe.security;
 
-import gp.cnusambe.domain.user.User;
+import gp.cnusambe.domain.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,9 +1,9 @@
-package gp.cnusambe.service.user;
+package gp.cnusambe.service;
 
-import gp.cnusambe.domain.user.User;
+import gp.cnusambe.domain.User;
 import gp.cnusambe.error.UserNotFoundException;
-import gp.cnusambe.repository.user.UserRepository;
-import gp.cnusambe.security.jwt.UserDetailsImpl;
+import gp.cnusambe.repository.UserRepository;
+import gp.cnusambe.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

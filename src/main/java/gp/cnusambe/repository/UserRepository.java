@@ -1,6 +1,6 @@
-package gp.cnusambe.repository.user;
+package gp.cnusambe.repository;
 
-import gp.cnusambe.domain.user.User;
+import gp.cnusambe.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

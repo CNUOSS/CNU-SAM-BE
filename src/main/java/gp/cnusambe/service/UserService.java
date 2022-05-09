@@ -1,8 +1,8 @@
-package gp.cnusambe.service.user;
+package gp.cnusambe.service;
 
-import gp.cnusambe.domain.user.User;
+import gp.cnusambe.domain.User;
 import gp.cnusambe.payload.request.SignupRequest;
-import gp.cnusambe.repository.user.UserRepository;
+import gp.cnusambe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

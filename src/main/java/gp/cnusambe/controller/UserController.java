@@ -1,16 +1,16 @@
-package gp.cnusambe.controller.user;
+package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.user.User;
+import gp.cnusambe.domain.User;
 import gp.cnusambe.error.InvalidPasswordException;
 import gp.cnusambe.error.RefreshTokenException;
 import gp.cnusambe.payload.request.LoginRequest;
 import gp.cnusambe.payload.request.LogoutOrRefreshRequest;
 import gp.cnusambe.payload.request.SignupRequest;
 import gp.cnusambe.payload.response.LoginResponse;
-import gp.cnusambe.security.jwt.JwtTokenProvider;
-import gp.cnusambe.security.jwt.UserDetailsImpl;
-import gp.cnusambe.service.user.UserDetailsServiceImpl;
-import gp.cnusambe.service.user.UserService;
+import gp.cnusambe.security.JwtTokenProvider;
+import gp.cnusambe.security.UserDetailsImpl;
+import gp.cnusambe.service.UserDetailsServiceImpl;
+import gp.cnusambe.service.UserService;
 import gp.cnusambe.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,15 +37,15 @@ public class UserController {
     private final RedisUtil redisUtil;
 
     @PostMapping("/join")
-    public ResponseEntity<String> signUp(@RequestBody SignupRequest signUpRequest) throws Exception {
+    public ResponseEntity<Void> signUp(@RequestBody SignupRequest signUpRequest) throws Exception {
         if (userService.isDuplicateUserId(signUpRequest.getUserId())) {
             throw new Exception("userID가 중복되었습니다.");
         }
         User user = userService.signUp(signUpRequest);
         URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/users/")
+                .fromCurrentContextPath().path("/users/").path("/{userId}")
                 .buildAndExpand(user.getUserId()).toUri();
-        return ResponseEntity.created(location).body(user.getUserId());
+        return ResponseEntity.created(location).build();
     }
 
     @PostMapping("/login")
@@ -97,12 +97,13 @@ public class UserController {
     private LoginResponse generateAndSaveToken(UserDetailsImpl userDetailsImpl) {
         String userId = userDetailsImpl.getUserId();
         String uuid = UUID.randomUUID().toString();
+        String role = userDetailsImpl.getAuthorities().stream().findFirst().get().toString();
         String accessToken = jwtTokenProvider.generateJwtToken(userDetailsImpl);
         String refreshToken = jwtTokenProvider.generateRefreshToken(userDetailsImpl);
 
         redisUtil.setDataExpire(uuid, refreshToken, (int) JwtTokenProvider.REFRESH_EXPIRATION_SECONDS);
 
-        return new LoginResponse(userId, accessToken, uuid);
+        return new LoginResponse(userId, accessToken, uuid, role);
     }
 
     private void deleteToken(String uuid, String oldAccessToken) {

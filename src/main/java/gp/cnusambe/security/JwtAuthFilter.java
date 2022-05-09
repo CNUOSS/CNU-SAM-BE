@@ -1,6 +1,6 @@
-package gp.cnusambe.security.jwt;
+package gp.cnusambe.security;
 
-import gp.cnusambe.service.user.UserDetailsServiceImpl;
+import gp.cnusambe.service.UserDetailsServiceImpl;
 import gp.cnusambe.util.RedisUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;

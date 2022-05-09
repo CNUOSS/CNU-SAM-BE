@@ -1,4 +1,4 @@
-package gp.cnusambe.domain.user;
+package gp.cnusambe.domain;
 
 import lombok.Builder;
 import lombok.Getter;
