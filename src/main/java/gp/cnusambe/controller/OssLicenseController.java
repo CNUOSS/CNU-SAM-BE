@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 @RestController
 public class OssLicenseController {
+    // TODO: Controller field에 final을 추가하고, @RequiredArgsConstructor를 사용하여 생성자를 주입
     private OssLicenseService ossLicenseService;
     private LicenseRestrictionMapService licenseRestrictionMapService;
 
@@ -36,6 +37,7 @@ public class OssLicenseController {
         this.licenseRestrictionMapService = licenseRestrictionMapService;
     }
 
+
     @PostMapping("/licenses")
     public ResponseEntity<Message> post(HttpServletRequest request) throws IOException {
         ServletInputStream inputStream = request.getInputStream();
@@ -48,6 +50,7 @@ public class OssLicenseController {
         OssLicense new_license = this.ossLicenseService.create(request_license);
         ArrayList<String> new_map = this.licenseRestrictionMapService.create(new_license,map.get("restriction"));
 
+        // FIXME: Response(Message)
         Message message = new Message();
         message.setOss_license(new_license);
         message.setRestriction(new_map);
