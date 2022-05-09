@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gp.cnusambe.domain.OssLicense;
+import gp.cnusambe.payload.Message;
 import gp.cnusambe.service.LicenseRestrictionMapService;
 import gp.cnusambe.service.OssLicenseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 public class OssLicenseController {

@@ -1,4 +1,4 @@
-package gp.cnusambe.controller;
+package gp.cnusambe.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
