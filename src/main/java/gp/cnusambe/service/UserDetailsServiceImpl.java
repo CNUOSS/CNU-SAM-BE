@@ -1,7 +1,7 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.domain.User;
-import gp.cnusambe.exception.UserNotFoundException;
+import gp.cnusambe.exception.custom.UserNotFoundException;
 import gp.cnusambe.repository.UserRepository;
 import gp.cnusambe.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;

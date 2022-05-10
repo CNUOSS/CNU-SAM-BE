@@ -1,4 +1,4 @@
-package gp.cnusambe.exception;
+package gp.cnusambe.exception.custom;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException() {
