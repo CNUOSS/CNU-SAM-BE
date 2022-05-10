@@ -6,33 +6,19 @@ import gp.cnusambe.domain.Restriction;
 import gp.cnusambe.repository.LicenseRestrictionMapRepository;
 import gp.cnusambe.repository.OssLicenseRepository;
 import gp.cnusambe.repository.RestrictionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class LicenseRestrictionMapService {
     private final OssLicenseRepository ossLicenseRepository;
     private final LicenseRestrictionMapRepository licenseRestrictionMapRepository;
     private final RestrictionRepository restrictionRepository;
-
-    public LicenseRestrictionMapService(OssLicenseRepository ossLicenseRepository, LicenseRestrictionMapRepository licenseRestrictionMapRepository, RestrictionRepository restrictionRepository){
-        this.licenseRestrictionMapRepository = licenseRestrictionMapRepository;
-        this.ossLicenseRepository = ossLicenseRepository;
-        this.restrictionRepository = restrictionRepository;
-    }
-    
-    public ArrayList<String> create(OssLicense license, Object restrictions){
-        ArrayList<String> restrictionList = (ArrayList<String>) restrictions;
-        for(int index = 0; index < restrictionList.size(); index++){
-            Optional<Restriction> restriction = this.restrictionRepository.findById(restrictionList.get(index));
-            LicenseRestrictionMap map = new LicenseRestrictionMap(license,restriction.get());
-            LicenseRestrictionMap licenseRestrictionMap = this.licenseRestrictionMapRepository.save(map);
-        }
-
-        return restrictionList;
-    }
 
 
 }
