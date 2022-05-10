@@ -1,9 +1,10 @@
 package gp.cnusambe.controller;
 
 import gp.cnusambe.domain.User;
-import gp.cnusambe.exception.AccessTokenException;
-import gp.cnusambe.exception.InvalidPasswordException;
-import gp.cnusambe.exception.RefreshTokenException;
+import gp.cnusambe.exception.custom.AccessTokenException;
+import gp.cnusambe.exception.custom.InvalidPasswordException;
+import gp.cnusambe.exception.custom.RefreshTokenException;
+import gp.cnusambe.exception.custom.UserIdDuplicatedException;
 import gp.cnusambe.payload.request.LoginRequest;
 import gp.cnusambe.payload.request.LogoutOrRefreshRequest;
 import gp.cnusambe.payload.request.SignupRequest;
@@ -45,9 +46,9 @@ public class UserController {
     private final RedisUtil redisUtil;
 
     @PostMapping("/join")
-    public ResponseEntity<Void> signUp(@RequestBody SignupRequest signUpRequest) throws Exception {
+    public ResponseEntity<Void> signUp(@RequestBody SignupRequest signUpRequest) {
         if (userService.isDuplicateUserId(signUpRequest.getUserId())) {
-            throw new Exception("userID가 중복되었습니다.");
+            throw new UserIdDuplicatedException();
         }
         User user = userService.signUp(signUpRequest);
         URI location = ServletUriComponentsBuilder
