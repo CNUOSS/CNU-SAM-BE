@@ -2,6 +2,8 @@ package gp.cnusambe.service;
 
 import gp.cnusambe.domain.OssLicense;
 import gp.cnusambe.domain.OssLicenseType;
+import gp.cnusambe.domain.Restriction;
+import gp.cnusambe.dto.OssLicenseDto;
 import gp.cnusambe.repository.OssLicenseRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,29 +27,30 @@ class OssLicenseServiceTest {
     @Autowired
     OssLicenseService ossLicenseService;
 
-    @Autowired
-    OssLicenseRepository ossLicenseRepository;
-
     @AfterEach
     public void cleanUp(){
-        ossLicenseRepository.deleteAll();
+
     }
 
     @Test
-    public void osslicense추가하기(){
-        //given
-        String license_name = "mit";
-        String license_url = "http://mit.com";
-        OssLicenseType ossLicenseType = new OssLicenseType("Permissive");
+    @Transactional
+    public void osslicense_등록하기(){
+        //Given
+        List<Restriction> restrictionList = new ArrayList<>();
+        restrictionList.add(new Restriction("배포시 라이선스사본첨부"));
+        restrictionList.add(new Restriction("조합저작물 작성 및 타 라이선스 배포허용"));
+
+        OssLicenseDto licenseDto = OssLicenseDto.builder()
+                .licenseName("Apache License 2.0")
+                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
+                .ossLicenseType(new OssLicenseType("Permissive"))
+                .restriction(restrictionList)
+                .build();
 
         //when
-        OssLicense new_license = ossLicenseRepository.save(OssLicense.builder()
-                .licenseName(license_name)
-                .licenseUrl(license_url)
-                .ossLicenseType(ossLicenseType)
-                .build());
+        OssLicenseDto newLicenseDto = ossLicenseService.create(licenseDto);
 
         //then
-        assertThat(new_license.getLicenseName()).isEqualTo(license_name);
+        assertThat(newLicenseDto.getId()).isNotNull();
     }
 }
