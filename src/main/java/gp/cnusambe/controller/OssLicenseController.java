@@ -1,7 +1,6 @@
 package gp.cnusambe.controller;
 
 import gp.cnusambe.dto.OssLicenseDto;
-import gp.cnusambe.service.LicenseRestrictionMapService;
 import gp.cnusambe.service.OssLicenseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ public class OssLicenseController {
     private final OssLicenseService ossLicenseService;
 
     @PostMapping("/licenses")
-    public ResponseEntity<OssLicenseDto> postTest(@Valid @RequestBody OssLicenseDto licenseDto){
+    public ResponseEntity<OssLicenseDto> post(@Valid @RequestBody OssLicenseDto licenseDto){
         OssLicenseDto newLicense = this.ossLicenseService.create(licenseDto);
         return new ResponseEntity<>(newLicense,HttpStatus.OK);
 

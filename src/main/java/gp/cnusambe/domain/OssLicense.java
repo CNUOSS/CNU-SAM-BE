@@ -1,11 +1,9 @@
 package gp.cnusambe.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import gp.cnusambe.dto.OssLicenseDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor

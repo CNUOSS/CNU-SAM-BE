@@ -10,11 +10,12 @@ import gp.cnusambe.repository.OssLicenseRepository;
 import gp.cnusambe.repository.OssLicenseTypeRepository;
 import gp.cnusambe.repository.RestrictionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -25,14 +26,12 @@ public class OssLicenseService {
     private final RestrictionRepository restrictionRepository;
     private final LicenseRestrictionMapRepository licenseRestrictionMapRepository;
 
-
     public OssLicenseDto create(OssLicenseDto licenseDto){
         //Dto -> Entity
         OssLicense license = licenseDto.makeOssLicenseEntity(licenseDto);
         List<Restriction> restrictionList = licenseDto.makeRestrictionEntity();
 
         // TODO : restriction save 안되면 license도 생성 못하게 막아야함 (service 계층에서 transaction으로 막기)
-
         //Save OssLicense
         Optional<OssLicenseType> licenseType = this.ossLicenseTypeRepository.findById(license.getOssLicenseType().getLicenseTypeName());
         license.setOssLicenseType(licenseType.get());
@@ -43,12 +42,7 @@ public class OssLicenseService {
         for(int index = 0; index < restrictionList.size(); index++){
             Optional<Restriction> restriction = this.restrictionRepository.findById(restrictionList.get(index).getRestrictionName());
             LicenseRestrictionMap newMap = this.licenseRestrictionMapRepository.save(new LicenseRestrictionMap(license,restriction.get()));
-            if (newMap != null){
-                newRestrictionList.add(restriction.get());
-            }
-            else{
-                //TODO : 예외처리
-            }
+            newRestrictionList.add(restriction.get());
         }
 
         //Entity -> Dto
@@ -57,11 +51,11 @@ public class OssLicenseService {
         return newLicenseDto;
     }
 
-    public OssLicenseDto makeOssLicenseDto(OssLicense license, List<Restriction> restriction){
+    private OssLicenseDto makeOssLicenseDto(OssLicense license, List<Restriction> restriction){
         return OssLicenseDto.builder()
                 .id(license.getId())
                 .licenseName(license.getLicenseName())
-                .licenseUrl(license.getLicenseName())
+                .licenseUrl(license.getLicenseUrl())
                 .ossLicenseType(license.getOssLicenseType())
                 .restriction(restriction).build();
     }
