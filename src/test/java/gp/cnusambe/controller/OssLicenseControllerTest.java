@@ -25,6 +25,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,7 +50,7 @@ class OssLicenseControllerTest {
 
     @Test
     @Transactional
-    void OssLicnese_등록하기() throws Exception{
+    void OssLicense_등록하기() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
 
         //Given
@@ -77,4 +78,52 @@ class OssLicenseControllerTest {
 
 
     }
+
+    @Test
+    void ossLicenseList_조회하기_ByLicenseName() throws Exception{
+        mockMvc.perform(get("/licenses/search")
+                .param("lc-name", "Apache"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void ossLicenseList_조회하기_ByLicenseName_검색결과X() throws Exception{
+        mockMvc.perform(get("/licenses/search")
+                        .param("lc-name", "aa"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void ossLicenseList_조회하기_ByLicenseTypeName() throws Exception{
+        mockMvc.perform(get("/licenses/search")
+                        .param("lc-type", "Permissive"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void ossLicenseList_조회하기_ByLicenseTypeName_검색결과X() throws Exception{
+        mockMvc.perform(get("/licenses/search")
+                        .param("lc-type", "AA"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void ossLicenseList_조회하기_ByRestriction() throws Exception{
+        mockMvc.perform(get("/licenses/search")
+                        .param("restriction", "배포시 라이선스사본첨부"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void ossLicenseList_전체조회하기() throws Exception{
+        mockMvc.perform(get("/licenses/search"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
 }
