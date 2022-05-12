@@ -32,4 +32,7 @@ public class OssLicense {
         this.licenseUrl = licenseUrl;
         this.ossLicenseType = ossLicenseType;
     }
+
+
+
 }
