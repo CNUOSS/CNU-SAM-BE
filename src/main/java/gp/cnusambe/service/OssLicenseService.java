@@ -8,6 +8,7 @@ import gp.cnusambe.dto.OssLicenseDto;
 import gp.cnusambe.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,41 +49,41 @@ public class OssLicenseService {
         return newLicenseDto;
     }
 
-    public List<OssLicenseDto> searchAll(Pageable pageable){
+    public Page<OssLicenseDto> searchAll(Pageable pageable){
         Page<OssLicense> licenseList = this.ossLicenseRepository.findAll(pageable);
         List<OssLicenseDto> licenseDtoList = licenseList.stream().map(l-> makeOssLicenseDto(l)).collect(Collectors.toList());
-        return licenseDtoList;
+        return new PageImpl<>(licenseDtoList,pageable,licenseList.getTotalElements());
     }
 
-    public List<OssLicenseDto> searchByLicenseName(String licenseName,Pageable pageable){
-        List<OssLicense> licenseList = this.ossLicenseRepository.findByLicenseNameContaining(licenseName,pageable);
+    public Page<OssLicenseDto> searchByLicenseName(String licenseName,Pageable pageable){
+        Page<OssLicense> licenseList = this.ossLicenseRepository.findByLicenseNameContaining(licenseName,pageable);
         List<OssLicenseDto> licenseDtoList = licenseList.stream().map(l-> makeOssLicenseDto(l)).collect(Collectors.toList());
-        return licenseDtoList;
+        return new PageImpl<>(licenseDtoList,pageable,licenseList.getTotalElements());
     }
 
-    //TODO : containging인지 확인하기
-    public List<OssLicenseDto> searchByLicenseTypeName(String licenseTypeName,Pageable pageable){
-        List<OssLicense> licenseList = this.ossLicenseRepository.findByOssLicenseType_LicenseTypeName(licenseTypeName,pageable);
+
+    public Page<OssLicenseDto> searchByLicenseTypeName(String licenseTypeName,Pageable pageable){
+        Page<OssLicense> licenseList = this.ossLicenseRepository.findByOssLicenseType_LicenseTypeName(licenseTypeName,pageable);
         List<OssLicenseDto> licenseDtoList = licenseList.stream().map(l -> makeOssLicenseDto(l)).collect(Collectors.toList());
-        return licenseDtoList;
+        return new PageImpl<>(licenseDtoList,pageable,licenseList.getTotalElements());
     }
 
-    public List<OssLicenseDto> searchByRestrictionName(String restrictionName,Pageable pageable){
-        Set<String> licenseNameSet = new HashSet<>();
+    public Page<OssLicenseDto> searchByRestrictionName(String restrictionName,Pageable pageable){
+        Set<String> licenseNameSet = new HashSet<>();  // 동일한 이름의 ossLicense은 한가지만 담기위해
 
         List<LicenseRestrictionMap> mapList = this.licenseRestrictionMapRepository.findByRestriction_RestrictionName(restrictionName);
         for(LicenseRestrictionMap map : mapList){
             licenseNameSet.add(map.getOssLicense().getLicenseName());
         }
-        List<OssLicense> licenseList = this.ossLicenseRepository.findByLicenseNameIn(licenseNameSet,pageable);
+        Page<OssLicense> licenseList = this.ossLicenseRepository.findByLicenseNameIn(licenseNameSet,pageable);
 
-        List<OssLicenseDto> ossLicenseDtoList = licenseList.stream().map(l -> makeOssLicenseDto(l)).collect(Collectors.toList());
-        return ossLicenseDtoList;
+        List<OssLicenseDto> licenseDtoList = licenseList.stream().map(l -> makeOssLicenseDto(l)).collect(Collectors.toList());
+        return new PageImpl<>(licenseDtoList,pageable,licenseList.getTotalElements());
     }
 
     /*
-    * description : license만 주어졌을때 OssLicenseDto로 변환
-    */
+     * description : license만 주어졌을때 OssLicenseDto로 변환
+     */
     private OssLicenseDto makeOssLicenseDto(OssLicense license){
         //license에 해당되는 restricion 찾기
         List<LicenseRestrictionMap> licenseRestrictionMapList = this.licenseRestrictionMapRepository.findByOssLicense(license);

@@ -11,8 +11,8 @@ import java.util.Set;
 public interface OssLicenseRepository extends JpaRepository<OssLicense,Long> {
 
     Page<OssLicense> findAll(Pageable pageable);
-    List<OssLicense> findByLicenseNameContaining(String keyword, Pageable pageable);
-    List<OssLicense> findByOssLicenseType_LicenseTypeName(String keyword,Pageable pageable);
-    List<OssLicense> findByLicenseNameIn(Set<String> ossLicensesList,Pageable pageable);
+    Page<OssLicense> findByLicenseNameContaining(String keyword, Pageable pageable);
+    Page<OssLicense> findByOssLicenseType_LicenseTypeName(String keyword,Pageable pageable);
+    Page<OssLicense> findByLicenseNameIn(Set<String> ossLicensesList,Pageable pageable);
 
 }

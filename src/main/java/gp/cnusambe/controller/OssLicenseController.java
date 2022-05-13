@@ -1,9 +1,12 @@
 package gp.cnusambe.controller;
 
 import gp.cnusambe.dto.OssLicenseDto;
+import gp.cnusambe.payload.response.MetaResponse;
+import gp.cnusambe.payload.response.OssLicenseListResponse;
 import gp.cnusambe.service.OssLicenseService;
 import io.lettuce.core.dynamic.annotation.Param;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -27,28 +30,33 @@ public class OssLicenseController {
     }
 
     //TODO : Specification 알아보기
-    //TODO:content-type은 application/x-www-form-urlencoded; charset=UTF-8;
+    //TODO : size = 9로 변경
     @GetMapping("/licenses/search") //TODO:search? 체크하기
-    public ResponseEntity<List<OssLicenseDto>> get(
+    public ResponseEntity<OssLicenseListResponse> get(
             @RequestParam(value = "lc-name",required = false)String licenseNameKeyWord,
             @RequestParam(value = "lc-type",required = false)String licenseTypeName,
             @RequestParam(value = "restriction",required = false)String restrictionName,
-            @RequestParam(value = "limit",required = false, defaultValue = "9")Integer limit,
-            @RequestParam(value = "offset",required = false,defaultValue = "1")Integer offset,
             @PageableDefault(size=3, page = 0,direction = Sort.Direction.ASC) Pageable pageable)
     {
-        List<OssLicenseDto> licenseDtoList =  null;
+        OssLicenseListResponse response;
+        Page<OssLicenseDto> licenseDtoPage;
+
         if(licenseNameKeyWord != null) {
-            licenseDtoList = this.ossLicenseService.searchByLicenseName(licenseNameKeyWord,pageable);
+            licenseDtoPage = this.ossLicenseService.searchByLicenseName(licenseNameKeyWord,pageable);
         }else if(licenseTypeName != null) {
-            licenseDtoList = this.ossLicenseService.searchByLicenseTypeName(licenseTypeName,pageable);
+            licenseDtoPage = this.ossLicenseService.searchByLicenseTypeName(licenseTypeName,pageable);
         }else if(restrictionName != null){
-            licenseDtoList = this.ossLicenseService.searchByRestrictionName(restrictionName,pageable);
+            licenseDtoPage = this.ossLicenseService.searchByRestrictionName(restrictionName,pageable);
         }else {
-            licenseDtoList = this.ossLicenseService.searchAll(pageable);
+            licenseDtoPage = this.ossLicenseService.searchAll(pageable);
         }
-        return new ResponseEntity<>(licenseDtoList,HttpStatus.OK);
+        response = new OssLicenseListResponse(new MetaResponse(licenseDtoPage.getTotalElements(),isEnd(licenseDtoPage)),licenseDtoPage.getContent());
+
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    private boolean isEnd(Page<OssLicenseDto> licenseDtoPage){
+        return licenseDtoPage.getTotalPages() == licenseDtoPage.getPageable().getPageNumber()+1;
+    }
 }
 
