@@ -30,8 +30,7 @@ public class OssLicenseController {
     }
 
     //TODO : Specification 알아보기
-    //TODO : size = 9로 변경
-    @GetMapping("/licenses/search") //TODO:search? 체크하기
+    @GetMapping("/licenses/search")
     public ResponseEntity<OssLicenseListResponse> get(
             @RequestParam(value = "lc-name",required = false)String licenseNameKeyWord,
             @RequestParam(value = "lc-type",required = false)String licenseTypeName,
@@ -54,6 +53,15 @@ public class OssLicenseController {
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
+    @DeleteMapping("/licenses/{license_id}")
+    //TODO : PathVariable Long인 int인지 확인
+    public ResponseEntity delete(@PathVariable("license_id") int id)
+    {
+        this.ossLicenseService.delete((long) id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
 
     private boolean isEnd(Page<OssLicenseDto> licenseDtoPage){
         return licenseDtoPage.getTotalPages() == licenseDtoPage.getPageable().getPageNumber()+1;
