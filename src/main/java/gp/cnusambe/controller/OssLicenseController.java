@@ -62,7 +62,6 @@ public class OssLicenseController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-
     private boolean isEnd(Page<OssLicenseDto> licenseDtoPage){
         return licenseDtoPage.getTotalPages() == licenseDtoPage.getPageable().getPageNumber()+1;
     }

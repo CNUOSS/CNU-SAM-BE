@@ -81,6 +81,7 @@ public class OssLicenseService {
         return new PageImpl<>(licenseDtoList,pageable,licenseList.getTotalElements());
     }
 
+
     @Transactional
     public void delete(Long id){
         Optional<OssLicense> license = this.ossLicenseRepository.findOssLicenseById(id);
