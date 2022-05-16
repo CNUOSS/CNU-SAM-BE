@@ -11,5 +11,7 @@ public interface LicenseRestrictionMapRepository extends JpaRepository<LicenseRe
 
     List<LicenseRestrictionMap> findByOssLicense(OssLicense license);
     List<LicenseRestrictionMap> findByRestriction_RestrictionName(String restrictionName);
+    void delete(LicenseRestrictionMap map);
+
 
 }

@@ -81,6 +81,17 @@ public class OssLicenseService {
         return new PageImpl<>(licenseDtoList,pageable,licenseList.getTotalElements());
     }
 
+
+    @Transactional
+    public void delete(Long id){
+        Optional<OssLicense> license = this.ossLicenseRepository.findOssLicenseById(id);
+        List<LicenseRestrictionMap> maps = this.licenseRestrictionMapRepository.findByOssLicense(license.get());
+        for (LicenseRestrictionMap map : maps){
+             this.licenseRestrictionMapRepository.delete(map);
+        }
+
+    }
+
     /*
      * description : license만 주어졌을때 OssLicenseDto로 변환
      */
