@@ -1,10 +1,10 @@
 package gp.cnusambe.controller;
 
+import gp.cnusambe.domain.OssLicense;
 import gp.cnusambe.dto.OssLicenseDto;
 import gp.cnusambe.payload.response.MetaResponse;
 import gp.cnusambe.payload.response.OssLicenseListResponse;
 import gp.cnusambe.service.OssLicenseService;
-import io.lettuce.core.dynamic.annotation.Param;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +31,7 @@ public class OssLicenseController {
 
     //TODO : Specification 알아보기
     @GetMapping("/licenses/search")
-    public ResponseEntity<OssLicenseListResponse> get(
+    public ResponseEntity<OssLicenseListResponse> search(
             @RequestParam(value = "lc-name",required = false)String licenseNameKeyWord,
             @RequestParam(value = "lc-type",required = false)String licenseTypeName,
             @RequestParam(value = "restriction",required = false)String restrictionName,
@@ -54,6 +54,13 @@ public class OssLicenseController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+
+    @GetMapping("/license-names")
+    public ResponseEntity<List<OssLicense>> getOssLicenseData(){
+        List<OssLicense> licenseList = this.ossLicenseService.getOssLicenseData();
+        return new ResponseEntity(licenseList,HttpStatus.OK);
+    }
+
     @DeleteMapping("/licenses/{license_id}")
     //TODO : PathVariable Long인 int인지 확인
     public ResponseEntity delete(@PathVariable("license_id") int id)
@@ -61,6 +68,8 @@ public class OssLicenseController {
         this.ossLicenseService.delete((long) id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+
 
     private boolean isEnd(Page<OssLicenseDto> licenseDtoPage){
         return licenseDtoPage.getTotalPages() == licenseDtoPage.getPageable().getPageNumber()+1;

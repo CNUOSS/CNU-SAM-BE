@@ -81,6 +81,11 @@ public class OssLicenseService {
         return new PageImpl<>(licenseDtoList,pageable,licenseList.getTotalElements());
     }
 
+    //TOD0 : NULL 일때 예외처리
+    public List<OssLicense> getOssLicenseData(){
+        List<OssLicense> licenseList = this.ossLicenseRepository.findAll();
+        return licenseList;
+    }
 
     @Transactional
     public void delete(Long id){
