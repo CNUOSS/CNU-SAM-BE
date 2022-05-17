@@ -130,10 +130,16 @@ class OssLicenseControllerTest {
 
     @Test
     void ossLicense_삭제하기() throws Exception{
-        mockMvc.perform(delete("/licenses/19"))
+        mockMvc.perform(delete("/licenses/64"))
                 .andExpect(status().isNoContent())
                 .andDo(print());
     }
 
+    @Test
+    void ossLicenseData_가져오기() throws Exception{
+        mockMvc.perform(get("/license-names"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 
 }
