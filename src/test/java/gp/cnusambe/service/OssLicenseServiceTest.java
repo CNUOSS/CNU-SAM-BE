@@ -4,8 +4,8 @@ import gp.cnusambe.domain.OssLicense;
 import gp.cnusambe.domain.OssLicenseType;
 import gp.cnusambe.domain.Restriction;
 import gp.cnusambe.dto.OssLicenseDto;
-import gp.cnusambe.repository.OssLicenseRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +52,13 @@ class OssLicenseServiceTest {
 
         //then
         assertThat(newLicenseDto.getId()).isNotNull();
+    }
+
+    @Test
+    public void ossLicenseData_가져오기(){
+        //Given
+        List<OssLicense> licenseList = ossLicenseService.getOssLicenseData();
+        //Then
+        Assertions.assertTrue(licenseList.size() >= 1);
     }
 }
