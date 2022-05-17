@@ -11,12 +11,14 @@ import java.util.Set;
 
 public interface OssLicenseRepository extends JpaRepository<OssLicense,Long> {
 
+    List<OssLicense> findAll();
     Page<OssLicense> findAll(Pageable pageable);
     Page<OssLicense> findByLicenseNameContaining(String keyword, Pageable pageable);
     Page<OssLicense> findByOssLicenseType_LicenseTypeName(String keyword,Pageable pageable);
     Page<OssLicense> findByLicenseNameIn(Set<String> ossLicensesList,Pageable pageable);
     Optional<OssLicense> findOssLicenseById(Long id);
-    Optional<OssLicense> findById(Long id);
-    void deleteOssLicenseById(Long id);
+
+
+
 
 }
