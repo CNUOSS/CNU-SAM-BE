@@ -24,18 +24,18 @@ public class ProjectDto {
     private Date createDate;
     private Date updateDate;
     private Long ossLicenseId;
-    private ProjectCategory projectCategory;
+    private String projectCategoryName;
     private String userId;
 
     @Autowired
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    public
-    Project makeProjectEntity(OssLicense license, User user){
+    public Project makeProjectEntity(OssLicense license, User user, ProjectCategory category){
         Project project = modelMapper.map(this, Project.class);
 
         project.setLicense(license);
         project.setUser(user);
+        project.setProjectCategory(category);
 
         return project;
     }
