@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 public class RestrictionController {
     private final RestrictionService restrictionService;
+
     @GetMapping("/restriction-names")
     public ResponseEntity<List<Restriction>> getRestrictionData(){
         List<Restriction> restrictionList = this.restrictionService.getRestrictionData();
