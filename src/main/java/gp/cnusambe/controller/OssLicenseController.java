@@ -35,7 +35,7 @@ public class OssLicenseController {
             @RequestParam(value = "lc-name",required = false)String licenseNameKeyWord,
             @RequestParam(value = "lc-type",required = false)String licenseTypeName,
             @RequestParam(value = "restriction",required = false)String restrictionName,
-            @PageableDefault(size=9, page = 0,direction = Sort.Direction.ASC) Pageable pageable)
+            @PageableDefault(size=9, page = 0,sort = "id",direction = Sort.Direction.DESC) Pageable pageable)
     {
         OssLicenseListResponse response;
         Page<OssLicenseDto> licenseDtoPage;
