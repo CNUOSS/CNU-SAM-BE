@@ -3,12 +3,12 @@ package gp.cnusambe.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import gp.cnusambe.dto.ProjectDto;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,6 +16,7 @@ import java.util.Date;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Entity
+@Builder
 @JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Project {
 
@@ -42,18 +43,29 @@ public class Project {
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Date updateDate;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn
     @JsonProperty("oss_license")
     private OssLicense license;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name="project_category_name")
     @JsonProperty("project_category")
     private ProjectCategory projectCategory;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "user_id")
     @JsonProperty("user")
     private User user;
+
+    @Autowired
+    private static final ModelMapper modelMapper = new ModelMapper();
+
+    public ProjectDto makeProjectDto(){
+        ProjectDto projectDto = modelMapper.map(this, ProjectDto.class);
+        projectDto.setOssLicenseId(this.license.getId());
+        projectDto.setUserId(this.user.getUserId());
+
+        return projectDto;
+    }
 }

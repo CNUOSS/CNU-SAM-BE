@@ -94,7 +94,6 @@ public class OssLicenseService {
         for (LicenseRestrictionMap map : maps){
              this.licenseRestrictionMapRepository.delete(map);
         }
-
     }
 
     /*
