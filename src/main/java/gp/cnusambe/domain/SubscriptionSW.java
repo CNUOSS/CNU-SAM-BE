@@ -36,7 +36,6 @@ public class SubscriptionSW {
     private String license;
 
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column
     private Date latestUpdateDate;
 
