@@ -19,7 +19,6 @@ public class SWController {
     public ResponseEntity<List<LectureType>> getLectureTypes(){
         return new ResponseEntity<>(swService.getAllLectureTypes(), HttpStatus.OK);
     }
-
     @GetMapping("/departments")
     public ResponseEntity<List<Department>> getDepartments(){
         return new ResponseEntity<>(swService.getAllDepartments(), HttpStatus.OK);

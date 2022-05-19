@@ -6,7 +6,6 @@ import gp.cnusambe.repository.DepartmentRepository;
 import gp.cnusambe.repository.LectureTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -19,7 +18,7 @@ public class SWService {
         return lectureTypeRepository.findAll();
     }
 
-    public List<Department> getAllDepartments(){
+    public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
     }
 }
