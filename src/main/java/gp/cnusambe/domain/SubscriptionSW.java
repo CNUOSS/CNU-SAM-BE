@@ -47,7 +47,7 @@ public class SubscriptionSW {
     private Date firstSubscribeDate;
 
     public SubscriptionSW(SubscriptionSWRequest request) {
-        this.latestUpdatorId = request.getUpdatorId();
+        this.latestUpdatorId = request.getLatestUpdatorId();
         this.swType = request.getSwType();
         this.swManufacturer = request.getSwManufacturer();
         this.swName = request.getSwName();
