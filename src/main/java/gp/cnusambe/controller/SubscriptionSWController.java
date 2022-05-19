@@ -19,4 +19,10 @@ public class SubscriptionSWController {
         SubscriptionSW sw = subscriptionSWService.createSubscriptionSW(request);
         return new ResponseEntity<>(new SubscriptionSWResponse(sw), HttpStatus.OK);
     }
+
+    @DeleteMapping("/subscriptions/{ssw_id}")
+    public ResponseEntity<Void> deleteSubscriptionSW(@PathVariable("ssw_id") Long swId){
+        subscriptionSWService.deleteSubscriptionSW(swId);
+        return ResponseEntity.noContent().build();
+    }
 }
