@@ -91,8 +91,13 @@ public class OssLicenseService {
     public void delete(Long id){
         Optional<OssLicense> license = this.ossLicenseRepository.findOssLicenseById(id);
         List<LicenseRestrictionMap> maps = this.licenseRestrictionMapRepository.findByOssLicense(license.get());
-        for (LicenseRestrictionMap map : maps){
-             this.licenseRestrictionMapRepository.delete(map);
+        if (!maps.isEmpty()){
+            for (LicenseRestrictionMap map : maps){
+                this.licenseRestrictionMapRepository.delete(map);
+            }
+        }
+        else{
+            this.ossLicenseRepository.delete(license.get());
         }
     }
 
