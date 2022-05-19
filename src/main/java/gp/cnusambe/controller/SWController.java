@@ -1,5 +1,6 @@
 package gp.cnusambe.controller;
 
+import gp.cnusambe.domain.Department;
 import gp.cnusambe.domain.LectureType;
 import gp.cnusambe.service.SWService;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,10 @@ public class SWController {
     @GetMapping("/lecture-types")
     public ResponseEntity<List<LectureType>> getLectureTypes(){
         return new ResponseEntity<>(swService.getAllLectureTypes(), HttpStatus.OK);
+    }
+
+    @GetMapping("/departments")
+    public ResponseEntity<List<Department>> getDepartments(){
+        return new ResponseEntity<>(swService.getAllDepartments(), HttpStatus.OK);
     }
 }
