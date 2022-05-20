@@ -1,7 +1,7 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.Department;
-import gp.cnusambe.domain.LectureType;
+import gp.cnusambe.payload.response.DepartmentResponse;
+import gp.cnusambe.payload.response.LectureTypeResponse;
 import gp.cnusambe.service.LectureSWService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,11 +16,11 @@ public class LectureSWController {
     private final LectureSWService lectureSwService;
 
     @GetMapping("/lecture-types")
-    public ResponseEntity<List<LectureType>> getLectureTypes(){
+    public ResponseEntity<List<LectureTypeResponse>> getLectureTypes(){
         return new ResponseEntity<>(lectureSwService.getAllLectureTypes(), HttpStatus.OK);
     }
     @GetMapping("/departments")
-    public ResponseEntity<List<Department>> getDepartments(){
+    public ResponseEntity<List<DepartmentResponse>> getDepartments(){
         return new ResponseEntity<>(lectureSwService.getAllDepartments(), HttpStatus.OK);
     }
 }
