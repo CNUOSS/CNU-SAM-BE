@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SWService {
+public class LectureSWService {
     private final LectureTypeRepository lectureTypeRepository;
     private final DepartmentRepository departmentRepository;
 
