@@ -18,15 +18,10 @@ public class SwSubscriptionQueryRepository {
     private final SubscriptionSWRepository subscriptionSWRepository;
 
     public Page<SubscriptionSW> findAllBy(String swType, String swManufacturer, String swName, Pageable pageable) {
-        Optional<String> swType_ = Optional.ofNullable(swType);
-        Optional<String> swManufacturer_ = Optional.ofNullable(swManufacturer);
-        Optional<String> swName_ = Optional.ofNullable(swName);
-
         Specification<SubscriptionSW> spec
-                = Specification.where(likeData("swType", swType_.orElse("")))
-                .and(likeData("swManufacturer", swManufacturer_.orElse("")))
-                .and(likeData("swName", swName_.orElse("")));
-
+                = Specification.where(likeData("swType", swType))
+                .and(likeData("swManufacturer", swManufacturer))
+                .and(likeData("swName", swName));
         return subscriptionSWRepository.findAll(spec, pageable);
     }
 
