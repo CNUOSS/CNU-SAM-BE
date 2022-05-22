@@ -7,6 +7,7 @@ import gp.cnusambe.domain.Restriction;
 import gp.cnusambe.dto.OssLicenseDto;
 import gp.cnusambe.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

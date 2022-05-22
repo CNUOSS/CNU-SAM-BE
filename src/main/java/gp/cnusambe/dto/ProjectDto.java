@@ -2,15 +2,15 @@ package gp.cnusambe.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import gp.cnusambe.domain.OssLicense;
-import gp.cnusambe.domain.Project;
-import gp.cnusambe.domain.ProjectCategory;
-import gp.cnusambe.domain.User;
+import gp.cnusambe.domain.*;
+import gp.cnusambe.payload.response.ProjectDetailResponse;
+import gp.cnusambe.payload.response.ProjectPostResponse;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter @Setter
 @Builder
@@ -23,9 +23,10 @@ public class ProjectDto {
     private String projectStatus;
     private Date createDate;
     private Date updateDate;
-    private Long ossLicenseId;
     private String projectCategoryName;
-    private String userId;
+    private OssLicense license;
+    private User user;
+    private List<Version> version;
 
     @Autowired
     private static final ModelMapper modelMapper = new ModelMapper();
@@ -39,5 +40,9 @@ public class ProjectDto {
 
         return project;
     }
+
+
+
+
 
 }
