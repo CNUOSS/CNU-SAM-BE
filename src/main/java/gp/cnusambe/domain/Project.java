@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gp.cnusambe.dto.ProjectDto;
+import gp.cnusambe.payload.response.ProjectPostResponse;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
@@ -61,11 +63,19 @@ public class Project {
     @Autowired
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    public ProjectDto makeProjectDto(){
+    public ProjectDto makeProjectDto(List<Version> versionList){
         ProjectDto projectDto = modelMapper.map(this, ProjectDto.class);
-        projectDto.setOssLicenseId(this.license.getId());
-        projectDto.setUserId(this.user.getUserId());
+        projectDto.setVersion(versionList);
 
         return projectDto;
     }
+
+    public ProjectPostResponse makeProjectResponse(){
+        ProjectPostResponse response = modelMapper.map(this, ProjectPostResponse.class);
+        response.setOssLicenseId(this.license.getId());
+        response.setUserId(this.user.getUserId());
+
+        return response;
+    }
+
 }

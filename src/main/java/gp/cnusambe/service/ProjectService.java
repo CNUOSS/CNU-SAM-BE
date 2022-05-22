@@ -3,9 +3,14 @@ package gp.cnusambe.service;
 import gp.cnusambe.domain.*;
 import gp.cnusambe.dto.ProjectDto;
 import gp.cnusambe.payload.request.ProjectPostRequest;
+import gp.cnusambe.payload.response.ProjectDetailResponse;
 import gp.cnusambe.payload.response.ProjectPostResponse;
 import gp.cnusambe.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +41,16 @@ public class ProjectService {
         return response;
     }
 
+    public ProjectDto getProjectDetail(Long id){
+        Optional<Project> project = this.projectRepository.findProjectById(id);
+
+        List<Version> versionList = this.versionRepository.findAllByProject(project.get());
+
+        ProjectDto projectDto = project.get().makeProjectDto(versionList);
+        return projectDto;
     }
+
+
 
 
 
