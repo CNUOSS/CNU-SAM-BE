@@ -32,22 +32,12 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/{project_id}")
-    public ResponseEntity<ProjectDetailResponse> getProjectDetail(@PathVariable("project_id") int id){
-        ProjectDto projectDto = this.projectService.getProjectDetail((long) id);
-        ProjectDetailResponse response = makeProjectDetailResponse(projectDto);
+    public ResponseEntity<ProjectDetailResponse> getProjectDetail(@PathVariable("project_id") Long id){
+        ProjectDto projectDto = this.projectService.getProjectDetail(id);
+        ProjectDetailResponse response = projectDto.makeProjectDetailResponse();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public ProjectDetailResponse makeProjectDetailResponse(ProjectDto projectDto){
-        ProjectDetailResponse response = modelMapper.map(projectDto, ProjectDetailResponse.class);
-
-        List<VersionResponse> versionResponses = projectDto.getVersion().stream().map(v -> modelMapper.map(v, VersionResponse.class)).collect(Collectors.toList());
-
-        response.setVersion(versionResponses);
-        response.setUser_id(projectDto.getUser().getUserId());
-        response.setOss_license_name(projectDto.getLicense().getLicenseName());
-
-        return response;
     }
 
 }

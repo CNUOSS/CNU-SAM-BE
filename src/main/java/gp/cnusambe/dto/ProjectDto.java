@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gp.cnusambe.domain.*;
 import gp.cnusambe.payload.response.ProjectDetailResponse;
 import gp.cnusambe.payload.response.ProjectPostResponse;
+import gp.cnusambe.payload.response.VersionResponse;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 @Builder
@@ -31,14 +33,16 @@ public class ProjectDto {
     @Autowired
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    public Project makeProjectEntity(OssLicense license, User user, ProjectCategory category){
-        Project project = modelMapper.map(this, Project.class);
+    public ProjectDetailResponse makeProjectDetailResponse(){
+        ProjectDetailResponse response = modelMapper.map(this, ProjectDetailResponse.class);
 
-        project.setLicense(license);
-        project.setUser(user);
-        project.setProjectCategory(category);
+        List<VersionResponse> versionResponses = this.getVersion().stream().map(v -> modelMapper.map(v, VersionResponse.class)).collect(Collectors.toList());
 
-        return project;
+        response.setVersion(versionResponses);
+        response.setUserId(this.getUser().getUserId());
+        response.setOssLicenseName(this.getLicense().getLicenseName());
+
+        return response;
     }
 
 

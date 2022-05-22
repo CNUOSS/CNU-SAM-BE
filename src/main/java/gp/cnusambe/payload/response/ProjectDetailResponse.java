@@ -27,8 +27,8 @@ public class ProjectDetailResponse {
     private Date createDate;
     private Date updateDate;
     private String projectCategoryName;
-    private String oss_license_name;
-    private String user_id;
+    private String ossLicenseName;
+    private String userId;
     private List<VersionResponse> version;
 
 }
