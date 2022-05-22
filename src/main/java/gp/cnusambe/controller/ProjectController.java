@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 public class ProjectController {
     private final ProjectService projectService;
 
-    @Autowired
-    private static final ModelMapper modelMapper = new ModelMapper();
 
     @PostMapping("/projects")
     public ResponseEntity<ProjectPostResponse> post(@Valid @RequestBody ProjectPostRequest request){
@@ -38,6 +36,11 @@ public class ProjectController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @DeleteMapping("/projects/{project_id}")
+    public ResponseEntity delete(@PathVariable("project_id") Long id){
+        this.projectService.deleteProject(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 
 }
