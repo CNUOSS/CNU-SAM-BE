@@ -24,8 +24,7 @@ public class SubscriptionSWService {
         return modelMapper.map(sw, SubscriptionSWResponse.class);
     }
 
-    public Page<SubscriptionSWResponse> readAllSubscriptionSW
-            (String swType, String swManufacturer, String swName, Pageable pageable) {
+    public Page<SubscriptionSWResponse> readAllSubscriptionSW(String swType, String swManufacturer, String swName, Pageable pageable) {
         boolean search = swType.length()==0 && swManufacturer.length()==0 & swName.length()==0 ? false : true;
         Page<SubscriptionSW> sw = search
                 ? swSubscriptionQueryRepository.findAllBy(swType, swManufacturer, swName, pageable)
