@@ -50,6 +50,17 @@ public class ProjectService {
         return projectDto;
     }
 
+    public void deleteProject(Long id){
+        Optional<Project> project = this.projectRepository.findProjectById(id);
+        List<Version> versionList = this.versionRepository.findAllByProject(project.get());
+
+        for(Version version : versionList){
+            this.versionRepository.delete(version);
+        }
+
+        this.projectRepository.delete(project.get());
+    }
+
 
 
 
