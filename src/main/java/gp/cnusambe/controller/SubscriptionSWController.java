@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,15 +23,17 @@ public class SubscriptionSWController {
         return new ResponseEntity<>(subscriptionSWService.createSubscriptionSW(request), HttpStatus.OK);
     }
 
-    @GetMapping("/subscriptions")
+    @GetMapping("/subscriptions/search")
     public ResponseEntity<Page<SubscriptionSWResponse>> getAllSubscriptionSW(
-            @RequestParam(value="search", required=false) boolean search,
             @RequestParam(value="sw-type", required=false) String swType,
             @RequestParam(value="sw-mfr", required=false) String swManufacturer,
             @RequestParam(value="sw-name", required=false) String swName,
-            @PageableDefault(size=9, page = 0, sort = "latestUpdateDate", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(size=9, page=0, sort="latestUpdateDate", direction=Sort.Direction.DESC) Pageable pageable
     ){
-        return new ResponseEntity<>(subscriptionSWService.readAllSubscriptionSW(search, swType, swManufacturer, swName, pageable), HttpStatus.OK);
+        String swType_ = Optional.ofNullable(swType).orElse("");
+        String swManufacturer_ = Optional.ofNullable(swManufacturer).orElse("");
+        String swName_ = Optional.ofNullable(swName).orElse("");
+        return new ResponseEntity<>(subscriptionSWService.readAllSubscriptionSW(swType_, swManufacturer_, swName_, pageable), HttpStatus.OK);
     }
 
     @DeleteMapping("/subscriptions/{ssw_id}")
