@@ -49,7 +49,7 @@ public class OssLicenseController {
         }else {
             licenseDtoPage = this.ossLicenseService.searchAll(pageable);
         }
-        response = new OssLicenseListResponse(new MetaResponse(licenseDtoPage.getTotalElements(),isEnd(licenseDtoPage)),licenseDtoPage.getContent());
+        response = new OssLicenseListResponse(new MetaResponse().makeMetaResponse(licenseDtoPage),licenseDtoPage.getContent());
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
