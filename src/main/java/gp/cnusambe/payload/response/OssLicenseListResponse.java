@@ -17,8 +17,4 @@ public class OssLicenseListResponse {
     private MetaResponse meta;
     private List<OssLicenseDto> OssLicense;
 
-
-    public OssLicenseListResponse makeResponse(Page<OssLicenseDto> licenseDtoPage){
-        return new OssLicenseListResponse(new MetaResponse(licenseDtoPage.getTotalElements(),false),licenseDtoPage.getContent());
-    }
 }
