@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor @AllArgsConstructor
+
 public class PageInfoDto {
+
     private Long totalElements;
     private boolean last;
     private int totalPages;
