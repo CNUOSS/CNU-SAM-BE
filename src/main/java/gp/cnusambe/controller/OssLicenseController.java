@@ -2,7 +2,7 @@ package gp.cnusambe.controller;
 
 import gp.cnusambe.domain.OssLicense;
 import gp.cnusambe.dto.OssLicenseDto;
-import gp.cnusambe.payload.response.MetaResponse;
+import gp.cnusambe.dto.PageInfoDto;
 import gp.cnusambe.payload.response.OssLicenseListResponse;
 import gp.cnusambe.service.OssLicenseService;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,7 @@ public class OssLicenseController {
         }else {
             licenseDtoPage = this.ossLicenseService.searchAll(pageable);
         }
-        response = new OssLicenseListResponse(new MetaResponse().makeMetaResponse(licenseDtoPage),licenseDtoPage.getContent());
+        response = new OssLicenseListResponse(new PageInfoDto().makeMetaResponse(licenseDtoPage),licenseDtoPage.getContent());
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
