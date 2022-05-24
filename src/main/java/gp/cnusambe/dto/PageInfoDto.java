@@ -22,4 +22,6 @@ public class PageInfoDto {
                 .totalPages(licenseDtoPage.getTotalPages())
                 .size(licenseDtoPage.getSize()).build();
     }
+
+
 }
