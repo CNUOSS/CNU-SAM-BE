@@ -3,14 +3,14 @@ package gp.cnusambe.service;
 import gp.cnusambe.domain.*;
 import gp.cnusambe.dto.ProjectDto;
 import gp.cnusambe.payload.request.ProjectPostRequest;
-import gp.cnusambe.payload.response.ProjectDetailResponse;
+import gp.cnusambe.dto.ProjectListDto;
 import gp.cnusambe.payload.response.ProjectPostResponse;
 import gp.cnusambe.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +20,13 @@ import java.util.Optional;
 @Service
 public class ProjectService {
     private final ProjectRepository projectRepository;
+    private final ProjectQueryRepository projectQueryRepository;
     private final OssLicenseRepository ossLicenseRepository;
     private final ProjectCategoryRepository projectCategoryRepository;
     private final UserRepository userRepository;
     private final VersionRepository versionRepository;
+
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public ProjectPostResponse create(ProjectPostRequest request){
         //Request -> Entity
@@ -39,6 +42,20 @@ public class ProjectService {
         ProjectPostResponse response = newProject.makeProjectResponse();
 
         return response;
+    }
+
+    public Page<ProjectListDto> getProjectList(String projectName, String userId, String category, Long licenseId, Pageable pageable){
+        //Repository -> Entity : Page<Project>
+        Page<Project> project;
+        if(projectName.length() == 0 && userId.length() == 0 && category.length() == 0 && licenseId == -1L){
+            project = this.projectRepository.findAll(pageable);
+        }else{
+            project = this.projectQueryRepository.findAllBy(projectName,userId,category,licenseId,pageable);
+        }
+
+        //Entity -> Dto
+        List<ProjectListDto> projectListDtoList = new ProjectListDto().makeProjectListDto(project);
+        return new PageImpl<>(projectListDtoList, pageable, project.getTotalElements());
     }
 
     public ProjectDto getProjectDetail(Long id){
