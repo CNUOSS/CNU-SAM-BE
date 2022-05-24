@@ -1,8 +1,7 @@
-package gp.cnusambe.payload.response;
+package gp.cnusambe.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import gp.cnusambe.dto.OssLicenseDto;
 import lombok.*;
 import org.springframework.data.domain.Page;
 
@@ -10,7 +9,7 @@ import org.springframework.data.domain.Page;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @NoArgsConstructor @AllArgsConstructor
-public class MetaResponse {
+public class PageInfoDto {
     /*TODO:
        - totalCount -> totalElements
        - isEnd -> last
@@ -24,8 +23,8 @@ public class MetaResponse {
     private int totalPages;
     private int size;
 
-    public MetaResponse makeMetaResponse(Page<OssLicenseDto> licenseDtoPage){
-        return MetaResponse.builder()
+    public PageInfoDto makeMetaResponse(Page<OssLicenseDto> licenseDtoPage){
+        return PageInfoDto.builder()
                 .totalElements(licenseDtoPage.getTotalElements())
                 .last(licenseDtoPage.isLast())
                 .totalPages(licenseDtoPage.getTotalPages())
