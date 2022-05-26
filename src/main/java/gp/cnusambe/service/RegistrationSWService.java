@@ -25,6 +25,11 @@ public class RegistrationSWService {
         return modelMapper.map(sw, RegistrationSWDto.class);
     }
 
+    public void deleteRegistrationSW(Long swId){
+        RegistrationSW sw = registrationSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
+        registrationSWRepository.delete(sw);
+    }
+
     public List<ManufacturerResponse> getAllManufacturers() {
         return manufacturerRepository.findAll()
                 .stream()
