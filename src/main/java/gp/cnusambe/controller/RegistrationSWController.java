@@ -22,6 +22,12 @@ public class RegistrationSWController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @DeleteMapping("/registrations/{rsw_id}")
+    public ResponseEntity<Void> deleteRegistrationSW(@PathVariable("rsw_id") Long swId){
+        registerSWService.deleteRegistrationSW(swId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/manufacturers")
     public ResponseEntity<List<ManufacturerResponse>> getManufacturers(){
         return new ResponseEntity<>(registerSWService.getAllManufacturers(), HttpStatus.OK);
