@@ -26,7 +26,6 @@ class ProjectServiceTest {
         ProjectPostRequest request = ProjectPostRequest.builder()
                 .projectDescription("쪽갈비는 맛있어")
                 .projectName("testProject")
-                .projectStatus("C")
                 .ossLicenseId(75l)
                 .projectCategoryName("창업")
                 .userId("201902690")
