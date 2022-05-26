@@ -18,7 +18,7 @@ public class SubscriptionSW {
     private Long id;
 
     @Column(length = 10, nullable = false)
-    private String latestUpdatorId;
+    private String latestUpdaterId;
 
     @Column(length = 10)
     private String swType;
@@ -46,7 +46,7 @@ public class SubscriptionSW {
     private Date firstSubscribeDate;
 
     public SubscriptionSW(SubscriptionSWRequest request) {
-        this.latestUpdatorId = request.getLatestUpdatorId();
+        this.latestUpdaterId = request.getLatestUpdaterId();
         this.swType = request.getSwType();
         this.swManufacturer = request.getSwManufacturer();
         this.swName = request.getSwName();

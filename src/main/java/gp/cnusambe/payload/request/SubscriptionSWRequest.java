@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SubscriptionSWRequest {
-    private String latestUpdatorId;
+    private String latestUpdaterId;
     private String swType;
     private String swManufacturer;
     private String swName;
