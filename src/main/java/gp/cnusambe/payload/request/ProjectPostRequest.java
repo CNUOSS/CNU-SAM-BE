@@ -18,7 +18,6 @@ import org.modelmapper.ModelMapper;
 public class ProjectPostRequest {
     private String projectDescription;
     private String projectName;
-    private String projectStatus;
     private Long ossLicenseId;
     private String projectCategoryName;
     private String userId;
@@ -28,6 +27,7 @@ public class ProjectPostRequest {
     public Project makeProjectEntity(OssLicense license, User user, ProjectCategory category){
         Project project = modelMapper.map(this, Project.class);
 
+        project.setProjectStatus("C");
         project.setLicense(license);
         project.setUser(user);
         project.setProjectCategory(category);
