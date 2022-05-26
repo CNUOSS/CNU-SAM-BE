@@ -24,8 +24,12 @@ public class ProjectQueryRepository {
         Specification<Project> specification = Specification.where(
                 likeData("projectName",projectName))
                 .and(likeData("user", "userId", userId))
-                .and(likeData("projectCategory", "projectCategoryName", category))
-                .and(equalData("license","id", licenseId));
+                .and(likeData("projectCategory", "projectCategoryName", category));
+
+        if (licenseId != -1L){
+            specification = specification.and(equalData("license","id", licenseId));
+        }
+
         return projectRepository.findAll(specification,pageable);
     }
 
