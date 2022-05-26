@@ -1,6 +1,9 @@
 package gp.cnusambe.controller;
 
+import gp.cnusambe.dto.PageInfoDto;
+import gp.cnusambe.dto.SubscriptionSWDto;
 import gp.cnusambe.payload.request.SubscriptionSWRequest;
+import gp.cnusambe.payload.response.SubscriptionSWListResponse;
 import gp.cnusambe.payload.response.SubscriptionSWResponse;
 import gp.cnusambe.service.SubscriptionSWService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,11 +24,12 @@ public class SubscriptionSWController {
 
     @PostMapping("/subscriptions")
     public ResponseEntity<SubscriptionSWResponse> postSubscriptionSW(@RequestBody SubscriptionSWRequest request){
-        return new ResponseEntity<>(subscriptionSWService.createSubscriptionSW(request), HttpStatus.OK);
+        SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.createSubscriptionSW(request));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/subscriptions/search")
-    public ResponseEntity<Page<SubscriptionSWResponse>> getAllSubscriptionSW(
+    public ResponseEntity<SubscriptionSWListResponse> getAllSubscriptionSW(
             @RequestParam(value="sw-type", required=false) String swType,
             @RequestParam(value="sw-mfr", required=false) String swManufacturer,
             @RequestParam(value="sw-name", required=false) String swName,
@@ -33,7 +38,11 @@ public class SubscriptionSWController {
         String swType_ = Optional.ofNullable(swType).orElse("");
         String swManufacturer_ = Optional.ofNullable(swManufacturer).orElse("");
         String swName_ = Optional.ofNullable(swName).orElse("");
-        return new ResponseEntity<>(subscriptionSWService.readAllSubscriptionSW(swType_, swManufacturer_, swName_, pageable), HttpStatus.OK);
+
+        Page<SubscriptionSWDto> pageOfSW = subscriptionSWService.readAllSubscriptionSW(swType_, swManufacturer_, swName_, pageable);
+        PageInfoDto pageInfo = new PageInfoDto(pageOfSW.getTotalElements(), pageOfSW.isLast(), pageOfSW.getTotalPages(), pageOfSW.getSize());
+        SubscriptionSWListResponse response = new SubscriptionSWListResponse(pageInfo, pageOfSW.stream().collect(Collectors.toList()));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/subscriptions/{ssw_id}")

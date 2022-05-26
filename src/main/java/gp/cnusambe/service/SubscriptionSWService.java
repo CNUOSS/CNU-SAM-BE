@@ -1,9 +1,9 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.domain.SubscriptionSW;
+import gp.cnusambe.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.payload.request.SubscriptionSWRequest;
-import gp.cnusambe.payload.response.SubscriptionSWResponse;
 import gp.cnusambe.repository.SubscriptionSWRepository;
 import gp.cnusambe.repository.SwSubscriptionQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +19,17 @@ public class SubscriptionSWService {
     private final SubscriptionSWRepository subscriptionSWRepository;
     private final SwSubscriptionQueryRepository swSubscriptionQueryRepository;
 
-    public SubscriptionSWResponse createSubscriptionSW(SubscriptionSWRequest request) {
+    public SubscriptionSWDto createSubscriptionSW(SubscriptionSWRequest request) {
         SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(request));
-        return modelMapper.map(sw, SubscriptionSWResponse.class);
+        return modelMapper.map(sw, SubscriptionSWDto.class);
     }
 
-    public Page<SubscriptionSWResponse> readAllSubscriptionSW
-            (String swType, String swManufacturer, String swName, Pageable pageable) {
+    public Page<SubscriptionSWDto> readAllSubscriptionSW(String swType, String swManufacturer, String swName, Pageable pageable) {
         boolean search = swType.length()==0 && swManufacturer.length()==0 & swName.length()==0 ? false : true;
-        Page<SubscriptionSW> sw = search
+        Page<SubscriptionSW> pageOfSW = search
                 ? swSubscriptionQueryRepository.findAllBy(swType, swManufacturer, swName, pageable)
                 : subscriptionSWRepository.findAll(pageable);
-        return sw.map(element -> modelMapper.map(element, SubscriptionSWResponse.class));
+        return pageOfSW.map(sw -> modelMapper.map(sw, SubscriptionSWDto.class));
     }
 
     public void deleteSubscriptionSW(Long swId) {
