@@ -7,6 +7,7 @@ import gp.cnusambe.payload.response.SubscriptionSWListResponse;
 import gp.cnusambe.payload.response.SubscriptionSWResponse;
 import gp.cnusambe.service.SubscriptionSWService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,11 +21,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 public class SubscriptionSWController {
+    private final ModelMapper modelMapper;
     private final SubscriptionSWService subscriptionSWService;
 
     @PostMapping("/subscriptions")
     public ResponseEntity<SubscriptionSWResponse> postSubscriptionSW(@RequestBody SubscriptionSWRequest request){
-        SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.createSubscriptionSW(request));
+        SubscriptionSWDto swDto = modelMapper.map(request, SubscriptionSWDto.class);
+        SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.createSubscriptionSW(swDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

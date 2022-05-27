@@ -3,7 +3,6 @@ package gp.cnusambe.service;
 import gp.cnusambe.domain.SubscriptionSW;
 import gp.cnusambe.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
-import gp.cnusambe.payload.request.SubscriptionSWRequest;
 import gp.cnusambe.repository.SubscriptionSWRepository;
 import gp.cnusambe.repository.SubscriptionSWQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +18,8 @@ public class SubscriptionSWService {
     private final SubscriptionSWRepository subscriptionSWRepository;
     private final SubscriptionSWQueryRepository subscriptionSWQueryRepository;
 
-    public SubscriptionSWDto createSubscriptionSW(SubscriptionSWRequest request) {
-        SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(request));
+    public SubscriptionSWDto createSubscriptionSW(SubscriptionSWDto swDto) {
+        SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(swDto));
         return modelMapper.map(sw, SubscriptionSWDto.class);
     }
 

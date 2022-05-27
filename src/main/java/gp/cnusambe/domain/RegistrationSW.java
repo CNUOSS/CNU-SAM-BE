@@ -1,6 +1,6 @@
 package gp.cnusambe.domain;
 
-import gp.cnusambe.payload.request.RegistrationSWRequest;
+import gp.cnusambe.dto.RegistrationSWDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,10 +33,10 @@ public class RegistrationSW {
     @Column
     private boolean isManaged;
 
-    public RegistrationSW(RegistrationSWRequest request) {
-        this.latestUpdaterId = request.getLatestUpdaterId();
-        this.swManufacturer = request.getSwManufacturer();
-        this.swName = request.getSwName();
-        this.isManaged = request.getIsManaged();
+    public RegistrationSW(RegistrationSWDto swDto) {
+        this.latestUpdaterId = swDto.getLatestUpdaterId();
+        this.swManufacturer = swDto.getSwManufacturer();
+        this.swName = swDto.getSwName();
+        this.isManaged = swDto.getIsManaged();
     }
 }
