@@ -39,4 +39,11 @@ public class RegistrationSW {
         this.swName = swDto.getSwName();
         this.isManaged = swDto.getIsManaged();
     }
+
+    public void updateRegistrationSW(RegistrationSWDto swDto){
+        this.latestUpdaterId = swDto.getLatestUpdaterId();
+        this.swManufacturer = swDto.getSwManufacturer();
+        this.swName = swDto.getSwName();
+        this.isManaged = swDto.getIsManaged();
+    }
 }
