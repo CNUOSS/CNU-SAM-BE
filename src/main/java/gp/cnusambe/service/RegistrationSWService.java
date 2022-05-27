@@ -6,9 +6,12 @@ import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.payload.request.RegistrationSWRequest;
 import gp.cnusambe.payload.response.ManufacturerResponse;
 import gp.cnusambe.repository.ManufacturerRepository;
+import gp.cnusambe.repository.RegistrationSWQueryRepository;
 import gp.cnusambe.repository.RegistrationSWRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +22,19 @@ public class RegistrationSWService {
     private final ModelMapper modelMapper;
     private final ManufacturerRepository manufacturerRepository;
     private final RegistrationSWRepository registrationSWRepository;
+    private final RegistrationSWQueryRepository registrationSWQueryRepository;
 
     public RegistrationSWDto createRegistrationSW(RegistrationSWRequest request){
         RegistrationSW sw = registrationSWRepository.save(new RegistrationSW(request));
         return modelMapper.map(sw, RegistrationSWDto.class);
+    }
+
+    public Page<RegistrationSWDto> readAllRegistrationSW(String swManufacturer, String swName, Pageable pageable) {
+        boolean search = swManufacturer.length()==0 & swName.length()==0 ? false : true;
+        Page<RegistrationSW> pageOfSW = search
+                ? registrationSWQueryRepository.findAllBy(swManufacturer, swName, pageable)
+                : registrationSWRepository.findAllByIsManaged(true, pageable);
+        return pageOfSW.map(sw -> modelMapper.map(sw, RegistrationSWDto.class));
     }
 
     public void deleteRegistrationSW(Long swId){
