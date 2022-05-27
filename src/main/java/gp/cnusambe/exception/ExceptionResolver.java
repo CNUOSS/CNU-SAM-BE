@@ -19,7 +19,7 @@ public class ExceptionResolver {
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler({UserNotFoundException.class, RefreshTokenException.class})
+    @ExceptionHandler({UserNotFoundException.class, RefreshTokenException.class, SWNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorResponse> handleNotFoundException(HttpServletRequest request, RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND.toString(), request.getRequestURI());
