@@ -13,14 +13,14 @@ import javax.persistence.criteria.Root;
 
 @Repository
 @RequiredArgsConstructor
-public class SwSubscriptionQueryRepository {
+public class SubscriptionSWQueryRepository {
     private final SubscriptionSWRepository subscriptionSWRepository;
 
     public Page<SubscriptionSW> findAllBy(String swType, String swManufacturer, String swName, Pageable pageable) {
         Specification<SubscriptionSW> spec
-                = Specification.where(likeData("swType", swType))
+                = Specification.where(likeData("swType", swType)
                 .and(likeData("swManufacturer", swManufacturer))
-                .and(likeData("swName", swName));
+                .and(likeData("swName", swName)));
         return subscriptionSWRepository.findAll(spec, pageable);
     }
 

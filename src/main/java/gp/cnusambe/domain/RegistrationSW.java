@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -38,6 +37,6 @@ public class RegistrationSW {
         this.latestUpdaterId = request.getLatestUpdaterId();
         this.swManufacturer = request.getSwManufacturer();
         this.swName = request.getSwName();
-        this.isManaged = request.isManaged();
+        this.isManaged = request.getIsManaged();
     }
 }
