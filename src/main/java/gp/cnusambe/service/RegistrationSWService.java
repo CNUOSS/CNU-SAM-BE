@@ -36,6 +36,13 @@ public class RegistrationSWService {
         return pageOfSW.map(sw -> modelMapper.map(sw, RegistrationSWDto.class));
     }
 
+    public RegistrationSWDto updateRegistrationSW(Long swId, RegistrationSWDto swDto){
+        RegistrationSW sw = registrationSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
+        sw.updateRegistrationSW(swDto);
+        sw = registrationSWRepository.save(sw);
+        return modelMapper.map(sw, RegistrationSWDto.class);
+    }
+
     public void deleteRegistrationSW(Long swId){
         RegistrationSW sw = registrationSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
         registrationSWRepository.delete(sw);
