@@ -8,6 +8,7 @@ import gp.cnusambe.payload.response.RegistrationSWListResponse;
 import gp.cnusambe.payload.response.RegistrationSWResponse;
 import gp.cnusambe.service.RegistrationSWService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,11 +23,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 public class RegistrationSWController {
+    private final ModelMapper modelMapper;
     private final RegistrationSWService registerSWService;
 
     @PostMapping("/registrations")
     public ResponseEntity<RegistrationSWResponse> postRegistrationSW(@RequestBody RegistrationSWRequest request){
-        RegistrationSWResponse response = new RegistrationSWResponse(registerSWService.createRegistrationSW(request));
+        RegistrationSWDto swDto = modelMapper.map(request, RegistrationSWDto.class);
+        RegistrationSWResponse response = new RegistrationSWResponse(registerSWService.createRegistrationSW(swDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
