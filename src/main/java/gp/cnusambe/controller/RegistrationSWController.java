@@ -48,6 +48,13 @@ public class RegistrationSWController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/registrations/{rsw_id}")
+    public ResponseEntity<RegistrationSWResponse> putRegistrationSW(@PathVariable("rsw_id") Long swId, @RequestBody RegistrationSWRequest request){
+        RegistrationSWDto swDto = modelMapper.map(request, RegistrationSWDto.class);
+        RegistrationSWResponse response = new RegistrationSWResponse(registerSWService.updateRegistrationSW(swId, swDto));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/registrations/{rsw_id}")
     public ResponseEntity<Void> deleteRegistrationSW(@PathVariable("rsw_id") Long swId){
         registerSWService.deleteRegistrationSW(swId);
