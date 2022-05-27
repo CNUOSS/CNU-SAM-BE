@@ -30,8 +30,8 @@ public class RegistrationSW {
     @Column
     private Date latestUpdateDate;
 
-    @Column
-    private boolean isManaged;
+    @Column(nullable = false)
+    private Boolean isManaged;
 
     public RegistrationSW(RegistrationSWDto swDto) {
         this.latestUpdaterId = swDto.getLatestUpdaterId();
