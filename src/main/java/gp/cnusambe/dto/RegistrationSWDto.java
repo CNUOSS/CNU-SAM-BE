@@ -19,5 +19,5 @@ public class RegistrationSWDto {
     private String swManufacturer;
     private String swName;
     private Date latestUpdateDate;
-    private boolean isManaged;
+    private Boolean isManaged;
 }

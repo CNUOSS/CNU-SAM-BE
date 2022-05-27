@@ -1,6 +1,6 @@
 package gp.cnusambe.domain;
 
-import gp.cnusambe.payload.request.SubscriptionSWRequest;
+import gp.cnusambe.dto.SubscriptionSWDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,14 +45,14 @@ public class SubscriptionSW {
     @Column
     private Date firstSubscribeDate;
 
-    public SubscriptionSW(SubscriptionSWRequest request) {
-        this.latestUpdaterId = request.getLatestUpdaterId();
-        this.swType = request.getSwType();
-        this.swManufacturer = request.getSwManufacturer();
-        this.swName = request.getSwName();
-        this.usageRange = request.getUsageRange();
-        this.license = request.getLicense();
-        this.expireDate = request.getExpireDate();
-        this.firstSubscribeDate = request.getFirstSubscribeDate();
+    public SubscriptionSW(SubscriptionSWDto swDto) {
+        this.latestUpdaterId = swDto.getLatestUpdaterId();
+        this.swType = swDto.getSwType();
+        this.swManufacturer = swDto.getSwManufacturer();
+        this.swName = swDto.getSwName();
+        this.usageRange = swDto.getUsageRange();
+        this.license = swDto.getLicense();
+        this.expireDate = swDto.getExpireDate();
+        this.firstSubscribeDate = swDto.getFirstSubscribeDate();
     }
 }
