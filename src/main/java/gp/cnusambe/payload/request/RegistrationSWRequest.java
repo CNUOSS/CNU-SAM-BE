@@ -14,5 +14,5 @@ public class RegistrationSWRequest {
     private String latestUpdaterId;
     private String swManufacturer;
     private String swName;
-    private boolean isManaged;
+    private Boolean isManaged;
 }

@@ -5,7 +5,7 @@ import gp.cnusambe.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.payload.request.SubscriptionSWRequest;
 import gp.cnusambe.repository.SubscriptionSWRepository;
-import gp.cnusambe.repository.SwSubscriptionQueryRepository;
+import gp.cnusambe.repository.SubscriptionSWQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class SubscriptionSWService {
     private final ModelMapper modelMapper;
     private final SubscriptionSWRepository subscriptionSWRepository;
-    private final SwSubscriptionQueryRepository swSubscriptionQueryRepository;
+    private final SubscriptionSWQueryRepository subscriptionSWQueryRepository;
 
     public SubscriptionSWDto createSubscriptionSW(SubscriptionSWRequest request) {
         SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(request));
@@ -27,7 +27,7 @@ public class SubscriptionSWService {
     public Page<SubscriptionSWDto> readAllSubscriptionSW(String swType, String swManufacturer, String swName, Pageable pageable) {
         boolean search = swType.length()==0 && swManufacturer.length()==0 & swName.length()==0 ? false : true;
         Page<SubscriptionSW> pageOfSW = search
-                ? swSubscriptionQueryRepository.findAllBy(swType, swManufacturer, swName, pageable)
+                ? subscriptionSWQueryRepository.findAllBy(swType, swManufacturer, swName, pageable)
                 : subscriptionSWRepository.findAll(pageable);
         return pageOfSW.map(sw -> modelMapper.map(sw, SubscriptionSWDto.class));
     }
