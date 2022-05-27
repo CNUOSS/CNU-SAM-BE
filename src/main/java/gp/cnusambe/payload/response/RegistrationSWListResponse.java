@@ -14,6 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RegistrationSWListResponse {
-    private PageInfoDto meta;
+    private PageInfoDto pageInfo;
     private List<RegistrationSWDto> registrationSw;
 }
