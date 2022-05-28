@@ -8,6 +8,8 @@ import gp.cnusambe.payload.response.ProjectPostResponse;
 import gp.cnusambe.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -26,14 +28,14 @@ public class ProjectService {
     private final UserRepository userRepository;
     private final VersionRepository versionRepository;
 
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper strictMapper;
 
     public ProjectPostResponse create(ProjectPostRequest request){
         //Request -> Entity
         Optional<OssLicense> license = this.ossLicenseRepository.findById(request.getOssLicenseId());
         Optional<User> user = this.userRepository.findByUserId(request.getUserId());
         Optional<ProjectCategory> projectCategory = this.projectCategoryRepository.findById(request.getProjectCategoryName());
-        Project project = request.makeProjectEntity(license.get(),user.get(),projectCategory.get());
+        Project project = this.makeProjectEntity(request, license.get(),user.get(),projectCategory.get());
 
         //Save Project
         Project newProject = this.projectRepository.save(project);
@@ -82,7 +84,16 @@ public class ProjectService {
         Optional<Project> project = this.projectRepository.findProjectById(id);
         return project.get();
     }
+    private Project makeProjectEntity(ProjectPostRequest request, OssLicense license, User user, ProjectCategory category){
+        Project project = strictMapper.map(request, Project.class);
 
+        project.setProjectStatus("C");
+        project.setLicense(license);
+        project.setUser(user);
+        project.setProjectCategory(category);
+
+        return project;
+    }
 
 
 
