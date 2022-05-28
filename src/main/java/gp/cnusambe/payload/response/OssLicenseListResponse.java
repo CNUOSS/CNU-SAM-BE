@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OssLicenseListResponse {
-    private PageInfoDto meta;
+    private PageInfoDto pageInfo;
     private List<OssLicenseDto> OssLicense;
-
 }
