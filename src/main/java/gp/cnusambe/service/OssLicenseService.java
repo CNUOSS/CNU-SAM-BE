@@ -101,9 +101,9 @@ public class OssLicenseService {
         }
     }
 
-    public Optional<OssLicense> getOssLicense(Long id){
+    public OssLicense getOssLicense(Long id){
         Optional<OssLicense> license = this.ossLicenseRepository.findOssLicenseById(id);
-        return license;
+        return license.get();
     }
 
 
