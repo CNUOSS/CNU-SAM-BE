@@ -101,6 +101,12 @@ public class OssLicenseService {
         }
     }
 
+    public Optional<OssLicense> getOssLicense(Long id){
+        Optional<OssLicense> license = this.ossLicenseRepository.findOssLicenseById(id);
+        return license;
+    }
+
+
     /*
      * description : license만 주어졌을때 OssLicenseDto로 변환
      */

@@ -78,7 +78,10 @@ public class ProjectService {
         this.projectRepository.delete(project.get());
     }
 
-
+    public Optional<Project> getProject(Long id){
+        Optional<Project> project = this.projectRepository.findProjectById(id);
+        return project;
+    }
 
 
 
