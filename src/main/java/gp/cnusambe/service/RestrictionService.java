@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class RestrictionService {
+    private final LicenseRestrictionMapService licenseRestrictionMapService;
     private final RestrictionRepository restrictionRepository;
     private final LicenseRestrictionMapRepository licenseRestrictionMapRepository;
 
