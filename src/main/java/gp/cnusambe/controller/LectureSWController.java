@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +34,12 @@ public class LectureSWController {
 
         LectureSWResponse response = new LectureSWResponse(lectureSwDto, lectureMapDtos);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/lectures/{lsw_id}")
+    public ResponseEntity<Void> deleteLectureSW(@PathVariable("lsw_id") Long swId){
+        lectureSwService.deleteLectureSW(swId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/lecture-types")
