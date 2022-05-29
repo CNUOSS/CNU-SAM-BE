@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface RegistrationSWRepository extends JpaRepository<RegistrationSW, Long>, JpaSpecificationExecutor<RegistrationSW> {
     Optional<RegistrationSW> findById(Long swId);
+    Optional<RegistrationSW> findAllBySwManufacturerAndSwName(String swManufacturer, String swName);
     Page<RegistrationSW> findAllByIsManaged(boolean isManaged, Pageable pageable);
     Page<RegistrationSW> findAll(Specification spec, Pageable pageable);
 }
