@@ -7,6 +7,7 @@ import gp.cnusambe.domain.SWInLectureSW;
 import gp.cnusambe.dto.LectureMapDto;
 import gp.cnusambe.dto.LectureSWDto;
 import gp.cnusambe.dto.SWInLectureSWDto;
+import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.payload.response.DepartmentResponse;
 import gp.cnusambe.payload.response.LectureTypeResponse;
 import gp.cnusambe.repository.*;
@@ -47,6 +48,14 @@ public class LectureSWService {
 
     private LectureMap createLectureMap(Long lectureSWId, Long registrationSWId) {
         return lectureMapRepository.save(new LectureMap(lectureSWId, registrationSWId));
+    }
+
+    public void deleteLectureSW(Long swId){
+        List<LectureMap> lectureMaps = lectureMapRepository.findAllByLectureSWId(swId);
+        for(LectureMap map : lectureMaps)
+            lectureMapRepository.deleteByLectureSWId(map.getLectureSWId());
+        LectureSW sw = lectureRepository.findById(swId).orElseThrow(SWNotFoundException::new);
+        lectureRepository.delete(sw);
     }
 
     public List<LectureTypeResponse> getAllLectureTypes() {
