@@ -1,9 +1,12 @@
 package gp.cnusambe.service;
 
+import gp.cnusambe.domain.LectureMap;
 import gp.cnusambe.domain.LectureSW;
 import gp.cnusambe.domain.RegistrationSW;
 import gp.cnusambe.domain.SWInLectureSW;
+import gp.cnusambe.dto.LectureMapDto;
 import gp.cnusambe.dto.LectureSWDto;
+import gp.cnusambe.dto.SWInLectureSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.payload.response.DepartmentResponse;
 import gp.cnusambe.payload.response.LectureTypeResponse;
@@ -22,6 +25,7 @@ public class LectureSWService {
     private final LectureTypeRepository lectureTypeRepository;
     private final DepartmentRepository departmentRepository;
     private final LectureSWRepository lectureRepository;
+    private final LectureMapRepository lectureMapRepository;
     private final RegistrationSWRepository registrationSWRepository;
 
     public LectureSWDto createLectureSW(LectureSWDto swDto) {
@@ -29,18 +33,27 @@ public class LectureSWService {
         return modelMapper.map(sw, LectureSWDto.class);
     }
 
-    public List<RegistrationSW> getAllRegistrationSW(List<SWInLectureSW> listOfSW){
-        List<RegistrationSW> listOfRegistrationSW = new ArrayList<>();
-        for(SWInLectureSW sw : listOfSW) {
-            RegistrationSW registrationSW
-                    = registrationSWRepository.findBySwManufacturerAndSwNameAndIsManaged(sw.getSwManufacturer(), sw.getSwName(), true)
+    public List<LectureMapDto> createAllLectureMap(Long lectureSwId, List<SWInLectureSWDto> swMapDto) {
+        List<SWInLectureSW> listOfSW = swMapDto.stream().map(element -> modelMapper.map(element, SWInLectureSW.class)).collect(Collectors.toList());
+        List<LectureMapDto> listOfLectureMapDto = new ArrayList<>();
+
+        for (SWInLectureSW sw : listOfSW) {
+            RegistrationSW registrationSW = registrationSWRepository.findAllBySwManufacturerAndSwName(sw.getSwManufacturer(), sw.getSwName())
                     .orElse(registrationSWRepository.save(new RegistrationSW(sw.getSwManufacturer(), sw.getSwName())));
-            listOfRegistrationSW.add(registrationSW);
+            LectureMap lectureMap = createLectureMap(lectureSwId, registrationSW.getId());
+            listOfLectureMapDto.add(new LectureMapDto(lectureMap, sw));
         }
-        return listOfRegistrationSW;
+        return listOfLectureMapDto;
     }
 
-    public void deleteLectureSW(Long swId) {
+    private LectureMap createLectureMap(Long lectureSWId, Long registrationSWId) {
+        return lectureMapRepository.save(new LectureMap(lectureSWId, registrationSWId));
+    }
+
+    public void deleteLectureSW(Long swId){
+        List<LectureMap> lectureMaps = lectureMapRepository.findAllByLectureSWId(swId);
+        for(LectureMap map : lectureMaps)
+            lectureMapRepository.deleteByLectureSWId(map.getLectureSWId());
         LectureSW sw = lectureRepository.findById(swId).orElseThrow(SWNotFoundException::new);
         lectureRepository.delete(sw);
     }
