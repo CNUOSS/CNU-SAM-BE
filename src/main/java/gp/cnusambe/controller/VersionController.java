@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Part;
 import javax.validation.Valid;
@@ -39,6 +37,12 @@ public class VersionController {
         Version newVersion = this.versionService.create(versionDto, ossAnalysisRequests);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/versions/{version_id}")
+    public ResponseEntity delete(@PathVariable("version_id") Long id){
+        this.versionService.deleteVersion(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     private VersionDto makeVersionDto(Project project, VersionPostRequest request){

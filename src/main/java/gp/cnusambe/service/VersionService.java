@@ -1,11 +1,10 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.OssLicense;
-import gp.cnusambe.domain.PartOfOssAnalysis;
-import gp.cnusambe.domain.Restriction;
-import gp.cnusambe.domain.Version;
+import gp.cnusambe.domain.*;
 import gp.cnusambe.dto.OssAnalysisDto;
 import gp.cnusambe.dto.VersionDto;
+import gp.cnusambe.repository.AnalysisRestrictionMapRepository;
+import gp.cnusambe.repository.OssAnalysisMapRepository;
 import gp.cnusambe.repository.OssLicenseRepository;
 import gp.cnusambe.repository.VersionRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,12 @@ import java.util.Optional;
 public class VersionService {
     private final OssLicenseService ossLicenseService;
     private final RestrictionService restrictionService;
-    private final VersionRepository versionRepository;
     private final AnalysisRestrictionMapService analysisRestrictionMapService;
+
+    private final VersionRepository versionRepository;
+    private final OssAnalysisMapRepository ossAnalysisMapRepository;
+    private final AnalysisRestrictionMapRepository analysisRestrictionMapRepository;
+
     private final ModelMapper modelMapper;
 
     public Version create(VersionDto versionDto, List<PartOfOssAnalysis> ossAnalysisRequests){
@@ -40,6 +43,22 @@ public class VersionService {
             this.analysisRestrictionMapService.create(analysisDto,restrictionList);
         }
         return newVersion;
+    }
+
+    public void deleteVersion(Long id){
+        Optional<Version> version = this.versionRepository.findById(id);
+        List<OssAnalysisMap> analysisMapList = this.ossAnalysisMapRepository.findAllByVersion_Id(id);
+
+        for(OssAnalysisMap ossAnalysisMap :  analysisMapList){
+            List<AnalysisRestrictionMap> restrictionMapList = this.analysisRestrictionMapRepository.findAllByAnalysisMap_Id(ossAnalysisMap.getId());
+            for (AnalysisRestrictionMap restrictionMap : restrictionMapList){
+                this.analysisRestrictionMapRepository.delete(restrictionMap);
+            }
+            this.ossAnalysisMapRepository.delete(ossAnalysisMap);
+        }
+
+        this.versionRepository.delete(version.get());
+
     }
 
     private OssAnalysisDto makeOssLicenseAnalysisDto(PartOfOssAnalysis analysis, Version version, OssLicense license){
