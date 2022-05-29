@@ -33,6 +33,13 @@ public class RegistrationSW {
     @Column(nullable = false)
     private Boolean isManaged;
 
+    public RegistrationSW(String swManufacturer, String swName){
+        this.latestUpdaterId = "manager";
+        this.swManufacturer = swManufacturer;
+        this.swName = swName;
+        this.isManaged = false;
+    }
+
     public RegistrationSW(RegistrationSWDto swDto) {
         this.latestUpdaterId = swDto.getLatestUpdaterId();
         this.swManufacturer = swDto.getSwManufacturer();
