@@ -1,9 +1,11 @@
 package gp.cnusambe.controller;
 
 import gp.cnusambe.domain.*;
+import gp.cnusambe.dto.LicenseProtectorDto;
 import gp.cnusambe.dto.OssAnalysisDto;
 import gp.cnusambe.dto.VersionDto;
 import gp.cnusambe.payload.request.VersionPostRequest;
+import gp.cnusambe.payload.response.LicenseProtectorResponse;
 import gp.cnusambe.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,8 +27,15 @@ public class VersionController {
 
     private final ModelMapper modelMapper;
 
-    @PostMapping("/versions")
-    public ResponseEntity post(@Valid @RequestBody VersionPostRequest request){
+    @GetMapping("/projects/{project_id}/versions/{version_id}/license-protector")
+    public ResponseEntity<LicenseProtectorResponse> getLicenseProtector(@PathVariable("project_id")Long projectId, @PathVariable("version_id")Long versionId){
+        LicenseProtectorDto licenseProtectorDto = this.versionService.getLicenseProtector(versionId);
+        LicenseProtectorResponse response = this.makeLicenseProtectorResponse(licenseProtectorDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/projects/{project_id}/versions")
+    public ResponseEntity post(@PathVariable("project_id")Long projcetId,@Valid @RequestBody VersionPostRequest request){
         List<PartOfOssAnalysis> ossAnalysisRequests = request.getOssAnalysis();
 
         // Version에 해당되는 project 찾기
@@ -39,8 +48,8 @@ public class VersionController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping("/versions/{version_id}")
-    public ResponseEntity delete(@PathVariable("version_id") Long id){
+    @DeleteMapping("/projects/{project_id}/versions/{version_id}")
+    public ResponseEntity delete(@PathVariable("project_id")Long projectId,@PathVariable("version_id") Long id){
         this.versionService.deleteVersion(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -49,6 +58,12 @@ public class VersionController {
         VersionDto versionDto = modelMapper.map(request, VersionDto.class);
         versionDto.setProject(project);
         return versionDto;
+    }
+
+    private LicenseProtectorResponse makeLicenseProtectorResponse(LicenseProtectorDto licenseProtectorDto){
+        LicenseProtectorResponse protectorResponse = modelMapper.map(licenseProtectorDto, LicenseProtectorResponse.class);
+        protectorResponse.setOssAnalysis(licenseProtectorDto.getOssAnalysisDto());
+        return protectorResponse;
     }
 
 }
