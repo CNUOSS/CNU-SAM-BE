@@ -38,9 +38,9 @@ public class LectureSWService {
         List<LectureMapDto> listOfLectureMapDto = new ArrayList<>();
 
         for (SWInLectureSW sw : listOfSW) {
-            RegistrationSW registrationSW = registrationSWRepository.findAllBySwManufacturerAndSwName(sw.getSwManufacturer(), sw.getSwName())
+            RegistrationSW registrationSW = registrationSWRepository.findAllBySwManufacturerAndSwNameAndIsManaged(sw.getSwManufacturer(), sw.getSwName(), true)
                     .orElse(registrationSWRepository.save(new RegistrationSW(sw.getSwManufacturer(), sw.getSwName())));
-            LectureMap lectureMap = createLectureMap(lectureSwId, registrationSW.getId());
+            LectureMap lectureMap = createLectureMap(lectureSwId, registrationSW.getId(), registrationSW.getLatestUpdateDate());
             listOfLectureMapDto.add(new LectureMapDto(lectureMap, sw));
         }
         return listOfLectureMapDto;
