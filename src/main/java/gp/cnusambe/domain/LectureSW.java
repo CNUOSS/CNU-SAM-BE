@@ -7,7 +7,9 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Setter
@@ -47,6 +49,13 @@ public class LectureSW {
     @Column
     private Date latestUpdateDate;
 
+    @ManyToMany
+    @JoinTable(name="LectureMap",
+    joinColumns = @JoinColumn(name="lectureSWId"),
+    inverseJoinColumns = @JoinColumn(name="RegistrationSWId")
+    )
+    private List<RegistrationSW> registrationSW;
+
     public LectureSW(LectureSWDto swDto){
         this.ownerId = swDto.getOwnerId();
         this.year = swDto.getYear();
@@ -55,5 +64,6 @@ public class LectureSW {
         this.lectureName = swDto.getLectureName();
         this.lectureType = swDto.getLectureType();
         this.department = swDto.getDepartment();
+        this.registrationSW = swDto.getRegistrationSW();
     }
 }
