@@ -25,7 +25,7 @@ public class LectureSWController {
     @PostMapping("/lectures")
     public ResponseEntity<LectureSWResponse> getLectureSW(@RequestBody LectureSWRequest request) {
         LectureSWDto lectureSwDto = modelMapper.map(request, LectureSWDto.class);
-        lectureSwDto = lectureSwService.createLectureSW(lectureSwDto);
+        lectureSwDto.setRegistrationSW(lectureSwService.getAllRegistrationSW(request.getSw()));
 
         List<SWInLectureSWDto> swInLectureSWDtos = request.getSw()
                 .stream().map(element -> modelMapper.map(element, SWInLectureSWDto.class))
