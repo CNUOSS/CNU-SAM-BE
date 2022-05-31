@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SWInLectureSWDto {
-    private Long id;
     private String swManufacturer;
     private String swName;
 }
