@@ -2,11 +2,13 @@ package gp.cnusambe.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import gp.cnusambe.domain.RegistrationSW;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -24,4 +26,5 @@ public class LectureSWDto {
     private String department;
     private Date createDate;
     private Date latestUpdateDate;
+    private List<RegistrationSW> registrationSW;
 }
