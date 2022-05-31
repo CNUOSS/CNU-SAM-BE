@@ -1,12 +1,8 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.dto.LectureMapDto;
-import gp.cnusambe.dto.LectureSWDto;
-import gp.cnusambe.dto.SWInLectureSWDto;
+import gp.cnusambe.dto.*;
 import gp.cnusambe.payload.request.LectureSWRequest;
-import gp.cnusambe.payload.response.DepartmentResponse;
-import gp.cnusambe.payload.response.LectureSWResponse;
-import gp.cnusambe.payload.response.LectureTypeResponse;
+import gp.cnusambe.payload.response.*;
 import gp.cnusambe.service.LectureSWService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -14,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,14 +20,9 @@ public class LectureSWController {
     @PostMapping("/lectures")
     public ResponseEntity<LectureSWResponse> getLectureSW(@RequestBody LectureSWRequest request) {
         LectureSWDto lectureSwDto = modelMapper.map(request, LectureSWDto.class);
-        lectureSwDto = lectureSwService.createLectureSW(lectureSwDto);
+        lectureSwDto.setRegistrationSW(lectureSwService.getAllRegistrationSW(request.getSw()));
 
-        List<SWInLectureSWDto> swInLectureSWDtos = request.getSw()
-                .stream().map(element -> modelMapper.map(element, SWInLectureSWDto.class))
-                .collect(Collectors.toList());
-        List<LectureMapDto> lectureMapDtos = lectureSwService.createAllLectureMap(lectureSwDto.getId(), swInLectureSWDtos);
-
-        LectureSWResponse response = new LectureSWResponse(lectureSwDto, lectureMapDtos);
+        LectureSWResponse response = new LectureSWResponse(lectureSwService.createLectureSW(lectureSwDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
