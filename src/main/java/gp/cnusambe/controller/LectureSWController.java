@@ -60,6 +60,14 @@ public class LectureSWController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/lectures/{lsw_id}")
+    public ResponseEntity<LectureSWResponse> getLectureSW(@PathVariable("lsw_id") Long swId) {
+        LectureSWDto lectureSWDto = lectureSwService.readLectureSW(swId);
+        List<SWInLectureSWDto> swInLectureSWDtos = lectureSwService.readSWInLectureSW(swId);
+        LectureSWResponse response = new LectureSWResponse(lectureSWDto, swInLectureSWDtos);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/lectures/{lsw_id}")
     public ResponseEntity<Void> deleteLectureSW(@PathVariable("lsw_id") Long swId){
         lectureSwService.deleteLectureSW(swId);
