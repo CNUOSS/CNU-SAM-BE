@@ -70,6 +70,19 @@ public class LectureSWService {
         return listOfLectureSWList;
     }
 
+    public LectureSWDto readLectureSW(Long swId){
+        LectureSW lectureSW = lectureSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
+        return modelMapper.map(lectureSW, LectureSWDto.class);
+    }
+
+    public List<SWInLectureSWDto> readSWInLectureSW(Long swId){
+        List<LectureMap> listOfMap = lectureMapRepository.findAllByLectureSWId(swId);
+        List<LectureSWList> listOfLectureSW = makeListOfLectureSWListDto(listOfMap);
+        return listOfLectureSW.stream()
+                .map(element -> modelMapper.map(element, SWInLectureSWDto.class))
+                .collect(Collectors.toList());
+    }
+
     public void deleteLectureSW(Long swId) {
         List<LectureMap> lectureMaps = lectureMapRepository.findAllByLectureSWId(swId);
         for (LectureMap map : lectureMaps)
