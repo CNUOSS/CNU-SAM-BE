@@ -17,10 +17,10 @@ public class LectureSWQueryRepository {
 
     public List<LectureSW> findAllBy(String department, String year, String lectureType, String semester, String lectureName, String lectureNum, String owner) {
         Specification<LectureSW> spec
-                = Specification.where(equalData("department", department)
-                .and(equalData("year", year))
-                .and(equalData("lectureType", lectureType)))
-                .and(equalData("semester", semester))
+                = Specification.where(likeData("department", department)
+                .and(likeData("year", year))
+                .and(likeData("lectureType", lectureType)))
+                .and(likeData("semester", semester))
                 .and(likeData("lectureName", lectureName))
                 .and(likeData("lectureNum", lectureNum))
                 .and(likeData("ownerId", owner));
