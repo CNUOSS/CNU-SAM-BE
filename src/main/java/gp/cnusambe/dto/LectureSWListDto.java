@@ -1,9 +1,8 @@
-package gp.cnusambe.payload.response;
+package gp.cnusambe.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import gp.cnusambe.dto.LectureSWDto;
-import gp.cnusambe.dto.SWInLectureSWDto;
+import gp.cnusambe.domain.LectureSWList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class LectureSWResponse {
-    private LectureSWDto lectureSW;
-    private List<SWInLectureSWDto> sw;
+public class LectureSWListDto {
+   private PageInfoDto pageInfo;
+   private List<LectureSWList> lectureSW;
 }
