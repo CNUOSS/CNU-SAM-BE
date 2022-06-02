@@ -30,17 +30,17 @@ public class LectureSWService {
         return modelMapper.map(sw, LectureSWDto.class);
     }
 
-    public List<LectureMapDto> createAllLectureMap(Long lectureSwId, List<SWInLectureSWDto> swMapDto) {
+    public List<SWInLectureSWDto> createAllLectureMap(LectureSWDto lectureSw, List<SWInLectureSWDto> swMapDto) {
         List<SWInLectureSW> listOfSW = swMapDto.stream().map(element -> modelMapper.map(element, SWInLectureSW.class)).collect(Collectors.toList());
-        List<LectureMapDto> listOfLectureMapDto = new ArrayList<>();
+        List<SWInLectureSWDto> listOfSWInLectureSWDto = new ArrayList<>();
 
         for (SWInLectureSW sw : listOfSW) {
-            RegistrationSW registrationSW = registrationSWRepository.findAllBySwManufacturerAndSwNameAndIsManaged(sw.getSwManufacturer(), sw.getSwName(), true)
+            RegistrationSW registrationSW = registrationSWRepository.findBySwManufacturerAndSwNameAndIsManaged(sw.getSwManufacturer(), sw.getSwName(), true)
                     .orElse(registrationSWRepository.save(new RegistrationSW(sw.getSwManufacturer(), sw.getSwName())));
-            LectureMap lectureMap = createLectureMap(lectureSwId, registrationSW.getId(), registrationSW.getLatestUpdateDate());
-            listOfLectureMapDto.add(new LectureMapDto(lectureMap, sw));
+            createLectureMap(lectureSw.getId(), registrationSW.getId(), lectureSw.getLatestUpdateDate());
+            listOfSWInLectureSWDto.add(new SWInLectureSWDto(registrationSW.getId(), registrationSW.getSwManufacturer(), registrationSW.getSwName()));
         }
-        return listOfLectureMapDto;
+        return listOfSWInLectureSWDto;
     }
 
     private LectureMap createLectureMap(Long lectureSWId, Long registrationSWId, Date latestUpdateDate) {

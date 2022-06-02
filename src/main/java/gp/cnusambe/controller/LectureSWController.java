@@ -25,9 +25,16 @@ public class LectureSWController {
     @PostMapping("/lectures")
     public ResponseEntity<LectureSWResponse> getLectureSW(@RequestBody LectureSWRequest request) {
         LectureSWDto lectureSwDto = modelMapper.map(request, LectureSWDto.class);
-        lectureSwDto.setRegistrationSW(lectureSwService.getAllRegistrationSW(request.getSw()));
+        lectureSwDto = lectureSwService.createLectureSW(lectureSwDto);
 
-        LectureSWResponse response = new LectureSWResponse(lectureSwService.createLectureSW(lectureSwDto));
+        List<SWInLectureSWDto> swInLectureSWDtos = request.getSw()
+                .stream().map(element -> modelMapper.map(element, SWInLectureSWDto.class))
+                .collect(Collectors.toList());
+        swInLectureSWDtos = lectureSwService.createAllLectureMap(lectureSwDto, swInLectureSWDtos);
+
+        LectureSWResponse response = new LectureSWResponse(lectureSwDto, swInLectureSWDtos);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @GetMapping("/lectures/search")
     public ResponseEntity<LectureSWListResponse> getAllLectureSW(
