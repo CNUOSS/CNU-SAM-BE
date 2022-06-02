@@ -34,8 +34,10 @@ public class VersionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
+    //TODO : PathVariable, Body에  있는 project_id 동일한지 검사
     @PostMapping("/projects/{project_id}/versions")
-    public ResponseEntity post(@PathVariable("project_id")Long projcetId,@Valid @RequestBody VersionPostRequest request){
+    public ResponseEntity post(@PathVariable("project_id")Long projectId,@Valid @RequestBody VersionPostRequest request){
         List<PartOfOssAnalysis> ossAnalysisRequests = request.getOssAnalysis();
 
         // Version에 해당되는 project 찾기
