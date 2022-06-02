@@ -31,13 +31,13 @@ public class OssAnalysisMap {
     @Column(nullable = false, length = 2083)
     private String ossUrl;
 
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String licenseName;
 
-    @Column(nullable = false, length = 2083)
+    @Column(length = 2083)
     private String licenseUrl;
 
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
     private String licenseTypeName;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})

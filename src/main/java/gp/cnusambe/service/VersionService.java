@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class VersionService {
     private final VersionRepository versionRepository;
     private final OssAnalysisMapRepository ossAnalysisMapRepository;
     private final AnalysisRestrictionMapRepository analysisRestrictionMapRepository;
+    private final OssLicenseRepository ossLicenseRepository;
 
     private final ModelMapper modelMapper;
 
@@ -48,15 +50,21 @@ public class VersionService {
             List<AnalysisRestrictionMap> restrictionMap = this.analysisRestrictionMapRepository.findAllByAnalysisMap_Id(analysisMap.getId());
             List<Restriction> restrictionList = restrictionMap.stream().map(r -> r.getRestriction()).collect(Collectors.toList());
 
-            AnalysisRestrictionDto restrictionDto = new AnalysisRestrictionDto(analysisMap.getLicenseName(), restrictionList);
-            licenseProtectorDto.addAnalysisRestriction(restrictionDto);
+            if(!Objects.isNull(analysisMap.getLicenseName())){
+                //analysisMap의 licenseName이 비워져있지 않을때
+                AnalysisRestrictionDto restrictionDto = new AnalysisRestrictionDto(analysisMap.getLicenseName(), restrictionList);
+                licenseProtectorDto.addAnalysisRestriction(restrictionDto);
+            }
+
+
         }
 
         return licenseProtectorDto;
 
     }
 
-    public Version create(VersionDto versionDto, List<PartOfOssAnalysis> ossAnalysisRequests){
+
+    /*public Version create(VersionDto versionDto, List<PartOfOssAnalysis> ossAnalysisRequests){
         Version version = this.modelMapper.map(versionDto, Version.class);
         Version newVersion = this.versionRepository.save(version);
 
@@ -72,7 +80,26 @@ public class VersionService {
             this.analysisRestrictionMapService.create(analysisDto,restrictionList);
         }
         return newVersion;
+    }*/
+
+    public Version create(VersionDto versionDto, List<PartOfOssAnalysis> ossAnalysisRequests){
+        Version version = this.modelMapper.map(versionDto, Version.class);
+        Version newVersion = this.versionRepository.save(version);
+
+        for(PartOfOssAnalysis ossAnalysis : ossAnalysisRequests){
+            // Anaysis에 해당되는 license,restriction 찾기
+            Optional<OssLicense> ossLicense = this.ossLicenseRepository.findOssLicenseById(ossAnalysis.getLicenseId());
+            List<Restriction> restrictionList = this.restrictionService.getRestrictionByOssLicense(ossLicense.orElse(null));
+
+            //OssAnalysisRequest -> AnalysisDto
+            OssAnalysisDto analysisDto = this.makeOssLicenseAnalysisDto(ossAnalysis, newVersion, ossLicense);
+
+            //Save AnalysisRestrictionMap
+            this.analysisRestrictionMapService.create(analysisDto,restrictionList);
+        }
+        return newVersion;
     }
+
 
     public void deleteVersion(Long id){
         Optional<Version> version = this.versionRepository.findById(id);
@@ -90,7 +117,7 @@ public class VersionService {
 
     }
 
-    private OssAnalysisDto makeOssLicenseAnalysisDto(PartOfOssAnalysis analysis, Version version, OssLicense license){
+    /*private OssAnalysisDto makeOssLicenseAnalysisDto(PartOfOssAnalysis analysis, Version version, OssLicense license){
         OssAnalysisDto analysisDto = modelMapper.map(analysis, OssAnalysisDto.class);
         analysisDto.setVersion(version);
         analysisDto.setLicenseName(license.getLicenseName());
@@ -98,5 +125,19 @@ public class VersionService {
         analysisDto.setLicenseTypeName(license.getOssLicenseType().getLicenseTypeName());
 
         return analysisDto;
+    }*/
+
+    private OssAnalysisDto makeOssLicenseAnalysisDto(PartOfOssAnalysis analysis, Version version, Optional<OssLicense> license){
+        OssAnalysisDto analysisDto = modelMapper.map(analysis, OssAnalysisDto.class);
+        analysisDto.setVersion(version);
+
+        if(license.isPresent()){
+            analysisDto.setLicenseName(license.get().getLicenseName());
+            analysisDto.setLicenseUrl(license.get().getLicenseUrl());
+            analysisDto.setLicenseTypeName(license.get().getOssLicenseType().getLicenseTypeName());
+        }
+
+        return analysisDto;
     }
+
 }
