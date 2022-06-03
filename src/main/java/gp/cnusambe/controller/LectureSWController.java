@@ -74,6 +74,13 @@ public class LectureSWController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("lectures/chart/{year}")
+    public ResponseEntity<LectureSWForChartResponse> getLectureSWForChart(@PathVariable("year") String year) {
+        List<LectureSWForChartDto> lectureSWForChartDtos = lectureSwService.readLAllLectureSWForChart(year);
+        LectureSWForChartResponse response = new LectureSWForChartResponse(lectureSWForChartDtos);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/lecture-types")
     public ResponseEntity<List<LectureTypeResponse>> getLectureTypes() {
         return new ResponseEntity<>(lectureSwService.readAllLectureTypes(), HttpStatus.OK);
