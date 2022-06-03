@@ -9,4 +9,5 @@ import java.util.List;
 public interface LectureSWRepository extends JpaRepository<LectureSW, Long>, JpaSpecificationExecutor<LectureSW> {
     List<LectureSW> findAll();
     List<LectureSW> findAll(Specification<LectureSW> spec);
+    List<LectureSW> findAllByYear(String year);
 }

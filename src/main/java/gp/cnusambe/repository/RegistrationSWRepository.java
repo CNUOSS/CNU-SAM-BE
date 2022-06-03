@@ -12,5 +12,6 @@ public interface RegistrationSWRepository extends JpaRepository<RegistrationSW, 
     Optional<RegistrationSW> findById(Long swId);
     Optional<RegistrationSW> findBySwManufacturerAndSwNameAndIsManaged(String swManufacturer, String swName, boolean isManaged);
     Page<RegistrationSW> findAllByIsManaged(boolean isManaged, Pageable pageable);
+    Optional<RegistrationSW> findByIdAndIsManaged(Long swId, boolean isManaged);
     Page<RegistrationSW> findAll(Specification spec, Pageable pageable);
 }
