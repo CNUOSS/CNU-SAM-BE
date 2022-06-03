@@ -4,6 +4,7 @@ import gp.cnusambe.domain.RegistrationSW;
 import gp.cnusambe.dto.RegistrationSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.payload.response.ManufacturerResponse;
+import gp.cnusambe.payload.response.SWNameResponse;
 import gp.cnusambe.repository.ManufacturerRepository;
 import gp.cnusambe.repository.RegistrationSWQueryRepository;
 import gp.cnusambe.repository.RegistrationSWRepository;
@@ -48,10 +49,16 @@ public class RegistrationSWService {
         registrationSWRepository.delete(sw);
     }
 
-    public List<ManufacturerResponse> getAllManufacturers() {
+    public List<ManufacturerResponse> readAllManufacturers() {
         return manufacturerRepository.findAll()
                 .stream()
                 .map(element -> modelMapper.map(element, ManufacturerResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<SWNameResponse> readAllSwNames(){
+        List<String> name = registrationSWRepository.findAllByIsManaged(true)
+                .stream().map(RegistrationSW::getSwName).collect(Collectors.toList());
+        return name.stream().map(SWNameResponse::new).collect(Collectors.toList());
     }
 }
