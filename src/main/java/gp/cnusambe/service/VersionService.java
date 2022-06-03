@@ -5,11 +5,9 @@ import gp.cnusambe.dto.AnalysisRestrictionDto;
 import gp.cnusambe.dto.LicenseProtectorDto;
 import gp.cnusambe.dto.OssAnalysisDto;
 import gp.cnusambe.dto.VersionDto;
+import gp.cnusambe.exception.custom.ProjectNotFoundException;
 import gp.cnusambe.exception.custom.VersionNotFoundException;
-import gp.cnusambe.repository.AnalysisRestrictionMapRepository;
-import gp.cnusambe.repository.OssAnalysisMapRepository;
-import gp.cnusambe.repository.OssLicenseRepository;
-import gp.cnusambe.repository.VersionRepository;
+import gp.cnusambe.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -23,9 +21,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class VersionService {
-    private final OssLicenseService ossLicenseService;
     private final RestrictionService restrictionService;
     private final AnalysisRestrictionMapService analysisRestrictionMapService;
+    private final ProjectRepository projectRepository;
     private final VersionRepository versionRepository;
     private final OssAnalysisMapRepository ossAnalysisMapRepository;
     private final AnalysisRestrictionMapRepository analysisRestrictionMapRepository;
@@ -55,32 +53,11 @@ public class VersionService {
                 AnalysisRestrictionDto restrictionDto = new AnalysisRestrictionDto(analysisMap.getLicenseName(), restrictionList);
                 licenseProtectorDto.addAnalysisRestriction(restrictionDto);
             }
-
-
         }
 
         return licenseProtectorDto;
 
     }
-
-
-    /*public Version create(VersionDto versionDto, List<PartOfOssAnalysis> ossAnalysisRequests){
-        Version version = this.modelMapper.map(versionDto, Version.class);
-        Version newVersion = this.versionRepository.save(version);
-
-        for(PartOfOssAnalysis ossAnalysis : ossAnalysisRequests){
-            // Anaysis에 해당되는 license,restriction 찾기
-            OssLicense ossLicense = this.ossLicenseService.getOssLicense(ossAnalysis.getLicenseId());
-            List<Restriction> restrictionList = this.restrictionService.getRestrictionByOssLicense(ossLicense);
-
-            //OssAnalysisRequest -> AnalysisDto
-            OssAnalysisDto analysisDto = this.makeOssLicenseAnalysisDto(ossAnalysis, newVersion, ossLicense);
-
-            //Save AnalysisRestrictionMap
-            this.analysisRestrictionMapService.create(analysisDto,restrictionList);
-        }
-        return newVersion;
-    }*/
 
     public Version create(VersionDto versionDto, List<PartOfOssAnalysis> ossAnalysisRequests){
         Version version = this.modelMapper.map(versionDto, Version.class);
@@ -97,6 +74,10 @@ public class VersionService {
             //Save AnalysisRestrictionMap
             this.analysisRestrictionMapService.create(analysisDto,restrictionList);
         }
+
+        //Project Status -> "R"로 변경
+        this.updateProjectStatus(newVersion.getProject().getId());
+
         return newVersion;
     }
 
@@ -117,15 +98,14 @@ public class VersionService {
 
     }
 
-    /*private OssAnalysisDto makeOssLicenseAnalysisDto(PartOfOssAnalysis analysis, Version version, OssLicense license){
-        OssAnalysisDto analysisDto = modelMapper.map(analysis, OssAnalysisDto.class);
-        analysisDto.setVersion(version);
-        analysisDto.setLicenseName(license.getLicenseName());
-        analysisDto.setLicenseUrl(license.getLicenseUrl());
-        analysisDto.setLicenseTypeName(license.getOssLicenseType().getLicenseTypeName());
+    private void updateProjectStatus(Long projectId){
+        Project project = this.projectRepository.findProjectById(projectId).orElseThrow(ProjectNotFoundException::new);
 
-        return analysisDto;
-    }*/
+        if (project.getProjectStatus() != "R"){
+            project.setProjectStatus("R");
+            this.projectRepository.save(project);
+        }
+    }
 
     private OssAnalysisDto makeOssLicenseAnalysisDto(PartOfOssAnalysis analysis, Version version, Optional<OssLicense> license){
         OssAnalysisDto analysisDto = modelMapper.map(analysis, OssAnalysisDto.class);
