@@ -6,6 +6,7 @@ import gp.cnusambe.payload.request.RegistrationSWRequest;
 import gp.cnusambe.payload.response.ManufacturerResponse;
 import gp.cnusambe.payload.response.RegistrationSWListResponse;
 import gp.cnusambe.payload.response.RegistrationSWResponse;
+import gp.cnusambe.payload.response.SWNameResponse;
 import gp.cnusambe.service.RegistrationSWService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -63,6 +64,11 @@ public class RegistrationSWController {
 
     @GetMapping("/manufacturers")
     public ResponseEntity<List<ManufacturerResponse>> getManufacturers(){
-        return new ResponseEntity<>(registerSWService.getAllManufacturers(), HttpStatus.OK);
+        return new ResponseEntity<>(registerSWService.readAllManufacturers(), HttpStatus.OK);
+    }
+
+    @GetMapping("/sw-names")
+    public ResponseEntity<List<SWNameResponse>> getSwNames(){
+        return new ResponseEntity<>(registerSWService.readAllSwNames(), HttpStatus.OK);
     }
 }
