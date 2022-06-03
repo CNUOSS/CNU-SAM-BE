@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface LectureMapRepository extends JpaRepository<LectureMap, Long> {
     List<LectureMap> findAllByLectureSWId(Long lectureSWId);
-    Page<LectureMap> findByLectureSWIdIn(List<Long> lectureSWId, Pageable pageable);
-
+    Page<LectureMap> findAllByLectureSWIdIn(List<Long> lectureSWId, Pageable pageable);
+    List<LectureMap> findAllByLectureSWIdIn(List<Long> lectureSWId);
     @Transactional
     void deleteByLectureSWId(Long lectureSWId);
 }
