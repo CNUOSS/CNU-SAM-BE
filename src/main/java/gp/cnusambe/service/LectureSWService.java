@@ -54,13 +54,13 @@ public class LectureSWService {
                 ? lectureSWQueryRepository.findAllBy(department, year, lectureType, semester, lectureName, lectureNum, owner)
                 : lectureSWRepository.findAll();
         List<Long> listOfSWId = listOfSW.stream().map(LectureSW::getId).collect(Collectors.toList());
-        Page<LectureMap> pageOfMap = lectureMapRepository.findByLectureSWIdIn(listOfSWId, pageable);
+        Page<LectureMap> pageOfMap = lectureMapRepository.findAllByLectureSWIdIn(listOfSWId, pageable);
 
         PageInfoDto pageInfo = new PageInfoDto(pageOfMap.getTotalElements(), pageOfMap.isLast(), pageOfMap.getTotalPages(), pageOfMap.getSize());
         return new LectureSWListDto(pageInfo, makeListOfLectureSWListDto(pageOfMap.getContent()));
     }
 
-    private List<LectureSWList> makeListOfLectureSWListDto(List<LectureMap> pageOfMap){
+    private List<LectureSWList> makeListOfLectureSWListDto(List<LectureMap> pageOfMap) {
         List<LectureSWList> listOfLectureSWList = new ArrayList<>();
         for (LectureMap lectureMap : pageOfMap) {
             LectureSW lectureSW = lectureSWRepository.findById(lectureMap.getLectureSWId()).get();
@@ -70,12 +70,12 @@ public class LectureSWService {
         return listOfLectureSWList;
     }
 
-    public LectureSWDto readLectureSW(Long swId){
+    public LectureSWDto readLectureSW(Long swId) {
         LectureSW lectureSW = lectureSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
         return modelMapper.map(lectureSW, LectureSWDto.class);
     }
 
-    public List<SWInLectureSWDto> readSWInLectureSW(Long swId){
+    public List<SWInLectureSWDto> readSWInLectureSW(Long swId) {
         List<LectureMap> listOfMap = lectureMapRepository.findAllByLectureSWId(swId);
         List<LectureSWList> listOfLectureSW = makeListOfLectureSWListDto(listOfMap);
         return listOfLectureSW.stream()
@@ -89,6 +89,27 @@ public class LectureSWService {
             lectureMapRepository.deleteByLectureSWId(map.getLectureSWId());
         LectureSW sw = lectureSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
         lectureSWRepository.delete(sw);
+    }
+
+    public List<LectureSWForChartDto> readLAllLectureSWForChart(String year) {
+        List<LectureSW> a = lectureSWRepository.findAllByYear(year);
+        List<Long> listOfSWId = a.stream().map(LectureSW::getId).collect(Collectors.toList());
+        List<LectureMap> pageOfMap = lectureMapRepository.findAllByLectureSWIdIn(listOfSWId);
+
+        Map<Long, Integer> map = new HashMap<>();
+        for (LectureMap b : pageOfMap) {
+            Long registrationSWId = b.getRegistrationSWId();
+            if (map.containsKey(registrationSWId))
+                map.put(registrationSWId, map.get(registrationSWId) + 1);
+            else map.put(registrationSWId, 1);
+        }
+
+        List<LectureSWForChartDto> listOfLectureSWForChartDto = new ArrayList<>();
+        for (Long key : map.keySet()) {
+            Optional<RegistrationSW> optionOfRegistrationSW = registrationSWRepository.findByIdAndIsManaged(key, true);
+            optionOfRegistrationSW.ifPresent(sw -> listOfLectureSWForChartDto.add(new LectureSWForChartDto(sw, map.get(key))));
+        }
+        return listOfLectureSWForChartDto;
     }
 
     public List<LectureTypeResponse> readAllLectureTypes() {
