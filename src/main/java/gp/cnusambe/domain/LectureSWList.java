@@ -28,6 +28,7 @@ public class LectureSWList {
     private String swManufacturer;
     private String swName;
     private String license;
+    private Boolean isManaged;
 
     public LectureSWList(LectureSW lectureSW, RegistrationSW registrationSW, LectureMap lectureMap){
         this.id = lectureSW.getId();
@@ -44,6 +45,7 @@ public class LectureSWList {
         this.swManufacturer = registrationSW.getSwManufacturer();
         this.swName = registrationSW.getSwName();
         this.license = lectureMap.getLicense();
+        this.isManaged = registrationSW.getIsManaged();
     }
 }
 
