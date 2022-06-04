@@ -21,13 +21,13 @@ public class LectureSW {
     @Column(length = 10, nullable = false)
     private String ownerId;
 
-    @Column(length = 5, nullable = false)
+    @Column(length = 10, nullable = false)
     private String year;
 
-    @Column(length = 5, nullable = false)
+    @Column(length = 10, nullable = false)
     private String semester;
 
-    @Column(length = 5, nullable = false)
+    @Column(length = 10, nullable = false)
     private String lectureNum;
 
     @Column(length = 20, nullable = false)
