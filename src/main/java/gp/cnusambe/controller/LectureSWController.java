@@ -19,16 +19,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 public class LectureSWController {
-    private final ModelMapper modelMapper;
+    private final ModelMapper strictMapper;
     private final LectureSWService lectureSwService;
 
     @PostMapping("/lectures")
     public ResponseEntity<LectureSWResponse> getLectureSW(@RequestBody LectureSWRequest request) {
-        LectureSWDto lectureSwDto = modelMapper.map(request, LectureSWDto.class);
+        LectureSWDto lectureSwDto = strictMapper.map(request, LectureSWDto.class);
         lectureSwDto = lectureSwService.createLectureSW(lectureSwDto);
 
         List<SWInLectureSWDto> swInLectureSWDtos = request.getSw()
-                .stream().map(element -> modelMapper.map(element, SWInLectureSWDto.class))
+                .stream().map(element -> strictMapper.map(element, SWInLectureSWDto.class))
                 .collect(Collectors.toList());
         swInLectureSWDtos = lectureSwService.createAllLectureMap(lectureSwDto, swInLectureSWDtos);
 
@@ -56,7 +56,7 @@ public class LectureSWController {
         String owner_ = Optional.ofNullable(owner).orElse("");
 
         LectureSWListDto lectureSWListDto = lectureSwService.readAllLectureSW(department_, year_, lectureType_, semester_, lectureName_, lectureNum_, owner_, pageable);
-        LectureSWListResponse response = modelMapper.map(lectureSWListDto, LectureSWListResponse.class);
+        LectureSWListResponse response = strictMapper.map(lectureSWListDto, LectureSWListResponse.class);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

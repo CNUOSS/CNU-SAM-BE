@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 public class RegistrationSWController {
-    private final ModelMapper modelMapper;
+    private final ModelMapper strictMapper;
     private final RegistrationSWService registerSWService;
 
     @PostMapping("/registrations")
     public ResponseEntity<RegistrationSWResponse> postRegistrationSW(@RequestBody RegistrationSWRequest request){
-        RegistrationSWDto swDto = modelMapper.map(request, RegistrationSWDto.class);
+        RegistrationSWDto swDto = strictMapper.map(request, RegistrationSWDto.class);
         RegistrationSWResponse response = new RegistrationSWResponse(registerSWService.createRegistrationSW(swDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -51,7 +51,7 @@ public class RegistrationSWController {
 
     @PutMapping("/registrations/{rsw_id}")
     public ResponseEntity<RegistrationSWResponse> putRegistrationSW(@PathVariable("rsw_id") Long swId, @RequestBody RegistrationSWRequest request){
-        RegistrationSWDto swDto = modelMapper.map(request, RegistrationSWDto.class);
+        RegistrationSWDto swDto = strictMapper.map(request, RegistrationSWDto.class);
         RegistrationSWResponse response = new RegistrationSWResponse(registerSWService.updateRegistrationSW(swId, swDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

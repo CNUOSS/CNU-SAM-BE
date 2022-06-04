@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 public class SubscriptionSWController {
-    private final ModelMapper modelMapper;
+    private final ModelMapper strictMapper;
     private final SubscriptionSWService subscriptionSWService;
 
     @PostMapping("/subscriptions")
     public ResponseEntity<SubscriptionSWResponse> postSubscriptionSW(@RequestBody SubscriptionSWRequest request){
-        SubscriptionSWDto swDto = modelMapper.map(request, SubscriptionSWDto.class);
+        SubscriptionSWDto swDto = strictMapper.map(request, SubscriptionSWDto.class);
         SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.createSubscriptionSW(swDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

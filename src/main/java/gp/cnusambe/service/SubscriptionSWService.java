@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SubscriptionSWService {
-    private final ModelMapper modelMapper;
+    private final ModelMapper strictMapper;
     private final SubscriptionSWRepository subscriptionSWRepository;
     private final SubscriptionSWQueryRepository subscriptionSWQueryRepository;
 
     public SubscriptionSWDto createSubscriptionSW(SubscriptionSWDto swDto) {
         SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(swDto));
-        return modelMapper.map(sw, SubscriptionSWDto.class);
+        return strictMapper.map(sw, SubscriptionSWDto.class);
     }
 
     public Page<SubscriptionSWDto> readAllSubscriptionSW(String swType, String swManufacturer, String swName, Pageable pageable) {
@@ -28,7 +28,7 @@ public class SubscriptionSWService {
         Page<SubscriptionSW> pageOfSW = search
                 ? subscriptionSWQueryRepository.findAllBy(swType, swManufacturer, swName, pageable)
                 : subscriptionSWRepository.findAll(pageable);
-        return pageOfSW.map(sw -> modelMapper.map(sw, SubscriptionSWDto.class));
+        return pageOfSW.map(sw -> strictMapper.map(sw, SubscriptionSWDto.class));
     }
 
     public void deleteSubscriptionSW(Long swId) {

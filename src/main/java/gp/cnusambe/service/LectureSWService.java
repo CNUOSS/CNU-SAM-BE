@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class LectureSWService {
-    private final ModelMapper modelMapper;
+    private final ModelMapper strictMapper;
     private final LectureTypeRepository lectureTypeRepository;
     private final DepartmentRepository departmentRepository;
     private final LectureSWRepository lectureSWRepository;
@@ -27,11 +27,11 @@ public class LectureSWService {
 
     public LectureSWDto createLectureSW(LectureSWDto swDto) {
         LectureSW sw = lectureSWRepository.save(new LectureSW(swDto));
-        return modelMapper.map(sw, LectureSWDto.class);
+        return strictMapper.map(sw, LectureSWDto.class);
     }
 
     public List<SWInLectureSWDto> createAllLectureMap(LectureSWDto lectureSw, List<SWInLectureSWDto> swMapDto) {
-        List<SWInLectureSW> listOfSW = swMapDto.stream().map(element -> modelMapper.map(element, SWInLectureSW.class)).collect(Collectors.toList());
+        List<SWInLectureSW> listOfSW = swMapDto.stream().map(element -> strictMapper.map(element, SWInLectureSW.class)).collect(Collectors.toList());
         List<SWInLectureSWDto> listOfSWInLectureSWDto = new ArrayList<>();
 
         for (SWInLectureSW sw : listOfSW) {
@@ -72,14 +72,14 @@ public class LectureSWService {
 
     public LectureSWDto readLectureSW(Long swId) {
         LectureSW lectureSW = lectureSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
-        return modelMapper.map(lectureSW, LectureSWDto.class);
+        return strictMapper.map(lectureSW, LectureSWDto.class);
     }
 
     public List<SWInLectureSWDto> readSWInLectureSW(Long swId) {
         List<LectureMap> listOfMap = lectureMapRepository.findAllByLectureSWId(swId);
         List<LectureSWList> listOfLectureSW = makeListOfLectureSWListDto(listOfMap);
         return listOfLectureSW.stream()
-                .map(element -> modelMapper.map(element, SWInLectureSWDto.class))
+                .map(element -> strictMapper.map(element, SWInLectureSWDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -115,14 +115,14 @@ public class LectureSWService {
     public List<LectureTypeResponse> readAllLectureTypes() {
         return lectureTypeRepository.findAll()
                 .stream()
-                .map(element -> modelMapper.map(element, LectureTypeResponse.class))
+                .map(element -> strictMapper.map(element, LectureTypeResponse.class))
                 .collect(Collectors.toList());
     }
 
     public List<DepartmentResponse> readAllDepartments() {
         return departmentRepository.findAll()
                 .stream()
-                .map(element -> modelMapper.map(element, DepartmentResponse.class))
+                .map(element -> strictMapper.map(element, DepartmentResponse.class))
                 .collect(Collectors.toList());
     }
 }

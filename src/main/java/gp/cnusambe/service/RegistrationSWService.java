@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RegistrationSWService {
-    private final ModelMapper modelMapper;
+    private final ModelMapper strictMapper;
     private final ManufacturerRepository manufacturerRepository;
     private final RegistrationSWRepository registrationSWRepository;
     private final RegistrationSWQueryRepository registrationSWQueryRepository;
 
     public RegistrationSWDto createRegistrationSW(RegistrationSWDto swDto){
         RegistrationSW sw = registrationSWRepository.save(new RegistrationSW(swDto));
-        return modelMapper.map(sw, RegistrationSWDto.class);
+        return strictMapper.map(sw, RegistrationSWDto.class);
     }
 
     public Page<RegistrationSWDto> readAllRegistrationSW(String swManufacturer, String swName, Pageable pageable) {
@@ -34,14 +34,14 @@ public class RegistrationSWService {
         Page<RegistrationSW> pageOfSW = search
                 ? registrationSWQueryRepository.findAllBy(swManufacturer, swName, pageable)
                 : registrationSWRepository.findAllByIsManaged(true, pageable);
-        return pageOfSW.map(sw -> modelMapper.map(sw, RegistrationSWDto.class));
+        return pageOfSW.map(sw -> strictMapper.map(sw, RegistrationSWDto.class));
     }
 
     public RegistrationSWDto updateRegistrationSW(Long swId, RegistrationSWDto swDto){
         RegistrationSW sw = registrationSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
         sw.updateRegistrationSW(swDto);
         sw = registrationSWRepository.save(sw);
-        return modelMapper.map(sw, RegistrationSWDto.class);
+        return strictMapper.map(sw, RegistrationSWDto.class);
     }
 
     public void deleteRegistrationSW(Long swId){
@@ -52,7 +52,7 @@ public class RegistrationSWService {
     public List<ManufacturerResponse> readAllManufacturers() {
         return manufacturerRepository.findAll()
                 .stream()
-                .map(element -> modelMapper.map(element, ManufacturerResponse.class))
+                .map(element -> strictMapper.map(element, ManufacturerResponse.class))
                 .collect(Collectors.toList());
     }
 
