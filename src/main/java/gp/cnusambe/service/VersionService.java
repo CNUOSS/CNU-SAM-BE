@@ -76,14 +76,15 @@ public class VersionService {
         }
 
         //Project Status -> "R"로 변경
-        this.updateProjectStatus(newVersion.getProject().getId());
+        Project project = this.projectRepository.findProjectById(version.getProject().getId()).orElseThrow(ProjectNotFoundException::new);
+        this.updateProjectStatus(project, "R");
 
         return newVersion;
     }
 
 
     public void deleteVersion(Long id){
-        Optional<Version> version = this.versionRepository.findById(id);
+        Version version = this.versionRepository.findById(id).orElseThrow(VersionNotFoundException::new);
         List<OssAnalysisMap> analysisMapList = this.ossAnalysisMapRepository.findAllByVersion_Id(id);
 
         for(OssAnalysisMap ossAnalysisMap :  analysisMapList){
@@ -94,17 +95,20 @@ public class VersionService {
             this.ossAnalysisMapRepository.delete(ossAnalysisMap);
         }
 
-        this.versionRepository.delete(version.get());
+        this.versionRepository.delete(version);
+
+        //project에 version이 있는 지 확인
+        Project project = this.projectRepository.findProjectById(version.getProject().getId()).orElseThrow(ProjectNotFoundException::new);
+        if(this.projectIsEmpty(project)) {
+            this.updateProjectStatus(project, "C");
+        }
+
 
     }
 
-    private void updateProjectStatus(Long projectId){
-        Project project = this.projectRepository.findProjectById(projectId).orElseThrow(ProjectNotFoundException::new);
-
-        if (project.getProjectStatus() != "R"){
-            project.setProjectStatus("R");
-            this.projectRepository.save(project);
-        }
+    private void updateProjectStatus(Project project, String projectStatus){
+        project.setProjectStatus(projectStatus);
+        this.projectRepository.save(project);
     }
 
     private OssAnalysisDto makeOssLicenseAnalysisDto(PartOfOssAnalysis analysis, Version version, Optional<OssLicense> license){
@@ -119,5 +123,12 @@ public class VersionService {
 
         return analysisDto;
     }
+
+    private boolean projectIsEmpty(Project project){
+        List<Version> versionList = this.versionRepository.findAllByProject(project);
+        if (versionList.isEmpty())
+            return true;
+        return false;
+        }
 
 }
