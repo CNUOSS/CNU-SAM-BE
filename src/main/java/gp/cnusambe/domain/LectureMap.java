@@ -21,12 +21,16 @@ public class LectureMap {
     @Column(nullable = false)
     private Long registrationSWId;
 
-    @Column
+    @Column(nullable = false)
+    private String license;
+
+    @Column(nullable = false)
     private Date latestUpdateDate;
 
-    public LectureMap(Long lectureSWId, Long registrationSWId, Date latestUpdateDate) {
+    public LectureMap(Long lectureSWId, Long registrationSWId, String license, Date latestUpdateDate) {
         this.lectureSWId = lectureSWId;
         this.registrationSWId = registrationSWId;
+        this.license = license;
         this.latestUpdateDate = latestUpdateDate;
     }
 }
