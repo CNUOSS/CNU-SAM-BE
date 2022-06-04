@@ -37,14 +37,14 @@ public class LectureSWService {
         for (SWInLectureSW sw : listOfSW) {
             RegistrationSW registrationSW = registrationSWRepository.findBySwManufacturerAndSwNameAndIsManaged(sw.getSwManufacturer(), sw.getSwName(), true)
                     .orElse(registrationSWRepository.save(new RegistrationSW(sw.getSwManufacturer(), sw.getSwName())));
-            createLectureMap(lectureSw.getId(), registrationSW.getId(), lectureSw.getLatestUpdateDate());
-            listOfSWInLectureSWDto.add(new SWInLectureSWDto(registrationSW.getId(), registrationSW.getSwManufacturer(), registrationSW.getSwName()));
+            LectureMap lectureMap = createLectureMap(lectureSw.getId(), registrationSW.getId(), sw.getLicense(), lectureSw.getLatestUpdateDate());
+            listOfSWInLectureSWDto.add(new SWInLectureSWDto(lectureMap.getRegistrationSWId(), registrationSW.getSwManufacturer(), registrationSW.getSwName(), lectureMap.getLicense()));
         }
         return listOfSWInLectureSWDto;
     }
 
-    private LectureMap createLectureMap(Long lectureSWId, Long registrationSWId, Date latestUpdateDate) {
-        return lectureMapRepository.save(new LectureMap(lectureSWId, registrationSWId, latestUpdateDate));
+    private LectureMap createLectureMap(Long lectureSWId, Long registrationSWId, String license, Date latestUpdateDate) {
+        return lectureMapRepository.save(new LectureMap(lectureSWId, registrationSWId, license, latestUpdateDate));
     }
 
     public LectureSWListDto readAllLectureSW(String department, String year, String lectureType, String semester, String lectureName, String lectureNum, String owner, Pageable pageable) {
@@ -65,7 +65,7 @@ public class LectureSWService {
         for (LectureMap lectureMap : pageOfMap) {
             LectureSW lectureSW = lectureSWRepository.findById(lectureMap.getLectureSWId()).get();
             RegistrationSW registrationSW = registrationSWRepository.findById(lectureMap.getRegistrationSWId()).get();
-            listOfLectureSWList.add(new LectureSWList(lectureSW, registrationSW));
+            listOfLectureSWList.add(new LectureSWList(lectureSW, registrationSW, lectureMap));
         }
         return listOfLectureSWList;
     }

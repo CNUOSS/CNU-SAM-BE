@@ -16,4 +16,5 @@ public class SWInLectureSW {
     private Long id;
     private String swManufacturer;
     private String swName;
+    private String license;
 }

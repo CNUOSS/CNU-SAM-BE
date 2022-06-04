@@ -13,7 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SWInLectureSWDto {
-    private Long registrationSWId;
+    private Long registrationSwId;
     private String swManufacturer;
     private String swName;
+    private String license;
 }

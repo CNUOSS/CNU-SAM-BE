@@ -24,9 +24,12 @@ public class LectureSWList {
     private String department;
     private Date createDate;
     private Date latestUpdateDate;
-    private RegistrationSW registrationSW;
+    private Long registrationSWId;
+    private String swManufacturer;
+    private String swName;
+    private String license;
 
-    public LectureSWList(LectureSW lectureSW, RegistrationSW registrationSW){
+    public LectureSWList(LectureSW lectureSW, RegistrationSW registrationSW, LectureMap lectureMap){
         this.id = lectureSW.getId();
         this.ownerId = lectureSW.getOwnerId();
         this.year = lectureSW.getYear();
@@ -37,7 +40,10 @@ public class LectureSWList {
         this.department = lectureSW.getDepartment();
         this.createDate = lectureSW.getCreateDate();
         this.latestUpdateDate = lectureSW.getLatestUpdateDate();
-        this.registrationSW = registrationSW;
+        this.registrationSWId = registrationSW.getId();
+        this.swManufacturer = registrationSW.getSwManufacturer();
+        this.swName = registrationSW.getSwName();
+        this.license = lectureMap.getLicense();
     }
 }
 
