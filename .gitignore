@@ -39,3 +39,6 @@ out/
 /src/main/java/gp/cnusambe/controller/ProfileController.java
 /src/main/java/gp/cnusambe/config/ProfileLocal.java
 /src/main/java/gp/cnusambe/config/ProfileConfig.java
+
+### volume ###
+mysqldata/*
