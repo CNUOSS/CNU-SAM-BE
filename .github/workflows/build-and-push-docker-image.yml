@@ -27,5 +27,7 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v3
         with:
+          context: .
+          file: ./Dockerfile
           push: true
           tags: fortune00/cnusam:latest
