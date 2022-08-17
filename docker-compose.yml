@@ -1,10 +1,10 @@
 version : "3"
 services:
   db:
-    container_name: cnuoss-db
+    container_name: cnusam-db
     image: mysql
     environment:
-      MYSQL_DATABASE: cnuoss
+      MYSQL_DATABASE: cnusam
       MYSQL_USER: user
       MYSQL_PASSWORD: user
       MYSQL_ROOT_PASSWORD: root
@@ -14,7 +14,7 @@ services:
       - ./mysqldata:/var/lib/mysql
     restart: always
   cache:
-    container_name: cnuoss-cache
+    container_name: cnusam-cache
     image: redis:alpine
     ports:
       - "6379:6379"
@@ -23,7 +23,7 @@ services:
     build:
       context: "."
       dockerfile: "Dockerfile"
-    container_name: cnuoss-app
+    container_name: cnusam-app
     ports:
       - "8080:8080"
     working_dir: /app
@@ -34,5 +34,5 @@ services:
     environment:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: user
-      SPRING_DATASOURCE_URL: jdbc:mysql://cnuoss-db:3306/cnuoss?serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://cnusam-db:3306/cnusam?serverTimezone=UTC
       SPRING_DATASOURCE_DRIVERCLASSNAME: com.mysql.cj.jdbc.Driver
