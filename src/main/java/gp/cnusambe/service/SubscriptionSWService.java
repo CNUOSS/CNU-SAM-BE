@@ -35,4 +35,13 @@ public class SubscriptionSWService {
         SubscriptionSW sw = subscriptionSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
         subscriptionSWRepository.delete(sw);
     }
+
+    public SubscriptionSWDto readSubscriptionSW(Long swId){
+        SubscriptionSW sw =  subscriptionSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
+        return strictMapper.map(sw, SubscriptionSWDto.class);
+    }
+
+    public boolean existDuplicateSubscriptionSW(String swManufacturer, String swName, String license){
+        return subscriptionSWRepository.existsBySwManufacturerAndSwNameAndLicense(swManufacturer, swName, license);
+    }
 }
