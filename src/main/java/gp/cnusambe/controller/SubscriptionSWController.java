@@ -2,6 +2,7 @@ package gp.cnusambe.controller;
 
 import gp.cnusambe.dto.PageInfoDto;
 import gp.cnusambe.dto.SubscriptionSWDto;
+import gp.cnusambe.exception.custom.SWDuplicatedException;
 import gp.cnusambe.payload.request.SubscriptionSWRequest;
 import gp.cnusambe.payload.response.SubscriptionSWListResponse;
 import gp.cnusambe.payload.response.SubscriptionSWResponse;
@@ -27,6 +28,8 @@ public class SubscriptionSWController {
     @PostMapping("/subscriptions")
     public ResponseEntity<SubscriptionSWResponse> postSubscriptionSW(@RequestBody SubscriptionSWRequest request){
         SubscriptionSWDto swDto = strictMapper.map(request, SubscriptionSWDto.class);
+        if (subscriptionSWService.existDuplicateSubscriptionSW(swDto.getSwManufacturer(), swDto.getSwName(), swDto.getLicense()))
+            throw new SWDuplicatedException();
         SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.createSubscriptionSW(swDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
