@@ -55,6 +55,8 @@ public class SubscriptionSWController {
     @PutMapping("/subscriptions")
     public ResponseEntity<SubscriptionSWResponse> updateSubscriptionSW(@RequestBody SubscriptionSWUpdateRequest request) {
         SubscriptionSWDto newSWDto = strictMapper.map(request, SubscriptionSWDto.class);
+        if (subscriptionSWService.hasDuplicateSubscriptionSW(newSWDto.getSwManufacturer(), newSWDto.getSwName(), newSWDto.getLicense()))
+            throw new SWDuplicatedException();
         SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.updateSubscriptionSW(newSWDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
