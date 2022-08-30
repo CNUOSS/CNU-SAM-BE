@@ -41,7 +41,7 @@ public class SubscriptionSWService {
         return strictMapper.map(sw, SubscriptionSWDto.class);
     }
 
-    public boolean existDuplicateSubscriptionSW(String swManufacturer, String swName, String license){
+    public boolean hasDuplicateSubscriptionSW(String swManufacturer, String swName, String license){
         return subscriptionSWRepository.existsBySwManufacturerAndSwNameAndLicense(swManufacturer, swName, license);
     }
 }

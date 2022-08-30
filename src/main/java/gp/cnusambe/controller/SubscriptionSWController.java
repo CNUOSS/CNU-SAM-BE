@@ -28,7 +28,7 @@ public class SubscriptionSWController {
     @PostMapping("/subscriptions")
     public ResponseEntity<SubscriptionSWResponse> postSubscriptionSW(@RequestBody SubscriptionSWRequest request){
         SubscriptionSWDto swDto = strictMapper.map(request, SubscriptionSWDto.class);
-        if (subscriptionSWService.existDuplicateSubscriptionSW(swDto.getSwManufacturer(), swDto.getSwName(), swDto.getLicense()))
+        if (subscriptionSWService.hasDuplicateSubscriptionSW(swDto.getSwManufacturer(), swDto.getSwName(), swDto.getLicense()))
             throw new SWDuplicatedException();
         SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.createSubscriptionSW(swDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
