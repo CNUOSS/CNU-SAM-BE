@@ -5,6 +5,7 @@ import gp.cnusambe.dto.SubscriptionSWDto;
 import org.springframework.data.domain.*;
 
 import java.util.Date;
+import java.util.List;
 
 public class SubscriptionSWFixture {
     public static final Long SW_ID = 1L;
@@ -28,9 +29,30 @@ public class SubscriptionSWFixture {
         return new SubscriptionSWDto(SW_ID, LATEST_UPDATER_ID, SW_TYPE, SW_MANUFACTURER,
                 SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
     }
-    
+
     public static SubscriptionSW responseSsw() {
         return new SubscriptionSW(SW_ID, LATEST_UPDATER_ID, SW_TYPE, SW_MANUFACTURER,
                 SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
+    }
+
+    private static SubscriptionSW responseSsw_ForTest2() {
+        return new SubscriptionSW(2L, LATEST_UPDATER_ID, "", SW_MANUFACTURER,
+                SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
+    }
+
+    private static SubscriptionSW responseSsw_ForTest3() {
+        return new SubscriptionSW(3L, LATEST_UPDATER_ID, "", SW_MANUFACTURER,
+                SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
+    }
+
+    public static Pageable pageable(){
+        return PageRequest.of(PAGEABLE_PAGE, PAGEABLE_SIZE, PAGEABLE_SORT);
+    }
+
+    public static Page<SubscriptionSW> pageOfSW_ForSearch(){
+        return new PageImpl<>(List.of(responseSsw()), pageable(), 1);
+    }
+    public static Page<SubscriptionSW> pageOfSW(){
+        return new PageImpl<>(List.of(responseSsw(), responseSsw_ForTest2(), responseSsw_ForTest3()), pageable(), 1);
     }
 }
