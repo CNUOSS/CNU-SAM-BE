@@ -32,7 +32,21 @@ public class SubscriptionSWService {
     }
 
     public void deleteSubscriptionSW(Long swId) {
-        SubscriptionSW sw = subscriptionSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
+        SubscriptionSW sw = findSubscriptionSW(swId);
         subscriptionSWRepository.delete(sw);
+    }
+
+    public boolean hasDuplicateSubscriptionSW(String swManufacturer, String swName, String license){
+        return subscriptionSWRepository.existsBySwManufacturerAndSwNameAndLicense(swManufacturer, swName, license);
+    }
+
+    public SubscriptionSWDto updateSubscriptionSW(SubscriptionSWDto newSWDto){
+        findSubscriptionSW(newSWDto.getId());
+        SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(newSWDto));
+        return strictMapper.map(sw, SubscriptionSWDto.class);
+    }
+
+    private SubscriptionSW findSubscriptionSW(Long swId){
+        return subscriptionSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
     }
 }
