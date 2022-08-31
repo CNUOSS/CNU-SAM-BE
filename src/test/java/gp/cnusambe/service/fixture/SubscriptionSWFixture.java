@@ -10,7 +10,9 @@ import java.util.List;
 public class SubscriptionSWFixture {
     public static final Long SW_ID = 1L;
     public static final String LATEST_UPDATER_ID = "201902699";
+    public static final String NEW_LATEST_UPDATER_ID = "996209102";
     public static final String SW_TYPE = "A";
+    public static final String NEW_SW_TYPE = "Z";
     public static final String SW_MANUFACTURER = "B";
     public static final String SW_NAME = "C";
     public static final String USAGE_RANGE = "D";
@@ -25,13 +27,28 @@ public class SubscriptionSWFixture {
                 SW_NAME, USAGE_RANGE, LICENSE, null, DATE, DATE);
     }
 
+    public static SubscriptionSWDto requestSswDto_ForUpdate() {
+        return new SubscriptionSWDto(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_TYPE, SW_MANUFACTURER,
+                SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
+    }
+
     public static SubscriptionSWDto responseSswDto() {
         return new SubscriptionSWDto(SW_ID, LATEST_UPDATER_ID, SW_TYPE, SW_MANUFACTURER,
                 SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
     }
 
+    public static SubscriptionSWDto responseSswDto_ForUpdate() {
+        return new SubscriptionSWDto(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_TYPE, SW_MANUFACTURER,
+                SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
+    }
+
     public static SubscriptionSW responseSsw() {
         return new SubscriptionSW(SW_ID, LATEST_UPDATER_ID, SW_TYPE, SW_MANUFACTURER,
+                SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
+    }
+
+    public static SubscriptionSW responseSsw_ForUpdate() {
+        return new SubscriptionSW(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_TYPE, SW_MANUFACTURER,
                 SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
     }
 

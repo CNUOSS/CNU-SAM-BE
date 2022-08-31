@@ -24,7 +24,7 @@ public class SubscriptionSWService {
     }
 
     public Page<SubscriptionSWDto> readAllSubscriptionSW(String swType, String swManufacturer, String swName, Pageable pageable) {
-        boolean search = swType.length()==0 && swManufacturer.length()==0 & swName.length()==0 ? false : true;
+        boolean search = swType.length() == 0 && swManufacturer.length() == 0 & swName.length() == 0 ? false : true;
         Page<SubscriptionSW> pageOfSW = search
                 ? subscriptionSWQueryRepository.findAllBy(swType, swManufacturer, swName, pageable)
                 : subscriptionSWRepository.findAll(pageable);
@@ -36,17 +36,17 @@ public class SubscriptionSWService {
         subscriptionSWRepository.delete(sw);
     }
 
-    public boolean hasDuplicateSubscriptionSW(String swManufacturer, String swName, String license){
+    public boolean hasDuplicateSubscriptionSW(String swManufacturer, String swName, String license) {
         return subscriptionSWRepository.existsBySwManufacturerAndSwNameAndLicense(swManufacturer, swName, license);
     }
 
-    public SubscriptionSWDto updateSubscriptionSW(SubscriptionSWDto newSWDto){
+    public SubscriptionSWDto updateSubscriptionSW(SubscriptionSWDto newSWDto) {
         findSubscriptionSW(newSWDto.getId());
         SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(newSWDto));
         return strictMapper.map(sw, SubscriptionSWDto.class);
     }
 
-    private SubscriptionSW findSubscriptionSW(Long swId){
+    private SubscriptionSW findSubscriptionSW(Long swId) {
         return subscriptionSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
     }
 }
