@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 import static gp.cnusambe.service.fixture.SubscriptionSWFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -70,4 +72,24 @@ public class SubscriptionServiceTest {
                 "해당 SW를 찾을 수 없습니다.");
     }
 
+    @Test
+    void updateSubscriptionSW() {
+        given(subscriptionSWRepository.findById(any())).willReturn(Optional.of(responseSsw()));
+        given(subscriptionSWRepository.save(any(SubscriptionSW.class))).willReturn(responseSsw_ForUpdate());
+        given(strictMapper.map(any(SubscriptionSW.class), eq(SubscriptionSWDto.class))).willReturn(responseSswDto_ForUpdate());
+
+        SubscriptionSWDto rtnSWDto = subscriptionSWService.updateSubscriptionSW(requestSswDto_ForUpdate());
+        assertThat(rtnSWDto.getId()).isEqualTo(SW_ID);
+        assertThat(rtnSWDto.getLatestUpdaterId()).isEqualTo(NEW_LATEST_UPDATER_ID);
+        assertThat(rtnSWDto.getSwType()).isEqualTo(NEW_SW_TYPE);
+    }
+
+    @Test
+    void updateSubscriptionSW_Exception() {
+        given(subscriptionSWRepository.findById(any())).willThrow(SWNotFoundException.class);
+
+        assertThrows(SWNotFoundException.class,
+                () -> subscriptionSWService.updateSubscriptionSW(requestSswDto()),
+                "해당 SW를 찾을 수 없습니다.");
+    }
 }
