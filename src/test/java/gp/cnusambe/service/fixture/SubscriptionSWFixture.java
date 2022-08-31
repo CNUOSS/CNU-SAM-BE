@@ -45,14 +45,15 @@ public class SubscriptionSWFixture {
                 SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
     }
 
-    public static Pageable pageable(){
+    public static Pageable pageable() {
         return PageRequest.of(PAGEABLE_PAGE, PAGEABLE_SIZE, PAGEABLE_SORT);
     }
 
-    public static Page<SubscriptionSW> pageOfSW_ForSearch(){
+    public static Page<SubscriptionSW> pageOfSW_ForSearch() {
         return new PageImpl<>(List.of(responseSsw()), pageable(), 1);
     }
-    public static Page<SubscriptionSW> pageOfSW(){
+
+    public static Page<SubscriptionSW> pageOfSW() {
         return new PageImpl<>(List.of(responseSsw(), responseSsw_ForTest2(), responseSsw_ForTest3()), pageable(), 1);
     }
 }
