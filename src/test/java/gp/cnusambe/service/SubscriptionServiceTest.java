@@ -2,6 +2,7 @@ package gp.cnusambe.service;
 
 import gp.cnusambe.domain.SubscriptionSW;
 import gp.cnusambe.dto.SubscriptionSWDto;
+import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.repository.SubscriptionSWQueryRepository;
 import gp.cnusambe.repository.SubscriptionSWRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,8 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
 import static gp.cnusambe.service.fixture.SubscriptionSWFixture.*;
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -58,6 +59,15 @@ public class SubscriptionServiceTest {
         Page<SubscriptionSWDto> rtnPageOfDto =  subscriptionSWService.readAllSubscriptionSW(SW_TYPE, "", "", pageable());
         assertThat(rtnPageOfDto.getContent().size()).isEqualTo(1);
         assertThat(rtnPageOfDto.getContent().get(0).getSwType()).isEqualTo(SW_TYPE);
+    }
+
+    @Test
+    void deleteSubscriptionSW_Exception() {
+        given(subscriptionSWRepository.findById(SW_ID)).willThrow(SWNotFoundException.class);
+
+        assertThrows(SWNotFoundException.class,
+                () -> subscriptionSWService.deleteSubscriptionSW(SW_ID),
+                "해당 SW를 찾을 수 없습니다.");
     }
 
 }
