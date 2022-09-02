@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SimpleSubscriptionSWListResponse {
-    private List<SimpleSubscriptionSWDto> simpleSubscriptionSWDtoList;
+    private List<SimpleSubscriptionSWDto> sw;
 }
