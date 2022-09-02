@@ -1,6 +1,6 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.User;
+import gp.cnusambe.repository.domain.User;
 import gp.cnusambe.exception.custom.UserNotFoundException;
 import gp.cnusambe.repository.UserRepository;
 import gp.cnusambe.security.UserDetailsImpl;

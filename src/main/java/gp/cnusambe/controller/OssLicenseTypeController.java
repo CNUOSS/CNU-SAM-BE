@@ -1,6 +1,6 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.OssLicenseType;
+import gp.cnusambe.repository.domain.OssLicenseType;
 import gp.cnusambe.service.OssLicenseTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

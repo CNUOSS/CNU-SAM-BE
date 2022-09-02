@@ -1,11 +1,13 @@
 package gp.cnusambe.controller;
 
 import gp.cnusambe.domain.*;
-import gp.cnusambe.dto.LicenseProtectorDto;
-import gp.cnusambe.dto.OssAnalysisDto;
-import gp.cnusambe.dto.VersionDto;
-import gp.cnusambe.payload.request.VersionPostRequest;
-import gp.cnusambe.payload.response.LicenseProtectorResponse;
+import gp.cnusambe.repository.domain.PartOfOssAnalysis;
+import gp.cnusambe.repository.domain.Project;
+import gp.cnusambe.repository.domain.Version;
+import gp.cnusambe.service.dto.LicenseProtectorDto;
+import gp.cnusambe.service.dto.VersionDto;
+import gp.cnusambe.controller.payload.request.VersionPostRequest;
+import gp.cnusambe.controller.payload.response.LicenseProtectorResponse;
 import gp.cnusambe.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,11 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Part;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController

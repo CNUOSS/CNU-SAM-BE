@@ -1,10 +1,10 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.RegistrationSW;
-import gp.cnusambe.dto.RegistrationSWDto;
+import gp.cnusambe.repository.domain.RegistrationSW;
+import gp.cnusambe.service.dto.RegistrationSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
-import gp.cnusambe.payload.response.ManufacturerResponse;
-import gp.cnusambe.payload.response.SWNameResponse;
+import gp.cnusambe.controller.payload.response.ManufacturerResponse;
+import gp.cnusambe.controller.payload.response.SWNameResponse;
 import gp.cnusambe.repository.ManufacturerRepository;
 import gp.cnusambe.repository.RegistrationSWQueryRepository;
 import gp.cnusambe.repository.RegistrationSWRepository;

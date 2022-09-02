@@ -1,13 +1,12 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.Project;
-import gp.cnusambe.dto.PageInfoDto;
-import gp.cnusambe.dto.ProjectDto;
-import gp.cnusambe.payload.request.ProjectPostRequest;
-import gp.cnusambe.payload.response.ProjectDetailResponse;
-import gp.cnusambe.dto.ProjectListDto;
-import gp.cnusambe.payload.response.ProjectListResponse;
-import gp.cnusambe.payload.response.ProjectPostResponse;
+import gp.cnusambe.service.dto.PageInfoDto;
+import gp.cnusambe.service.dto.ProjectDto;
+import gp.cnusambe.controller.payload.request.ProjectPostRequest;
+import gp.cnusambe.controller.payload.response.ProjectDetailResponse;
+import gp.cnusambe.service.dto.ProjectListDto;
+import gp.cnusambe.controller.payload.response.ProjectListResponse;
+import gp.cnusambe.controller.payload.response.ProjectPostResponse;
 import gp.cnusambe.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor

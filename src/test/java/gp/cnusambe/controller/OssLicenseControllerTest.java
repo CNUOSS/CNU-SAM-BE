@@ -1,9 +1,9 @@
 package gp.cnusambe.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gp.cnusambe.domain.OssLicenseType;
-import gp.cnusambe.domain.Restriction;
-import gp.cnusambe.dto.OssLicenseDto;
+import gp.cnusambe.repository.domain.OssLicenseType;
+import gp.cnusambe.repository.domain.Restriction;
+import gp.cnusambe.service.dto.OssLicenseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

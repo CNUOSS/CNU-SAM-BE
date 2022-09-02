@@ -1,15 +1,14 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.domain.*;
-import gp.cnusambe.dto.ProjectDto;
-import gp.cnusambe.payload.request.ProjectPostRequest;
-import gp.cnusambe.dto.ProjectListDto;
-import gp.cnusambe.payload.response.ProjectPostResponse;
+import gp.cnusambe.repository.domain.*;
+import gp.cnusambe.service.dto.ProjectDto;
+import gp.cnusambe.controller.payload.request.ProjectPostRequest;
+import gp.cnusambe.service.dto.ProjectListDto;
+import gp.cnusambe.controller.payload.response.ProjectPostResponse;
 import gp.cnusambe.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

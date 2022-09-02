@@ -1,6 +1,6 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.ProjectCategory;
+import gp.cnusambe.repository.domain.ProjectCategory;
 import gp.cnusambe.repository.ProjectCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

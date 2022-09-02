@@ -1,7 +1,7 @@
 package gp.cnusambe.exception;
 
 import gp.cnusambe.exception.custom.*;
-import gp.cnusambe.payload.response.ErrorResponse;
+import gp.cnusambe.controller.payload.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

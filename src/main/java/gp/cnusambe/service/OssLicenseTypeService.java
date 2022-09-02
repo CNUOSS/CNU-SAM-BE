@@ -1,6 +1,6 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.OssLicenseType;
+import gp.cnusambe.repository.domain.OssLicenseType;
 import gp.cnusambe.repository.OssLicenseTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

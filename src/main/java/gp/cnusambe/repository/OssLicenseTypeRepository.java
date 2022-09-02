@@ -1,6 +1,6 @@
 package gp.cnusambe.repository;
 
-import gp.cnusambe.domain.OssLicenseType;
+import gp.cnusambe.repository.domain.OssLicenseType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

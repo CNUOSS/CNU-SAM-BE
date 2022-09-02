@@ -1,9 +1,9 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.OssLicense;
-import gp.cnusambe.dto.OssLicenseDto;
-import gp.cnusambe.dto.PageInfoDto;
-import gp.cnusambe.payload.response.OssLicenseListResponse;
+import gp.cnusambe.repository.domain.OssLicense;
+import gp.cnusambe.service.dto.OssLicenseDto;
+import gp.cnusambe.service.dto.PageInfoDto;
+import gp.cnusambe.controller.payload.response.OssLicenseListResponse;
 import gp.cnusambe.service.OssLicenseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

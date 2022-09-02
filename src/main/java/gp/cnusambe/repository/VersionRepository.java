@@ -1,7 +1,7 @@
 package gp.cnusambe.repository;
 
-import gp.cnusambe.domain.Project;
-import gp.cnusambe.domain.Version;
+import gp.cnusambe.repository.domain.Project;
+import gp.cnusambe.repository.domain.Version;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

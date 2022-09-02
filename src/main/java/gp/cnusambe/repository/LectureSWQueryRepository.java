@@ -1,6 +1,6 @@
 package gp.cnusambe.repository;
 
-import gp.cnusambe.domain.LectureSW;
+import gp.cnusambe.repository.domain.LectureSW;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;

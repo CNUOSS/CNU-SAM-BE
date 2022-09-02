@@ -1,14 +1,13 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.LicenseRestrictionMap;
-import gp.cnusambe.domain.OssLicense;
-import gp.cnusambe.domain.Restriction;
+import gp.cnusambe.repository.domain.LicenseRestrictionMap;
+import gp.cnusambe.repository.domain.OssLicense;
+import gp.cnusambe.repository.domain.Restriction;
 import gp.cnusambe.repository.LicenseRestrictionMapRepository;
 import gp.cnusambe.repository.RestrictionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

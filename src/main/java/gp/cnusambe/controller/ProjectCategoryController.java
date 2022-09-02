@@ -1,6 +1,6 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.ProjectCategory;
+import gp.cnusambe.repository.domain.ProjectCategory;
 import gp.cnusambe.service.ProjectCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

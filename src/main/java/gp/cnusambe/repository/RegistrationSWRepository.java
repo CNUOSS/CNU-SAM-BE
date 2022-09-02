@@ -1,6 +1,6 @@
 package gp.cnusambe.repository;
 
-import gp.cnusambe.domain.RegistrationSW;
+import gp.cnusambe.repository.domain.RegistrationSW;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

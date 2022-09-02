@@ -1,12 +1,12 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.dto.PageInfoDto;
-import gp.cnusambe.dto.RegistrationSWDto;
-import gp.cnusambe.payload.request.RegistrationSWRequest;
-import gp.cnusambe.payload.response.ManufacturerResponse;
-import gp.cnusambe.payload.response.RegistrationSWListResponse;
-import gp.cnusambe.payload.response.RegistrationSWResponse;
-import gp.cnusambe.payload.response.SWNameResponse;
+import gp.cnusambe.service.dto.PageInfoDto;
+import gp.cnusambe.service.dto.RegistrationSWDto;
+import gp.cnusambe.controller.payload.request.RegistrationSWRequest;
+import gp.cnusambe.controller.payload.response.ManufacturerResponse;
+import gp.cnusambe.controller.payload.response.RegistrationSWListResponse;
+import gp.cnusambe.controller.payload.response.RegistrationSWResponse;
+import gp.cnusambe.controller.payload.response.SWNameResponse;
 import gp.cnusambe.service.RegistrationSWService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

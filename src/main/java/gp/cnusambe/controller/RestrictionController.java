@@ -1,6 +1,6 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.Restriction;
+import gp.cnusambe.repository.domain.Restriction;
 import gp.cnusambe.service.RestrictionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

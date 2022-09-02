@@ -1,8 +1,7 @@
 package gp.cnusambe.repository;
 
-import gp.cnusambe.domain.LicenseRestrictionMap;
-import gp.cnusambe.domain.OssLicense;
-import gp.cnusambe.domain.Restriction;
+import gp.cnusambe.repository.domain.LicenseRestrictionMap;
+import gp.cnusambe.repository.domain.OssLicense;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

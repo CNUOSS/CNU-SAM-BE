@@ -1,13 +1,13 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.dto.PageInfoDto;
-import gp.cnusambe.dto.SubscriptionSWDto;
+import gp.cnusambe.service.dto.PageInfoDto;
+import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWDuplicatedException;
-import gp.cnusambe.payload.request.SubscriptionSWRequest;
-import gp.cnusambe.payload.request.SubscriptionSWUpdateRequest;
-import gp.cnusambe.payload.response.SimpleSubscriptionSWListResponse;
-import gp.cnusambe.payload.response.SubscriptionSWListResponse;
-import gp.cnusambe.payload.response.SubscriptionSWResponse;
+import gp.cnusambe.controller.payload.request.SubscriptionSWRequest;
+import gp.cnusambe.controller.payload.request.SubscriptionSWUpdateRequest;
+import gp.cnusambe.controller.payload.response.SimpleSubscriptionSWListResponse;
+import gp.cnusambe.controller.payload.response.SubscriptionSWListResponse;
+import gp.cnusambe.controller.payload.response.SubscriptionSWResponse;
 import gp.cnusambe.service.SubscriptionSWService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

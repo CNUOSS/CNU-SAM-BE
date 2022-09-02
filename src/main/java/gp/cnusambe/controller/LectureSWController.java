@@ -1,9 +1,13 @@
 package gp.cnusambe.controller;
 
+import gp.cnusambe.controller.payload.response.*;
 import gp.cnusambe.dto.*;
-import gp.cnusambe.payload.request.LectureSWRequest;
-import gp.cnusambe.payload.response.*;
+import gp.cnusambe.controller.payload.request.LectureSWRequest;
 import gp.cnusambe.service.LectureSWService;
+import gp.cnusambe.service.dto.LectureSWDto;
+import gp.cnusambe.service.dto.LectureSWForChartDto;
+import gp.cnusambe.service.dto.LectureSWListDto;
+import gp.cnusambe.service.dto.SWInLectureSWDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;

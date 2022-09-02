@@ -1,8 +1,6 @@
 package gp.cnusambe.repository;
 
-import gp.cnusambe.domain.AnalysisRestrictionMap;
-import gp.cnusambe.domain.OssAnalysisMap;
-import gp.cnusambe.domain.Restriction;
+import gp.cnusambe.repository.domain.AnalysisRestrictionMap;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

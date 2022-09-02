@@ -1,7 +1,7 @@
 package gp.cnusambe.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gp.cnusambe.payload.response.ErrorResponse;
+import gp.cnusambe.controller.payload.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -1,15 +1,15 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.User;
+import gp.cnusambe.repository.domain.User;
 import gp.cnusambe.exception.custom.AccessTokenException;
 import gp.cnusambe.exception.custom.InvalidPasswordException;
 import gp.cnusambe.exception.custom.RefreshTokenException;
 import gp.cnusambe.exception.custom.UserIdDuplicatedException;
-import gp.cnusambe.payload.request.LoginRequest;
-import gp.cnusambe.payload.request.LogoutOrRefreshRequest;
-import gp.cnusambe.payload.request.SignupRequest;
-import gp.cnusambe.payload.response.LoginResponse;
-import gp.cnusambe.payload.response.UserInfoResponse;
+import gp.cnusambe.controller.payload.request.LoginRequest;
+import gp.cnusambe.controller.payload.request.LogoutOrRefreshRequest;
+import gp.cnusambe.controller.payload.request.SignupRequest;
+import gp.cnusambe.controller.payload.response.LoginResponse;
+import gp.cnusambe.controller.payload.response.UserInfoResponse;
 import gp.cnusambe.security.JwtTokenProvider;
 import gp.cnusambe.security.UserDetailsImpl;
 import gp.cnusambe.service.UserDetailsServiceImpl;

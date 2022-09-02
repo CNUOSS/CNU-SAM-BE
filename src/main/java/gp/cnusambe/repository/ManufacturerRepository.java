@@ -1,6 +1,6 @@
 package gp.cnusambe.repository;
 
-import gp.cnusambe.domain.Manufacturer;
+import gp.cnusambe.repository.domain.Manufacturer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

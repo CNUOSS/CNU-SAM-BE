@@ -1,7 +1,7 @@
 package gp.cnusambe.service.fixture;
 
-import gp.cnusambe.domain.SubscriptionSW;
-import gp.cnusambe.dto.SubscriptionSWDto;
+import gp.cnusambe.repository.domain.SubscriptionSW;
+import gp.cnusambe.service.dto.SubscriptionSWDto;
 import org.springframework.data.domain.*;
 
 import java.util.Date;

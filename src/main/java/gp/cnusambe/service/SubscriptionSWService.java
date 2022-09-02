@@ -1,8 +1,8 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.SubscriptionSW;
-import gp.cnusambe.dto.SimpleSubscriptionSWDto;
-import gp.cnusambe.dto.SubscriptionSWDto;
+import gp.cnusambe.repository.domain.SubscriptionSW;
+import gp.cnusambe.service.dto.SimpleSubscriptionSWDto;
+import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.repository.SubscriptionSWRepository;
 import gp.cnusambe.repository.SubscriptionSWQueryRepository;

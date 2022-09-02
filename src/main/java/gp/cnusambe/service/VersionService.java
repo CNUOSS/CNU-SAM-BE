@@ -1,10 +1,11 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.domain.*;
-import gp.cnusambe.dto.AnalysisRestrictionDto;
-import gp.cnusambe.dto.LicenseProtectorDto;
-import gp.cnusambe.dto.OssAnalysisDto;
-import gp.cnusambe.dto.VersionDto;
+import gp.cnusambe.repository.domain.*;
+import gp.cnusambe.service.dto.AnalysisRestrictionDto;
+import gp.cnusambe.service.dto.LicenseProtectorDto;
+import gp.cnusambe.service.dto.OssAnalysisDto;
+import gp.cnusambe.service.dto.VersionDto;
 import gp.cnusambe.exception.custom.ProjectNotFoundException;
 import gp.cnusambe.exception.custom.VersionNotFoundException;
 import gp.cnusambe.repository.*;

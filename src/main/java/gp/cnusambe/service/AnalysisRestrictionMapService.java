@@ -1,9 +1,9 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.AnalysisRestrictionMap;
-import gp.cnusambe.domain.OssAnalysisMap;
-import gp.cnusambe.domain.Restriction;
-import gp.cnusambe.dto.OssAnalysisDto;
+import gp.cnusambe.repository.domain.AnalysisRestrictionMap;
+import gp.cnusambe.repository.domain.OssAnalysisMap;
+import gp.cnusambe.repository.domain.Restriction;
+import gp.cnusambe.service.dto.OssAnalysisDto;
 import gp.cnusambe.repository.AnalysisRestrictionMapRepository;
 import gp.cnusambe.repository.OssAnalysisMapRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
