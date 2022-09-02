@@ -3,6 +3,7 @@ package gp.cnusambe.controller.payload.request;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Setter
 @Getter
 @AllArgsConstructor
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SubscriptionSWRequest {
     private String latestUpdaterId;
