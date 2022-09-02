@@ -1,6 +1,7 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.domain.SubscriptionSW;
+import gp.cnusambe.dto.SimpleSubscriptionSWDto;
 import gp.cnusambe.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.repository.SubscriptionSWQueryRepository;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 import static gp.cnusambe.service.fixture.SubscriptionSWFixture.*;
@@ -91,5 +93,14 @@ public class SubscriptionServiceTest {
         assertThrows(SWNotFoundException.class,
                 () -> subscriptionSWService.updateSubscriptionSW(requestSswDto()),
                 "해당 SW를 찾을 수 없습니다.");
+    }
+
+    @Test
+    void readAllSubscriptionSW_Simple() {
+        given(subscriptionSWRepository.findAll()).willReturn(LIST_OF_SSW);
+
+        List<SimpleSubscriptionSWDto> rtnSWList = subscriptionSWService.readAllSubscriptionSW();
+        assertThat(rtnSWList.get(0).getClass()).isEqualTo(SimpleSubscriptionSWDto.class);
+        assertThat(rtnSWList.size()).isEqualTo(LIST_OF_SSW.size());
     }
 }
