@@ -1,7 +1,5 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.*;
-import gp.cnusambe.dto.*;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.controller.payload.response.DepartmentResponse;
 import gp.cnusambe.controller.payload.response.LectureTypeResponse;

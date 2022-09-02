@@ -1,6 +1,5 @@
 package gp.cnusambe.service;
 
-import gp.cnusambe.domain.*;
 import gp.cnusambe.repository.domain.*;
 import gp.cnusambe.service.dto.ProjectDto;
 import gp.cnusambe.controller.payload.request.ProjectPostRequest;

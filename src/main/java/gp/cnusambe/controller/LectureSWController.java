@@ -1,7 +1,6 @@
 package gp.cnusambe.controller;
 
 import gp.cnusambe.controller.payload.response.*;
-import gp.cnusambe.dto.*;
 import gp.cnusambe.controller.payload.request.LectureSWRequest;
 import gp.cnusambe.service.LectureSWService;
 import gp.cnusambe.service.dto.LectureSWDto;

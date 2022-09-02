@@ -1,6 +1,5 @@
 package gp.cnusambe.controller;
 
-import gp.cnusambe.domain.*;
 import gp.cnusambe.repository.domain.PartOfOssAnalysis;
 import gp.cnusambe.repository.domain.Project;
 import gp.cnusambe.repository.domain.Version;

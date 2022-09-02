@@ -2,7 +2,6 @@ package gp.cnusambe.service.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import gp.cnusambe.domain.*;
 import gp.cnusambe.controller.payload.response.ProjectDetailResponse;
 import gp.cnusambe.controller.payload.response.VersionResponse;
 import gp.cnusambe.repository.domain.OssLicense;
