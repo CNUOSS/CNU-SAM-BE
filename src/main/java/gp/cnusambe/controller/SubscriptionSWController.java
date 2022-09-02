@@ -5,6 +5,7 @@ import gp.cnusambe.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWDuplicatedException;
 import gp.cnusambe.payload.request.SubscriptionSWRequest;
 import gp.cnusambe.payload.request.SubscriptionSWUpdateRequest;
+import gp.cnusambe.payload.response.SimpleSubscriptionSWListResponse;
 import gp.cnusambe.payload.response.SubscriptionSWListResponse;
 import gp.cnusambe.payload.response.SubscriptionSWResponse;
 import gp.cnusambe.service.SubscriptionSWService;
@@ -65,5 +66,11 @@ public class SubscriptionSWController {
     public ResponseEntity<Void> deleteSubscriptionSW(@PathVariable("ssw_id") Long swId) {
         subscriptionSWService.deleteSubscriptionSW(swId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/subscriptions")
+    public ResponseEntity<SimpleSubscriptionSWListResponse> getAllSubscriptionSW(){
+        SimpleSubscriptionSWListResponse response = new SimpleSubscriptionSWListResponse(subscriptionSWService.readAllSubscriptionSW());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
