@@ -21,6 +21,7 @@ public class SubscriptionSWFixture {
     private static final int PAGEABLE_PAGE = 0;
     private static final int PAGEABLE_SIZE = 9;
     private static final Sort PAGEABLE_SORT = Sort.by("latestUpdateDate").descending();
+    public static final List<SubscriptionSW> LIST_OF_SSW = List.of(responseSsw(), responseSsw_ForTest2(), responseSsw_ForTest3());
 
     public static SubscriptionSWDto requestSswDto() {
         return new SubscriptionSWDto(null, LATEST_UPDATER_ID, SW_TYPE, SW_MANUFACTURER,
@@ -71,6 +72,6 @@ public class SubscriptionSWFixture {
     }
 
     public static Page<SubscriptionSW> pageOfSW() {
-        return new PageImpl<>(List.of(responseSsw(), responseSsw_ForTest2(), responseSsw_ForTest3()), pageable(), 1);
+        return new PageImpl<>(LIST_OF_SSW, pageable(), 1);
     }
 }
