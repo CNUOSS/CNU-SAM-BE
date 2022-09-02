@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.Optional;
 
-import static gp.cnusambe.service.fixture.SubscriptionSWFixture.*;
+import static gp.cnusambe.fixture.SubscriptionSWFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -83,7 +83,7 @@ public class SubscriptionServiceTest {
         SubscriptionSWDto rtnSWDto = subscriptionSWService.updateSubscriptionSW(requestSswDto_ForUpdate());
         assertThat(rtnSWDto.getId()).isEqualTo(SW_ID);
         assertThat(rtnSWDto.getLatestUpdaterId()).isEqualTo(NEW_LATEST_UPDATER_ID);
-        assertThat(rtnSWDto.getSwType()).isEqualTo(NEW_SW_TYPE);
+        assertThat(rtnSWDto.getSwType()).isEqualTo(NEW_SW_NAME);
     }
 
     @Test

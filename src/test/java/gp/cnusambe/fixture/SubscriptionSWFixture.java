@@ -1,4 +1,4 @@
-package gp.cnusambe.service.fixture;
+package gp.cnusambe.fixture;
 
 import gp.cnusambe.repository.domain.SubscriptionSW;
 import gp.cnusambe.service.dto.SubscriptionSWDto;
@@ -12,9 +12,9 @@ public class SubscriptionSWFixture {
     public static final String LATEST_UPDATER_ID = "201902699";
     public static final String NEW_LATEST_UPDATER_ID = "996209102";
     public static final String SW_TYPE = "A";
-    public static final String NEW_SW_TYPE = "Z";
     public static final String SW_MANUFACTURER = "B";
     public static final String SW_NAME = "C";
+    public static final String NEW_SW_NAME = "Z";
     public static final String USAGE_RANGE = "D";
     public static final String LICENSE = "E";
     public static final Date DATE = new Date();
@@ -29,7 +29,7 @@ public class SubscriptionSWFixture {
     }
 
     public static SubscriptionSWDto requestSswDto_ForUpdate() {
-        return new SubscriptionSWDto(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_TYPE, SW_MANUFACTURER,
+        return new SubscriptionSWDto(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_NAME, SW_MANUFACTURER,
                 SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
     }
 
@@ -39,7 +39,7 @@ public class SubscriptionSWFixture {
     }
 
     public static SubscriptionSWDto responseSswDto_ForUpdate() {
-        return new SubscriptionSWDto(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_TYPE, SW_MANUFACTURER,
+        return new SubscriptionSWDto(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_NAME, SW_MANUFACTURER,
                 SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
     }
 
@@ -49,7 +49,7 @@ public class SubscriptionSWFixture {
     }
 
     public static SubscriptionSW responseSsw_ForUpdate() {
-        return new SubscriptionSW(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_TYPE, SW_MANUFACTURER,
+        return new SubscriptionSW(SW_ID, NEW_LATEST_UPDATER_ID, NEW_SW_NAME, SW_MANUFACTURER,
                 SW_NAME, USAGE_RANGE, LICENSE, DATE, DATE, DATE);
     }
 
