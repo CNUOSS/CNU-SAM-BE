@@ -26,7 +26,7 @@ public class ExceptionResolver {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UserIdDuplicatedException.class)
+    @ExceptionHandler({UserIdDuplicatedException.class, SWDuplicatedException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ErrorResponse> handleConflictException(HttpServletRequest request, RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT.toString(), request.getRequestURI());
