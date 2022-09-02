@@ -1,6 +1,7 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.domain.SubscriptionSW;
+import gp.cnusambe.dto.SimpleSubscriptionSWDto;
 import gp.cnusambe.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.repository.SubscriptionSWRepository;
@@ -10,6 +11,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +48,11 @@ public class SubscriptionSWService {
         findSubscriptionSW(newSWDto.getId());
         SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(newSWDto));
         return strictMapper.map(sw, SubscriptionSWDto.class);
+    }
+
+    public List<SimpleSubscriptionSWDto> readAllSubscriptionSW() {
+        List<SubscriptionSW> listOfSw = subscriptionSWRepository.findAll();
+        return listOfSw.stream().map(SimpleSubscriptionSWDto::new).collect(Collectors.toList());
     }
 
     private SubscriptionSW findSubscriptionSW(Long swId) {
