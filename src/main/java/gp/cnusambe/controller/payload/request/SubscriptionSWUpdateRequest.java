@@ -8,6 +8,7 @@ import java.util.Date;
 @Setter
 @Getter
 @AllArgsConstructor
+@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SubscriptionSWUpdateRequest {
     private Long id;
