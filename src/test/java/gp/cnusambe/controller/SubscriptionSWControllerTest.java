@@ -91,6 +91,33 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
     }
 
     @Test
+    void updateSubscriptionSW() throws Exception {
+        SubscriptionSWUpdateRequest request = SubscriptionSWUpdateRequest.builder()
+                .id(SW_ID)
+                .latestUpdaterId(NEW_LATEST_UPDATER_ID)
+                .swType(SW_TYPE)
+                .swManufacturer(SW_MANUFACTURER)
+                .swName(NEW_SW_NAME)
+                .usageRange(USAGE_RANGE)
+                .license(LICENSE)
+                .latestUpdateDate(DATE)
+                .expireDate(DATE)
+                .firstSubscribeDate(DATE)
+                .build();
+
+        String requestBody = mapper.writeValueAsString(request);
+
+        mockMvc.perform(put("/subscriptions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.subscription_sw.id")
+                        .value(SW_ID))
+                .andExpect(jsonPath("$.subscription_sw.sw_name")
+                        .value(NEW_SW_NAME));
+    }
+
+    @Test
     void updateSubscriptionSW_NoId() throws Exception {
         SubscriptionSWUpdateRequest request = SubscriptionSWUpdateRequest.builder()
                 .id(5L)
