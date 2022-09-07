@@ -215,4 +215,21 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
                 .andExpect(jsonPath("$.error_msg")
                         .value("해당 SW를 찾을 수 없습니다."));
     }
+
+    @Test
+    void deleteSubscriptionSW() throws Exception {
+        mockMvc.perform(delete("/subscriptions/{id}", DELETE_SW_ID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void deleteSubscriptionSW_NoId() throws Exception {
+        mockMvc.perform(delete("/subscriptions/{id}", NO_SW_ID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error_msg")
+                        .value("해당 SW를 찾을 수 없습니다."));
+    }
+
 }
