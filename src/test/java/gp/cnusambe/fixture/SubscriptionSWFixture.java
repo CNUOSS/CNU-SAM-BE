@@ -13,10 +13,12 @@ public class SubscriptionSWFixture {
     public static final String NEW_LATEST_UPDATER_ID = "996209102";
     public static final String SW_TYPE = "A";
     public static final String SW_MANUFACTURER = "B";
+    public static final String NEW_SW_MANUFACTURER = "Y";
     public static final String SW_NAME = "C";
     public static final String NEW_SW_NAME = "Z";
     public static final String USAGE_RANGE = "D";
     public static final String LICENSE = "E";
+    public static final String NEW_LICENSE = "Q";
     public static final Date DATE = new Date();
     private static final int PAGEABLE_PAGE = 0;
     private static final int PAGEABLE_SIZE = 9;
