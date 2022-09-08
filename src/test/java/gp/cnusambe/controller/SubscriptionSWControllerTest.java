@@ -23,9 +23,11 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
     private MockMvc mockMvc;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    private long UPDATE_SW_ID = 1;
-    private long DELETE_SW_ID = 3;
-    private long NO_SW_ID = 10;
+    private final long UPDATE_SW_ID = 1;
+    private final long DELETE_SW_ID = 3;
+    private final long NO_SW_ID = 10;
+
+    private int sizeOfSW = 0;
 
     void addFixtureForUpdate() throws Exception {
         SubscriptionSWRequest requestForUpdate = SubscriptionSWRequest.builder()
@@ -44,6 +46,8 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
         mockMvc.perform(post("/subscriptions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBodyForUpdate));
+
+        sizeOfSW++;
     }
 
     void addFixtureForDuplicate() throws Exception {
@@ -63,6 +67,8 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
         mockMvc.perform(post("/subscriptions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBodyForDuplicated));
+
+        sizeOfSW++;
     }
 
     void addFixtureForDelete() throws Exception {
@@ -82,6 +88,8 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
         mockMvc.perform(post("/subscriptions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBodyForDelete));
+
+        sizeOfSW++;
     }
 
     @BeforeAll
@@ -112,6 +120,8 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.subscription_sw.latest_updater_id")
                         .value(NEW_LATEST_UPDATER_ID));
+
+        sizeOfSW++;
     }
 
     @Test
@@ -221,6 +231,7 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
         mockMvc.perform(delete("/subscriptions/{id}", DELETE_SW_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+        sizeOfSW--;
     }
 
     @Test
@@ -230,6 +241,15 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error_msg")
                         .value("해당 SW를 찾을 수 없습니다."));
+    }
+
+    @Test
+    void getAllSubscriptionSW() throws Exception {
+        mockMvc.perform(get("/subscriptions/search")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.subscription_sw").isArray())
+                .andExpect(jsonPath("$.subscription_sw.length()").value(sizeOfSW));
     }
 
 }
