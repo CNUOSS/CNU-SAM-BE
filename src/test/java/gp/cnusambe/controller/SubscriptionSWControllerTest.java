@@ -252,4 +252,14 @@ public class SubscriptionSWControllerTest extends AbstractContainerBaseTest {
                 .andExpect(jsonPath("$.subscription_sw.length()").value(sizeOfSW));
     }
 
+    @Test
+    void getAllSubscriptionSW_Search() throws Exception {
+        mockMvc.perform(get("/subscriptions/search").param("sw-name", SW_NAME)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.subscription_sw").isArray())
+                .andExpect(jsonPath("$.subscription_sw.length()").value(3))
+                .andExpect(jsonPath("$.subscription_sw[0].sw_name").value(SW_NAME));
+    }
+
 }
