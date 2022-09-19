@@ -23,11 +23,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping(value="/subscriptions")
 public class SubscriptionSWController {
     private final ModelMapper strictMapper;
     private final SubscriptionSWService subscriptionSWService;
 
-    @PostMapping("/subscriptions")
+    @PostMapping
     public ResponseEntity<SubscriptionSWResponse> postSubscriptionSW(@RequestBody SubscriptionSWRequest request) {
         SubscriptionSWDto swDto = strictMapper.map(request, SubscriptionSWDto.class);
         if (subscriptionSWService.hasDuplicateSubscriptionSW(swDto.getSwManufacturer(), swDto.getSwName(), swDto.getLicense()))
@@ -36,7 +37,7 @@ public class SubscriptionSWController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/subscriptions/search")
+    @GetMapping("/search")
     public ResponseEntity<SubscriptionSWListResponse> getAllSubscriptionSW(
             @RequestParam(value = "sw-type", required = false) String swType,
             @RequestParam(value = "sw-mfr", required = false) String swManufacturer,
@@ -56,7 +57,7 @@ public class SubscriptionSWController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/subscriptions")
+    @PutMapping
     public ResponseEntity<SubscriptionSWResponse> updateSubscriptionSW(@RequestBody SubscriptionSWUpdateRequest request) {
         SubscriptionSWDto newSWDto = strictMapper.map(request, SubscriptionSWDto.class);
         if (subscriptionSWService.hasDuplicateSubscriptionSW(newSWDto.getSwManufacturer(), newSWDto.getSwName(), newSWDto.getLicense()))
@@ -65,13 +66,13 @@ public class SubscriptionSWController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/subscriptions/{ssw_id}")
+    @DeleteMapping("/{ssw_id}")
     public ResponseEntity<Void> deleteSubscriptionSW(@PathVariable("ssw_id") Long swId) {
         subscriptionSWService.deleteSubscriptionSW(swId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/subscriptions")
+    @GetMapping
     public ResponseEntity<SimpleSubscriptionSWListResponse> getAllSubscriptionSW(){
         SimpleSubscriptionSWListResponse response = new SimpleSubscriptionSWListResponse(subscriptionSWService.readAllSubscriptionSW());
         return new ResponseEntity<>(response, HttpStatus.OK);
