@@ -4,7 +4,6 @@ import gp.cnusambe.repository.domain.SubscriptionSW;
 import gp.cnusambe.service.dto.SimpleSubscriptionSWDto;
 import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
-import gp.cnusambe.repository.SubscriptionSWQueryRepository;
 import gp.cnusambe.repository.SubscriptionSWRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,14 +26,12 @@ public class SubscriptionServiceTest {
     private SubscriptionSWService subscriptionSWService;
     private ModelMapper strictMapper;
     private SubscriptionSWRepository subscriptionSWRepository;
-    private SubscriptionSWQueryRepository subscriptionSWQueryRepository;
 
     @BeforeEach
     void setUp() {
         strictMapper = mock(ModelMapper.class);
-        subscriptionSWQueryRepository = mock(SubscriptionSWQueryRepository.class);
         subscriptionSWRepository = mock(SubscriptionSWRepository.class);
-        subscriptionSWService = new SubscriptionSWService(strictMapper, subscriptionSWRepository, subscriptionSWQueryRepository);
+        subscriptionSWService = new SubscriptionSWService(strictMapper, subscriptionSWRepository);
     }
 
     @Test
@@ -57,7 +54,7 @@ public class SubscriptionServiceTest {
 
     @Test
     void readAllSubscriptionSW_Search() {
-        given(subscriptionSWQueryRepository.findAllBy(SW_TYPE, "", "", pageable())).willReturn(pageOfSW_ForSearch());
+        given(subscriptionSWRepository.findAllBy(SW_TYPE, "", "", pageable())).willReturn(pageOfSW_ForSearch());
         given(strictMapper.map(any(SubscriptionSW.class), eq(SubscriptionSWDto.class))).willReturn(responseSswDto());
 
         Page<SubscriptionSWDto> rtnPageOfDto = subscriptionSWService.readAllSubscriptionSW(SW_TYPE, "", "", pageable());
