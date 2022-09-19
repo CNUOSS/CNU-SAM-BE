@@ -47,7 +47,10 @@ public class SubscriptionSWController {
         String swManufacturer_ = Optional.ofNullable(swManufacturer).orElse("");
         String swName_ = Optional.ofNullable(swName).orElse("");
 
-        Page<SubscriptionSWDto> pageOfSW = subscriptionSWService.readAllSubscriptionSW(swType_, swManufacturer_, swName_, pageable);
+        boolean search = swType.length() != 0 || swManufacturer.length() != 0 || swName.length() != 0;
+        Page<SubscriptionSWDto> pageOfSW = search
+                ? subscriptionSWService.searchAllSubscriptionSW(swType_, swManufacturer_, swName_, pageable)
+                : subscriptionSWService.readAllSubscriptionSW(pageable);
         PageInfoDto pageInfo = new PageInfoDto(pageOfSW.getTotalElements(), pageOfSW.isLast(), pageOfSW.getTotalPages(), pageOfSW.getSize());
         SubscriptionSWListResponse response = new SubscriptionSWListResponse(pageInfo, pageOfSW.stream().collect(Collectors.toList()));
         return new ResponseEntity<>(response, HttpStatus.OK);
