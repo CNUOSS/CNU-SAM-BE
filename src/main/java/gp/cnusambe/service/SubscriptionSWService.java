@@ -25,11 +25,13 @@ public class SubscriptionSWService {
         return strictMapper.map(sw, SubscriptionSWDto.class);
     }
 
-    public Page<SubscriptionSWDto> readAllSubscriptionSW(String swType, String swManufacturer, String swName, Pageable pageable) {
-        boolean search = swType.length() != 0 || swManufacturer.length() != 0 || swName.length() != 0;
-        Page<SubscriptionSW> pageOfSW = search
-                ? subscriptionSWRepository.findAllBy(swType, swManufacturer, swName, pageable)
-                : subscriptionSWRepository.findAll(pageable);
+    public Page<SubscriptionSWDto> readAllSubscriptionSW(Pageable pageable) {
+        Page<SubscriptionSW> pageOfSW = subscriptionSWRepository.findAll(pageable);
+        return pageOfSW.map(sw -> strictMapper.map(sw, SubscriptionSWDto.class));
+    }
+
+    public Page<SubscriptionSWDto> searchAllSubscriptionSW(String swType, String swManufacturer, String swName, Pageable pageable) {
+        Page<SubscriptionSW> pageOfSW = subscriptionSWRepository.findAllBy(swType, swManufacturer, swName, pageable);
         return pageOfSW.map(sw -> strictMapper.map(sw, SubscriptionSWDto.class));
     }
 

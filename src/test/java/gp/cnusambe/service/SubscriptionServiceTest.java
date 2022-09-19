@@ -48,7 +48,7 @@ public class SubscriptionServiceTest {
         given(subscriptionSWRepository.findAll(pageable())).willReturn(pageOfSW());
         given(strictMapper.map(any(SubscriptionSW.class), eq(SubscriptionSWDto.class))).willReturn(responseSswDto());
 
-        Page<SubscriptionSWDto> rtnPageOfDto = subscriptionSWService.readAllSubscriptionSW("", "", "", pageable());
+        Page<SubscriptionSWDto> rtnPageOfDto = subscriptionSWService.readAllSubscriptionSW(pageable());
         assertThat(rtnPageOfDto.getContent().size()).isEqualTo(pageOfSW().getTotalElements());
     }
 
@@ -57,7 +57,7 @@ public class SubscriptionServiceTest {
         given(subscriptionSWRepository.findAllBy(SW_TYPE, "", "", pageable())).willReturn(pageOfSW_ForSearch());
         given(strictMapper.map(any(SubscriptionSW.class), eq(SubscriptionSWDto.class))).willReturn(responseSswDto());
 
-        Page<SubscriptionSWDto> rtnPageOfDto = subscriptionSWService.readAllSubscriptionSW(SW_TYPE, "", "", pageable());
+        Page<SubscriptionSWDto> rtnPageOfDto = subscriptionSWService.searchAllSubscriptionSW(SW_TYPE, "", "", pageable());
         assertThat(rtnPageOfDto.getContent().size()).isEqualTo(1);
         assertThat(rtnPageOfDto.getContent().get(0).getSwType()).isEqualTo(SW_TYPE);
     }
