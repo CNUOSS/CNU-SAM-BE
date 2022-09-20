@@ -13,12 +13,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SimpleSubscriptionSWDto {
+public class CoreSubscriptionSWDto {
     private String swManufacturer;
     private String swName;
     private String license;
 
-    public SimpleSubscriptionSWDto(SubscriptionSW sw){
+    public CoreSubscriptionSWDto(SubscriptionSW sw){
         this.swManufacturer = sw.getSwManufacturer();
         this.swName = sw.getSwName();
         this.license = sw.getLicense();

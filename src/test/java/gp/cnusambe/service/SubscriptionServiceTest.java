@@ -1,7 +1,7 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.repository.domain.SubscriptionSW;
-import gp.cnusambe.service.dto.SimpleSubscriptionSWDto;
+import gp.cnusambe.service.dto.CoreSubscriptionSWDto;
 import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.repository.SubscriptionSWRepository;
@@ -48,7 +48,7 @@ public class SubscriptionServiceTest {
         given(subscriptionSWRepository.findAll(pageable())).willReturn(pageOfSW());
         given(strictMapper.map(any(SubscriptionSW.class), eq(SubscriptionSWDto.class))).willReturn(responseSswDto());
 
-        Page<SubscriptionSWDto> rtnPageOfDto = subscriptionSWService.readAllSubscriptionSW(pageable());
+        Page<SubscriptionSWDto> rtnPageOfDto = subscriptionSWService.readAllCoreSubscriptionSW(pageable());
         assertThat(rtnPageOfDto.getContent().size()).isEqualTo(pageOfSW().getTotalElements());
     }
 
@@ -96,8 +96,8 @@ public class SubscriptionServiceTest {
     void readAllSubscriptionSW_Simple() {
         given(subscriptionSWRepository.findAll()).willReturn(LIST_OF_SSW);
 
-        List<SimpleSubscriptionSWDto> rtnSWList = subscriptionSWService.readAllSubscriptionSW();
-        assertThat(rtnSWList.get(0).getClass()).isEqualTo(SimpleSubscriptionSWDto.class);
+        List<CoreSubscriptionSWDto> rtnSWList = subscriptionSWService.readAllCoreSubscriptionSW();
+        assertThat(rtnSWList.get(0).getClass()).isEqualTo(CoreSubscriptionSWDto.class);
         assertThat(rtnSWList.size()).isEqualTo(LIST_OF_SSW.size());
     }
 }
