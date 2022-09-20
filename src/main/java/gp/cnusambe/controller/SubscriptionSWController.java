@@ -48,7 +48,7 @@ public class SubscriptionSWController {
         String swManufacturer_ = Optional.ofNullable(swManufacturer).orElse("");
         String swName_ = Optional.ofNullable(swName).orElse("");
 
-        boolean search = swType.length() != 0 || swManufacturer.length() != 0 || swName.length() != 0;
+        boolean search = swType_.length() != 0 || swManufacturer_.length() != 0 || swName_.length() != 0;
         Page<SubscriptionSWDto> pageOfSW = search
                 ? subscriptionSWService.searchAllSubscriptionSW(swType_, swManufacturer_, swName_, pageable)
                 : subscriptionSWService.readAllSubscriptionSW(pageable);
