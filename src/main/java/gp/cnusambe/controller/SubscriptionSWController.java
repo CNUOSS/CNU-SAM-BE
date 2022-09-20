@@ -5,7 +5,7 @@ import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWDuplicatedException;
 import gp.cnusambe.controller.payload.request.SubscriptionSWRequest;
 import gp.cnusambe.controller.payload.request.SubscriptionSWUpdateRequest;
-import gp.cnusambe.controller.payload.response.SimpleSubscriptionSWListResponse;
+import gp.cnusambe.controller.payload.response.CoreSubscriptionSWListResponse;
 import gp.cnusambe.controller.payload.response.SubscriptionSWListResponse;
 import gp.cnusambe.controller.payload.response.SubscriptionSWResponse;
 import gp.cnusambe.service.SubscriptionSWService;
@@ -51,7 +51,7 @@ public class SubscriptionSWController {
         boolean search = swType_.length() != 0 || swManufacturer_.length() != 0 || swName_.length() != 0;
         Page<SubscriptionSWDto> pageOfSW = search
                 ? subscriptionSWService.searchAllSubscriptionSW(swType_, swManufacturer_, swName_, pageable)
-                : subscriptionSWService.readAllSubscriptionSW(pageable);
+                : subscriptionSWService.readAllCoreSubscriptionSW(pageable);
         PageInfoDto pageInfo = new PageInfoDto(pageOfSW.getTotalElements(), pageOfSW.isLast(), pageOfSW.getTotalPages(), pageOfSW.getSize());
         SubscriptionSWListResponse response = new SubscriptionSWListResponse(pageInfo, pageOfSW.stream().collect(Collectors.toList()));
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -73,8 +73,8 @@ public class SubscriptionSWController {
     }
 
     @GetMapping
-    public ResponseEntity<SimpleSubscriptionSWListResponse> getAllSubscriptionSW(){
-        SimpleSubscriptionSWListResponse response = new SimpleSubscriptionSWListResponse(subscriptionSWService.readAllSubscriptionSW());
+    public ResponseEntity<CoreSubscriptionSWListResponse> getAllSubscriptionSW(){
+        CoreSubscriptionSWListResponse response = new CoreSubscriptionSWListResponse(subscriptionSWService.readAllCoreSubscriptionSW());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
