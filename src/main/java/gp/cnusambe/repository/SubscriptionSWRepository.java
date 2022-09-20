@@ -13,11 +13,8 @@ import javax.persistence.criteria.Root;
 import java.util.Optional;
 
 public interface SubscriptionSWRepository extends JpaRepository<SubscriptionSW, Long>, JpaSpecificationExecutor<SubscriptionSW>  {
-    Optional<SubscriptionSW> findById(Long swId);
 
     Boolean existsBySwManufacturerAndSwNameAndLicense(String swManufacturer, String swName, String license);
-
-    Page<SubscriptionSW> findAll(Specification spec, Pageable pageable);
 
     public default Page<SubscriptionSW> findAllBy(String swType, String swManufacturer, String swName, Pageable pageable) {
         Specification<SubscriptionSW> spec
