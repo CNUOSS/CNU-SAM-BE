@@ -1,7 +1,7 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.repository.domain.SubscriptionSW;
-import gp.cnusambe.service.dto.SimpleSubscriptionSWDto;
+import gp.cnusambe.service.dto.CoreSubscriptionSWDto;
 import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.repository.SubscriptionSWRepository;
@@ -25,7 +25,7 @@ public class SubscriptionSWService {
         return strictMapper.map(sw, SubscriptionSWDto.class);
     }
 
-    public Page<SubscriptionSWDto> readAllSubscriptionSW(Pageable pageable) {
+    public Page<SubscriptionSWDto> readAllCoreSubscriptionSW(Pageable pageable) {
         Page<SubscriptionSW> pageOfSW = subscriptionSWRepository.findAll(pageable);
         return pageOfSW.map(sw -> strictMapper.map(sw, SubscriptionSWDto.class));
     }
@@ -50,9 +50,9 @@ public class SubscriptionSWService {
         return strictMapper.map(sw, SubscriptionSWDto.class);
     }
 
-    public List<SimpleSubscriptionSWDto> readAllSubscriptionSW() {
+    public List<CoreSubscriptionSWDto> readAllCoreSubscriptionSW() {
         List<SubscriptionSW> listOfSw = subscriptionSWRepository.findAll();
-        return listOfSw.stream().map(SimpleSubscriptionSWDto::new).collect(Collectors.toList());
+        return listOfSw.stream().map(CoreSubscriptionSWDto::new).collect(Collectors.toList());
     }
 
     private SubscriptionSW findSubscriptionSW(Long swId) {

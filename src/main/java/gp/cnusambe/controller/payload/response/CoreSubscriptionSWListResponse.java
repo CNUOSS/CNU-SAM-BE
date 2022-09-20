@@ -2,7 +2,7 @@ package gp.cnusambe.controller.payload.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import gp.cnusambe.service.dto.SimpleSubscriptionSWDto;
+import gp.cnusambe.service.dto.CoreSubscriptionSWDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +12,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SimpleSubscriptionSWListResponse {
-    private List<SimpleSubscriptionSWDto> sw;
+public class CoreSubscriptionSWListResponse {
+    private List<CoreSubscriptionSWDto> sw;
 }
