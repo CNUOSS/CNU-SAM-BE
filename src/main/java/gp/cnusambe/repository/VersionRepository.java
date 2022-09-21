@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface VersionRepository extends JpaRepository<Version, Long> {
     List<Version> findAllByProject(Project project);
+    List<Version> findAllByProjectOrderByCreateDateDesc(Project project);
 }
