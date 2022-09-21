@@ -63,7 +63,7 @@ public class ProjectService {
     public ProjectDto getProjectDetail(Long id){
         Optional<Project> project = this.projectRepository.findProjectById(id);
 
-        List<Version> versionList = this.versionRepository.findAllByProject(project.get());
+        List<Version> versionList = this.versionRepository.findAllByProjectOrderByCreateDateDesc(project.get());
 
         ProjectDto projectDto = project.get().makeProjectDto(versionList);
         return projectDto;
