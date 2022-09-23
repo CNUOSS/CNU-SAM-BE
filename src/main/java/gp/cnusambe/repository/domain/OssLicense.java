@@ -21,7 +21,7 @@ public class OssLicense {
     @JsonProperty("license_url")
     private String licenseUrl;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name="license_type_name")
     @JsonProperty("oss_license_type")
     private OssLicenseType ossLicenseType;
