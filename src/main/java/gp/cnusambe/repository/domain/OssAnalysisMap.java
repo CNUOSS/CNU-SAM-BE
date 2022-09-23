@@ -37,7 +37,7 @@ public class OssAnalysisMap {
     @Column(length = 2083)
     private String licenseUrl;
 
-    @Column(length = 10)
+    @Column(length = 20)
     private String licenseTypeName;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
