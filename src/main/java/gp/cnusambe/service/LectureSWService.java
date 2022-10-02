@@ -53,17 +53,24 @@ public class LectureSWService {
         return lectureMapRepository.save(new LectureMap(lectureSWId, registrationSWId, license, latestUpdateDate));
     }
 
-    public LectureSWListDto readAllLectureSW(String department, String year, String lectureType, String semester, String lectureName, String lectureNum, String owner, Pageable pageable) {
-        boolean search = department.length() == 0 && year.length() == 0 && lectureType.length() == 0 && semester.length() == 0 && lectureName.length() == 0 && lectureNum.length() == 0 && owner.length() == 0 ? false : true;
+    public LectureSWListDto readAllLectureSW(Pageable pageable) {
+        Page<LectureSW> listOfSW = lectureSWRepository.findAll(pageable);
+        List<LectureMap> pageOfMap = lectureMapRepository.findAllByLectureSWIdIn(getAllSWId(listOfSW));
 
-        List<LectureSW> listOfSW = search
-                ? lectureSWQueryRepository.findAllBy(department, year, lectureType, semester, lectureName, lectureNum, owner)
-                : lectureSWRepository.findAll();
-        List<Long> listOfSWId = listOfSW.stream().map(LectureSW::getId).collect(Collectors.toList());
-        Page<LectureMap> pageOfMap = lectureMapRepository.findAllByLectureSWIdIn(listOfSWId, pageable);
+        PageInfoDto pageInfo = new PageInfoDto(listOfSW.getTotalElements(), listOfSW.isLast(), listOfSW.getTotalPages(), listOfSW.getSize());
+        return new LectureSWListDto(pageInfo, makeListOfLectureSWListDto(pageOfMap));
+    }
 
-        PageInfoDto pageInfo = new PageInfoDto(pageOfMap.getTotalElements(), pageOfMap.isLast(), pageOfMap.getTotalPages(), pageOfMap.getSize());
-        return new LectureSWListDto(pageInfo, makeListOfLectureSWListDto(pageOfMap.getContent()));
+    public LectureSWListDto searchAllLectureSW(String department, String year, String lectureType, String semester, String lectureName, String lectureNum, String owner, Pageable pageable) {
+        Page<LectureSW> listOfSW = lectureSWRepository.findAllBy(department, year, lectureType, semester, lectureName, lectureNum, owner, pageable);
+        List<LectureMap> pageOfMap = lectureMapRepository.findAllByLectureSWIdIn(getAllSWId(listOfSW));
+
+        PageInfoDto pageInfo = new PageInfoDto(listOfSW.getTotalElements(), listOfSW.isLast(), listOfSW.getTotalPages(), listOfSW.getSize());
+        return new LectureSWListDto(pageInfo, makeListOfLectureSWListDto(pageOfMap));
+    }
+
+    private List<Long> getAllSWId(Page<LectureSW> listOfSW){
+        return listOfSW.stream().map(LectureSW::getId).collect(Collectors.toList());
     }
 
     private List<LectureSWList> makeListOfLectureSWListDto(List<LectureMap> pageOfMap) {

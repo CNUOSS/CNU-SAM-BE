@@ -3,10 +3,7 @@ package gp.cnusambe.controller;
 import gp.cnusambe.controller.payload.response.*;
 import gp.cnusambe.controller.payload.request.LectureSWRequest;
 import gp.cnusambe.service.LectureSWService;
-import gp.cnusambe.service.dto.LectureSWDto;
-import gp.cnusambe.service.dto.LectureSWForChartDto;
-import gp.cnusambe.service.dto.LectureSWListDto;
-import gp.cnusambe.service.dto.SWInLectureSWDto;
+import gp.cnusambe.service.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,11 +26,10 @@ public class LectureSWController {
     @PostMapping("/lectures")
     public ResponseEntity<LectureSWResponse> getLectureSW(@RequestBody LectureSWRequest request) {
         LectureSWDto lectureSwDto = strictMapper.map(request, LectureSWDto.class);
-        lectureSwDto = lectureSwService.createLectureSW(lectureSwDto);
-
         List<SWInLectureSWDto> swInLectureSWDtos = request.getSw()
                 .stream().map(element -> strictMapper.map(element, SWInLectureSWDto.class))
                 .collect(Collectors.toList());
+        lectureSwDto = lectureSwService.createLectureSW(lectureSwDto);
         swInLectureSWDtos = lectureSwService.createAllLectureMap(lectureSwDto, swInLectureSWDtos);
 
         LectureSWResponse response = new LectureSWResponse(lectureSwDto, swInLectureSWDtos);
@@ -41,15 +38,15 @@ public class LectureSWController {
 
     @GetMapping("/lectures/search")
     public ResponseEntity<LectureSWListResponse> getAllLectureSW(
-            @RequestParam(value="department", required=false) String department,
-            @RequestParam(value="year", required=false) String year,
-            @RequestParam(value="lecture-type", required=false) String lectureType,
-            @RequestParam(value="semester", required=false) String semester,
-            @RequestParam(value="lecture-name", required=false) String lectureName,
-            @RequestParam(value="lecture-num", required=false) String lectureNum,
-            @RequestParam(value="owner", required = false) String owner,
-            @PageableDefault(size=9, page=0, sort="latestUpdateDate", direction= Sort.Direction.DESC) Pageable pageable
-    ){
+            @RequestParam(value = "department", required = false) String department,
+            @RequestParam(value = "year", required = false) String year,
+            @RequestParam(value = "lecture-type", required = false) String lectureType,
+            @RequestParam(value = "semester", required = false) String semester,
+            @RequestParam(value = "lecture-name", required = false) String lectureName,
+            @RequestParam(value = "lecture-num", required = false) String lectureNum,
+            @RequestParam(value = "owner", required = false) String owner,
+            @PageableDefault(size = 9, page = 0, sort = "latestUpdateDate", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
         String department_ = Optional.ofNullable(department).orElse("");
         String year_ = Optional.ofNullable(year).orElse("");
         String lectureType_ = Optional.ofNullable(lectureType).orElse("");
@@ -58,7 +55,10 @@ public class LectureSWController {
         String lectureNum_ = Optional.ofNullable(lectureNum).orElse("");
         String owner_ = Optional.ofNullable(owner).orElse("");
 
-        LectureSWListDto lectureSWListDto = lectureSwService.readAllLectureSW(department_, year_, lectureType_, semester_, lectureName_, lectureNum_, owner_, pageable);
+        boolean search = department_.length() != 0 || year_.length() != 0 || lectureType_.length() != 0 || semester_.length() != 0 || lectureName_.length() != 0 || lectureNum_.length() != 0 || owner_.length() != 0;
+        LectureSWListDto lectureSWListDto = search
+                ? lectureSwService.searchAllLectureSW(department_, year_, lectureType_, semester_, lectureName_, lectureNum_, owner_, pageable)
+                : lectureSwService.readAllLectureSW(pageable);
         LectureSWListResponse response = strictMapper.map(lectureSWListDto, LectureSWListResponse.class);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -72,7 +72,7 @@ public class LectureSWController {
     }
 
     @DeleteMapping("/lectures/{lsw_id}")
-    public ResponseEntity<Void> deleteLectureSW(@PathVariable("lsw_id") Long swId){
+    public ResponseEntity<Void> deleteLectureSW(@PathVariable("lsw_id") Long swId) {
         lectureSwService.deleteLectureSW(swId);
         return ResponseEntity.noContent().build();
     }
