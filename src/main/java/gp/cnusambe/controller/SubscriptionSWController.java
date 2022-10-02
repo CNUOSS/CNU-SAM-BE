@@ -2,7 +2,6 @@ package gp.cnusambe.controller;
 
 import gp.cnusambe.service.dto.PageInfoDto;
 import gp.cnusambe.service.dto.SubscriptionSWDto;
-import gp.cnusambe.exception.custom.SWDuplicatedException;
 import gp.cnusambe.controller.payload.request.SubscriptionSWRequest;
 import gp.cnusambe.controller.payload.request.SubscriptionSWUpdateRequest;
 import gp.cnusambe.controller.payload.response.SWListResponse;
@@ -31,8 +30,6 @@ public class SubscriptionSWController {
     @PostMapping
     public ResponseEntity<SubscriptionSWResponse> postSubscriptionSW(@RequestBody SubscriptionSWRequest request) {
         SubscriptionSWDto swDto = strictMapper.map(request, SubscriptionSWDto.class);
-        if (subscriptionSWService.hasDuplicateSubscriptionSW(swDto.getSwManufacturer(), swDto.getSwName(), swDto.getLicense()))
-            throw new SWDuplicatedException();
         SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.createSubscriptionSW(swDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -60,8 +57,6 @@ public class SubscriptionSWController {
     @PutMapping
     public ResponseEntity<SubscriptionSWResponse> updateSubscriptionSW(@RequestBody SubscriptionSWUpdateRequest request) {
         SubscriptionSWDto newSWDto = strictMapper.map(request, SubscriptionSWDto.class);
-        if (subscriptionSWService.hasDuplicateSubscriptionSW(newSWDto.getSwManufacturer(), newSWDto.getSwName(), newSWDto.getLicense()))
-            throw new SWDuplicatedException();
         SubscriptionSWResponse response = new SubscriptionSWResponse(subscriptionSWService.updateSubscriptionSW(newSWDto));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

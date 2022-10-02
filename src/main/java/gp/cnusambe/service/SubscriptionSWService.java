@@ -1,5 +1,6 @@
 package gp.cnusambe.service;
 
+import gp.cnusambe.exception.custom.SWDuplicatedException;
 import gp.cnusambe.repository.domain.SubscriptionSW;
 import gp.cnusambe.service.dto.SWDto;
 import gp.cnusambe.service.dto.SubscriptionSWDto;
@@ -21,6 +22,8 @@ public class SubscriptionSWService {
     private final SubscriptionSWRepository subscriptionSWRepository;
 
     public SubscriptionSWDto createSubscriptionSW(SubscriptionSWDto swDto) {
+        if (hasDuplicateSubscriptionSW(swDto.getSwManufacturer(), swDto.getSwName(), swDto.getLicense()))
+            throw new SWDuplicatedException();
         SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(swDto));
         return strictMapper.map(sw, SubscriptionSWDto.class);
     }
@@ -40,11 +43,13 @@ public class SubscriptionSWService {
         subscriptionSWRepository.delete(sw);
     }
 
-    public boolean hasDuplicateSubscriptionSW(String swManufacturer, String swName, String license) {
+    private boolean hasDuplicateSubscriptionSW(String swManufacturer, String swName, String license) {
         return subscriptionSWRepository.existsBySwManufacturerAndSwNameAndLicense(swManufacturer, swName, license);
     }
 
     public SubscriptionSWDto updateSubscriptionSW(SubscriptionSWDto newSWDto) {
+        if (hasDuplicateSubscriptionSW(newSWDto.getSwManufacturer(), newSWDto.getSwName(), newSWDto.getLicense()))
+            throw new SWDuplicatedException();
         findSubscriptionSW(newSWDto.getId());
         SubscriptionSW sw = subscriptionSWRepository.save(new SubscriptionSW(newSWDto));
         return strictMapper.map(sw, SubscriptionSWDto.class);
