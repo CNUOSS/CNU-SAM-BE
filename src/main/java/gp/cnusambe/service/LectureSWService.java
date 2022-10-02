@@ -1,5 +1,6 @@
 package gp.cnusambe.service;
 
+import gp.cnusambe.exception.custom.SWDuplicatedException;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.controller.payload.response.DepartmentResponse;
 import gp.cnusambe.controller.payload.response.LectureTypeResponse;
@@ -23,11 +24,16 @@ public class LectureSWService {
     private final LectureSWRepository lectureSWRepository;
     private final LectureMapRepository lectureMapRepository;
     private final RegistrationSWRepository registrationSWRepository;
-    private final LectureSWQueryRepository lectureSWQueryRepository;
 
     public LectureSWDto createLectureSW(LectureSWDto swDto) {
+        if (hasDuplicateLectureSW(swDto.getYear(), swDto.getSemester(), swDto.getLectureNum()))
+            throw new SWDuplicatedException();
         LectureSW sw = lectureSWRepository.save(new LectureSW(swDto));
         return strictMapper.map(sw, LectureSWDto.class);
+    }
+
+    private boolean hasDuplicateLectureSW(String year, String semester, String lectureNum) {
+        return lectureSWRepository.existsByYearAndSemesterAndLectureNum(year, semester, lectureNum);
     }
 
     public List<SWInLectureSWDto> createAllLectureMap(LectureSWDto lectureSw, List<SWInLectureSWDto> swMapDto) {
