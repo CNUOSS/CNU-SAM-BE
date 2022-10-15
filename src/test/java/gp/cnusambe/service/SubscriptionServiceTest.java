@@ -1,7 +1,7 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.repository.domain.SubscriptionSW;
-import gp.cnusambe.service.dto.CoreSubscriptionSWDto;
+import gp.cnusambe.service.dto.SWDto;
 import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.repository.SubscriptionSWRepository;
@@ -96,8 +96,8 @@ public class SubscriptionServiceTest {
     void readAllSubscriptionSW_Simple() {
         given(subscriptionSWRepository.findAll()).willReturn(LIST_OF_SSW);
 
-        List<CoreSubscriptionSWDto> rtnSWList = subscriptionSWService.readAllCoreSubscriptionSW();
-        assertThat(rtnSWList.get(0).getClass()).isEqualTo(CoreSubscriptionSWDto.class);
+        List<SWDto> rtnSWList = subscriptionSWService.readAllCoreSubscriptionSW();
+        assertThat(rtnSWList.get(0).getClass()).isEqualTo(SWDto.class);
         assertThat(rtnSWList.size()).isEqualTo(LIST_OF_SSW.size());
     }
 }

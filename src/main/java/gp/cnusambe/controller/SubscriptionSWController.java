@@ -5,7 +5,7 @@ import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWDuplicatedException;
 import gp.cnusambe.controller.payload.request.SubscriptionSWRequest;
 import gp.cnusambe.controller.payload.request.SubscriptionSWUpdateRequest;
-import gp.cnusambe.controller.payload.response.CoreSubscriptionSWListResponse;
+import gp.cnusambe.controller.payload.response.SWListResponse;
 import gp.cnusambe.controller.payload.response.SubscriptionSWListResponse;
 import gp.cnusambe.controller.payload.response.SubscriptionSWResponse;
 import gp.cnusambe.service.SubscriptionSWService;
@@ -73,8 +73,8 @@ public class SubscriptionSWController {
     }
 
     @GetMapping
-    public ResponseEntity<CoreSubscriptionSWListResponse> getAllSubscriptionSW(){
-        CoreSubscriptionSWListResponse response = new CoreSubscriptionSWListResponse(subscriptionSWService.readAllCoreSubscriptionSW());
+    public ResponseEntity<SWListResponse> getAllSubscriptionSW(){
+        SWListResponse response = new SWListResponse(subscriptionSWService.readAllCoreSubscriptionSW());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
