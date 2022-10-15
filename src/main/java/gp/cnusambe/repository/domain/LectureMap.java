@@ -19,18 +19,18 @@ public class LectureMap {
     private Long lectureSWId;
 
     @Column(nullable = false)
-    private Long registrationSWId;
+    private boolean isSubscriptionSW;
 
     @Column(nullable = false)
-    private String license;
+    private Long swId;
 
     @Column(nullable = false)
     private Date latestUpdateDate;
 
-    public LectureMap(Long lectureSWId, Long registrationSWId, String license, Date latestUpdateDate) {
+    public LectureMap(Long lectureSWId, boolean isSubscriptionSW, Long swId, Date latestUpdateDate) {
         this.lectureSWId = lectureSWId;
-        this.registrationSWId = registrationSWId;
-        this.license = license;
+        this.isSubscriptionSW = isSubscriptionSW;
+        this.swId = swId;
         this.latestUpdateDate = latestUpdateDate;
     }
 }

@@ -23,6 +23,6 @@ public class SW {
     @Column(length = 20, nullable = false)
     protected String swName;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     protected String license;
 }
