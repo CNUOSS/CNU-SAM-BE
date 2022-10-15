@@ -14,10 +14,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubscriptionSW {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class SubscriptionSW extends SW {
 
     @Column(length = 10, nullable = false)
     private String latestUpdaterId;
@@ -25,17 +22,8 @@ public class SubscriptionSW {
     @Column(length = 10)
     private String swType;
 
-    @Column(length = 20, nullable = false)
-    private String swManufacturer;
-
-    @Column(length = 20, nullable = false)
-    private String swName;
-
     @Column(length = 20)
     private String usageRange;
-
-    @Column(length = 20)
-    private String license;
 
     @UpdateTimestamp
     @Column

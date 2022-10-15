@@ -18,6 +18,7 @@ public class RegistrationSWDto {
     private String latestUpdaterId;
     private String swManufacturer;
     private String swName;
+    private String license;
     private Date latestUpdateDate;
     private Boolean isManaged;
 }
