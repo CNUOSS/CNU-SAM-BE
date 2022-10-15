@@ -2,7 +2,7 @@ package gp.cnusambe.controller.payload.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import gp.cnusambe.repository.domain.SWInLectureSW;
+import gp.cnusambe.service.dto.SWDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +20,5 @@ public class LectureSWRequest {
     private String lectureName;
     private String lectureType;
     private String department;
-    private List<SWInLectureSW> sw;
+    private List<SWDto> sw;
 }
