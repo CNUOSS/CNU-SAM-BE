@@ -71,10 +71,4 @@ public class SubscriptionSWController {
         subscriptionSWService.deleteSubscriptionSW(swId);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping
-    public ResponseEntity<SWListResponse> getAllSubscriptionSW(){
-        SWListResponse response = new SWListResponse(subscriptionSWService.readAllCoreSubscriptionSW());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 }
