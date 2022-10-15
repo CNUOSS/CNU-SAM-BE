@@ -50,12 +50,7 @@ public class SubscriptionSWService {
         return strictMapper.map(sw, SubscriptionSWDto.class);
     }
 
-    public List<SWDto> readAllCoreSubscriptionSW() {
-        List<SubscriptionSW> listOfSw = subscriptionSWRepository.findAll();
-        return listOfSw.stream().map(SWDto::new).collect(Collectors.toList());
-    }
-
-    private SubscriptionSW findSubscriptionSW(Long swId) {
+    public SubscriptionSW findSubscriptionSW(Long swId) {
         return subscriptionSWRepository.findById(swId).orElseThrow(SWNotFoundException::new);
     }
 }
