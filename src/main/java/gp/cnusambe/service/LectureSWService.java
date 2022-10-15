@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LectureSWService {
     private final ModelMapper strictMapper;
+    private final SubscriptionSWService subscriptionSWService;
     private final LectureTypeRepository lectureTypeRepository;
     private final DepartmentRepository departmentRepository;
     private final LectureSWRepository lectureSWRepository;
@@ -36,21 +38,28 @@ public class LectureSWService {
         return lectureSWRepository.existsByYearAndSemesterAndLectureNum(year, semester, lectureNum);
     }
 
-    public List<SWInLectureSWDto> createAllLectureMap(LectureSWDto lectureSw, List<SWInLectureSWDto> swMapDto) {
-        List<SWInLectureSW> listOfSW = swMapDto.stream().map(element -> strictMapper.map(element, SWInLectureSW.class)).collect(Collectors.toList());
-        List<SWInLectureSWDto> listOfSWInLectureSWDto = new ArrayList<>();
+    public List<SWDto> createAllLectureMap(LectureSWDto lectureSW, List<SWDto> swMapDto) {
+        List<SW> ssw = swMapDto.stream().filter(SWDto::isSubscriptionSW).map(element -> strictMapper.map(element, SW.class)).collect(Collectors.toList());
+        List<SW> rsw = swMapDto.stream().filter(e -> !e.isSubscriptionSW()).map(element -> strictMapper.map(element, SW.class)).collect(Collectors.toList());
+        List<SWDto> listOfSWDto = new ArrayList<>();
 
-        for (SWInLectureSW sw : listOfSW) {
+        for (SW sw : rsw) {
             RegistrationSW registrationSW = registrationSWRepository.findBySwManufacturerAndSwNameAndIsManaged(sw.getSwManufacturer(), sw.getSwName(), true)
-                    .orElse(registrationSWRepository.save(new RegistrationSW(sw.getSwManufacturer(), sw.getSwName())));
-            LectureMap lectureMap = createLectureMap(lectureSw.getId(), registrationSW.getId(), sw.getLicense(), lectureSw.getLatestUpdateDate());
-            listOfSWInLectureSWDto.add(new SWInLectureSWDto(lectureMap.getRegistrationSWId(), registrationSW.getSwManufacturer(), registrationSW.getSwName(), lectureMap.getLicense()));
+                    .orElse(registrationSWRepository.save(new RegistrationSW(sw.getSwManufacturer(), sw.getSwName(), sw.getLicense())));
+            createLectureMap(lectureSW, registrationSW, false);
+            listOfSWDto.add(new SWDto(registrationSW, false));
         }
-        return listOfSWInLectureSWDto;
+
+        for (SW sw : ssw) {
+            SubscriptionSW subscriptionSW = subscriptionSWService.findSubscriptionSW(sw.getId());
+            createLectureMap(lectureSW, subscriptionSW, true);
+            listOfSWDto.add(new SWDto(subscriptionSW, true));
+        }
+        return listOfSWDto;
     }
 
-    private LectureMap createLectureMap(Long lectureSWId, Long registrationSWId, String license, Date latestUpdateDate) {
-        return lectureMapRepository.save(new LectureMap(lectureSWId, registrationSWId, license, latestUpdateDate));
+    private LectureMap createLectureMap(LectureSWDto lectureSWDto, SW sw, boolean isSubscriptionSW) {
+        return lectureMapRepository.save(new LectureMap(lectureSWDto.getId(), isSubscriptionSW, sw.getId(), lectureSWDto.getLatestUpdateDate()));
     }
 
     public LectureSWListDto readAllLectureSW(Pageable pageable) {
@@ -69,16 +78,21 @@ public class LectureSWService {
         return new LectureSWListDto(pageInfo, makeListOfLectureSWListDto(pageOfMap));
     }
 
-    private List<Long> getAllSWId(Page<LectureSW> listOfSW){
+    private List<Long> getAllSWId(Page<LectureSW> listOfSW) {
         return listOfSW.stream().map(LectureSW::getId).collect(Collectors.toList());
     }
 
     private List<LectureSWList> makeListOfLectureSWListDto(List<LectureMap> pageOfMap) {
         List<LectureSWList> listOfLectureSWList = new ArrayList<>();
         for (LectureMap lectureMap : pageOfMap) {
-            LectureSW lectureSW = lectureSWRepository.findById(lectureMap.getLectureSWId()).get();
-            RegistrationSW registrationSW = registrationSWRepository.findById(lectureMap.getRegistrationSWId()).get();
-            listOfLectureSWList.add(new LectureSWList(lectureSW, registrationSW, lectureMap));
+            LectureSW lectureSW = lectureSWRepository.findById(lectureMap.getLectureSWId()).orElseThrow(SWNotFoundException::new);
+            if (lectureMap.isSubscriptionSW()) {
+                SubscriptionSW subscriptionSW = subscriptionSWService.findSubscriptionSW(lectureMap.getSwId());
+                listOfLectureSWList.add(new LectureSWList(lectureSW, subscriptionSW));
+            } else {
+                RegistrationSW registrationSW = registrationSWRepository.findById(lectureMap.getSwId()).orElseThrow(SWNotFoundException::new);
+                listOfLectureSWList.add(new LectureSWList(lectureSW, registrationSW));
+            }
         }
         return listOfLectureSWList;
     }
@@ -88,11 +102,11 @@ public class LectureSWService {
         return strictMapper.map(lectureSW, LectureSWDto.class);
     }
 
-    public List<SWInLectureSWDto> readSWInLectureSW(Long swId) {
+    public List<SWDto> readSWInLectureSW(Long swId) {
         List<LectureMap> listOfMap = lectureMapRepository.findAllByLectureSWId(swId);
         List<LectureSWList> listOfLectureSW = makeListOfLectureSWListDto(listOfMap);
         return listOfLectureSW.stream()
-                .map(element -> strictMapper.map(element, SWInLectureSWDto.class))
+                .map(element -> strictMapper.map(element, SWDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -110,8 +124,8 @@ public class LectureSWService {
         List<LectureMap> pageOfMap = lectureMapRepository.findAllByLectureSWIdIn(listOfSWId);
 
         Map<Long, Integer> map = new HashMap<>();
-        for (LectureMap b : pageOfMap) {
-            Long registrationSWId = b.getRegistrationSWId();
+        for (LectureMap lectureMap : pageOfMap) {
+            Long registrationSWId = lectureMap.getSwId();
             if (map.containsKey(registrationSWId))
                 map.put(registrationSWId, map.get(registrationSWId) + 1);
             else map.put(registrationSWId, 1);
