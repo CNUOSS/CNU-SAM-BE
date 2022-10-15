@@ -1,7 +1,7 @@
 package gp.cnusambe.service;
 
 import gp.cnusambe.repository.domain.SubscriptionSW;
-import gp.cnusambe.service.dto.CoreSubscriptionSWDto;
+import gp.cnusambe.service.dto.SWDto;
 import gp.cnusambe.service.dto.SubscriptionSWDto;
 import gp.cnusambe.exception.custom.SWNotFoundException;
 import gp.cnusambe.repository.SubscriptionSWRepository;
@@ -50,9 +50,9 @@ public class SubscriptionSWService {
         return strictMapper.map(sw, SubscriptionSWDto.class);
     }
 
-    public List<CoreSubscriptionSWDto> readAllCoreSubscriptionSW() {
+    public List<SWDto> readAllCoreSubscriptionSW() {
         List<SubscriptionSW> listOfSw = subscriptionSWRepository.findAll();
-        return listOfSw.stream().map(CoreSubscriptionSWDto::new).collect(Collectors.toList());
+        return listOfSw.stream().map(SWDto::new).collect(Collectors.toList());
     }
 
     private SubscriptionSW findSubscriptionSW(Long swId) {

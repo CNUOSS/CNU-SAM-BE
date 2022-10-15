@@ -2,6 +2,7 @@ package gp.cnusambe.service.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import gp.cnusambe.repository.domain.SW;
 import gp.cnusambe.repository.domain.SubscriptionSW;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,12 +14,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CoreSubscriptionSWDto {
+public class SWDto {
+    private long id;
     private String swManufacturer;
     private String swName;
     private String license;
 
-    public CoreSubscriptionSWDto(SubscriptionSW sw){
+    public SWDto(SW sw) {
+        this.id = sw.getId();
         this.swManufacturer = sw.getSwManufacturer();
         this.swName = sw.getSwName();
         this.license = sw.getLicense();
