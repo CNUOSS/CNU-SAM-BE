@@ -23,10 +23,11 @@ public class RegistrationSW extends SW{
     @Column(nullable = false)
     private Boolean isManaged;
 
-    public RegistrationSW(String swManufacturer, String swName){
+    public RegistrationSW(String swManufacturer, String swName, String license){
         this.latestUpdaterId = "manager";
         this.swManufacturer = swManufacturer;
         this.swName = swName;
+        this.license =license;
         this.isManaged = false;
     }
 
@@ -34,6 +35,7 @@ public class RegistrationSW extends SW{
         this.latestUpdaterId = swDto.getLatestUpdaterId();
         this.swManufacturer = swDto.getSwManufacturer();
         this.swName = swDto.getSwName();
+        this.license =swDto.getLicense();
         this.isManaged = swDto.getIsManaged();
     }
 
@@ -41,6 +43,7 @@ public class RegistrationSW extends SW{
         this.latestUpdaterId = swDto.getLatestUpdaterId();
         this.swManufacturer = swDto.getSwManufacturer();
         this.swName = swDto.getSwName();
+        this.license =swDto.getLicense();
         this.isManaged = swDto.getIsManaged();
     }
 }

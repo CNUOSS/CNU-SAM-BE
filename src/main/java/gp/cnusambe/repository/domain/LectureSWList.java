@@ -24,13 +24,13 @@ public class LectureSWList {
     private String department;
     private Date createDate;
     private Date latestUpdateDate;
-    private Long registrationSWId;
+    private Long swId;
     private String swManufacturer;
     private String swName;
     private String license;
     private Boolean isManaged;
 
-    public LectureSWList(LectureSW lectureSW, RegistrationSW registrationSW, LectureMap lectureMap){
+    public LectureSWList(LectureSW lectureSW, RegistrationSW sw){
         this.id = lectureSW.getId();
         this.ownerId = lectureSW.getOwnerId();
         this.year = lectureSW.getYear();
@@ -41,11 +41,29 @@ public class LectureSWList {
         this.department = lectureSW.getDepartment();
         this.createDate = lectureSW.getCreateDate();
         this.latestUpdateDate = lectureSW.getLatestUpdateDate();
-        this.registrationSWId = registrationSW.getId();
-        this.swManufacturer = registrationSW.getSwManufacturer();
-        this.swName = registrationSW.getSwName();
-        this.license = lectureMap.getLicense();
-        this.isManaged = registrationSW.getIsManaged();
+        this.swId = sw.getId();
+        this.swManufacturer = sw.getSwManufacturer();
+        this.swName = sw.getSwName();
+        this.license = sw.getLicense();
+        this.isManaged = sw.getIsManaged();
+    }
+
+    public LectureSWList(LectureSW lectureSW, SubscriptionSW sw){
+        this.id = lectureSW.getId();
+        this.ownerId = lectureSW.getOwnerId();
+        this.year = lectureSW.getYear();
+        this.semester = lectureSW.getSemester();
+        this.lectureNum = lectureSW.getLectureNum();
+        this.lectureName = lectureSW.getLectureName();
+        this.lectureType = lectureSW.getLectureType();
+        this.department = lectureSW.getDepartment();
+        this.createDate = lectureSW.getCreateDate();
+        this.latestUpdateDate = lectureSW.getLatestUpdateDate();
+        this.swId = sw.getId();
+        this.swManufacturer = sw.getSwManufacturer();
+        this.swName = sw.getSwName();
+        this.license = sw.getLicense();
+        this.isManaged = true;
     }
 }
 
