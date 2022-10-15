@@ -12,19 +12,9 @@ import java.util.Date;
 @Setter
 @Getter
 @NoArgsConstructor
-public class RegistrationSW {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class RegistrationSW extends SW{
     @Column(length = 10, nullable = false)
     private String latestUpdaterId;
-
-    @Column(length = 20, nullable = false)
-    private String swManufacturer;
-
-    @Column(length = 20, nullable = false)
-    private String swName;
 
     @UpdateTimestamp
     @Column
