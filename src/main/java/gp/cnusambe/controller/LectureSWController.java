@@ -24,15 +24,15 @@ public class LectureSWController {
     private final LectureSWService lectureSwService;
 
     @PostMapping("/lectures")
-    public ResponseEntity<LectureSWResponse> getLectureSW(@RequestBody LectureSWRequest request) {
+    public ResponseEntity<LectureSWResponse> postLectureSW(@RequestBody LectureSWRequest request) {
         LectureSWDto lectureSwDto = strictMapper.map(request, LectureSWDto.class);
-        List<SWInLectureSWDto> swInLectureSWDtos = request.getSw()
-                .stream().map(element -> strictMapper.map(element, SWInLectureSWDto.class))
+        List<SWDto> swDtos = request.getSw()
+                .stream().map(element -> strictMapper.map(element, SWDto.class))
                 .collect(Collectors.toList());
         lectureSwDto = lectureSwService.createLectureSW(lectureSwDto);
-        swInLectureSWDtos = lectureSwService.createAllLectureMap(lectureSwDto, swInLectureSWDtos);
+        swDtos = lectureSwService.createAllLectureMap(lectureSwDto, swDtos);
 
-        LectureSWResponse response = new LectureSWResponse(lectureSwDto, swInLectureSWDtos);
+        LectureSWResponse response = new LectureSWResponse(lectureSwDto, swDtos);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -66,8 +66,8 @@ public class LectureSWController {
     @GetMapping("/lectures/{lsw_id}")
     public ResponseEntity<LectureSWResponse> getLectureSW(@PathVariable("lsw_id") Long swId) {
         LectureSWDto lectureSWDto = lectureSwService.readLectureSW(swId);
-        List<SWInLectureSWDto> swInLectureSWDtos = lectureSwService.readSWInLectureSW(swId);
-        LectureSWResponse response = new LectureSWResponse(lectureSWDto, swInLectureSWDtos);
+        List<SWDto> swDtos = lectureSwService.readSWInLectureSW(swId);
+        LectureSWResponse response = new LectureSWResponse(lectureSWDto, swDtos);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
