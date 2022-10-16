@@ -26,9 +26,7 @@ public class LectureSWController {
     @PostMapping("/lectures")
     public ResponseEntity<LectureSWResponse> postLectureSW(@RequestBody LectureSWRequest request) {
         LectureSWDto lectureSwDto = strictMapper.map(request, LectureSWDto.class);
-        List<SWDto> swDtos = request.getSw()
-                .stream().map(element -> strictMapper.map(element, SWDto.class))
-                .collect(Collectors.toList());
+        List<SWDto> swDtos = request.getSw();
         lectureSwDto = lectureSwService.createLectureSW(lectureSwDto);
         swDtos = lectureSwService.createAllLectureMap(lectureSwDto, swDtos);
 
