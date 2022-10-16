@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LectureSWService {
     private final ModelMapper strictMapper;
-    private final SubscriptionSWService subscriptionSWService;
+    private final SubscriptionSWRepository subscriptionSWRepository;
     private final LectureTypeRepository lectureTypeRepository;
     private final DepartmentRepository departmentRepository;
     private final LectureSWRepository lectureSWRepository;
@@ -39,8 +39,8 @@ public class LectureSWService {
     }
 
     public List<SWDto> createAllLectureMap(LectureSWDto lectureSW, List<SWDto> swMapDto) {
-        List<SW> ssw = swMapDto.stream().filter(SWDto::isSubscriptionSW).map(element -> strictMapper.map(element, SW.class)).collect(Collectors.toList());
-        List<SW> rsw = swMapDto.stream().filter(e -> !e.isSubscriptionSW()).map(element -> strictMapper.map(element, SW.class)).collect(Collectors.toList());
+        List<SW> ssw = swMapDto.stream().filter(e -> e.getIsSubscriptionSw()).map(element -> strictMapper.map(element, SW.class)).collect(Collectors.toList());
+        List<SW> rsw = swMapDto.stream().filter(e -> !e.getIsSubscriptionSw()).map(element -> strictMapper.map(element, SW.class)).collect(Collectors.toList());
         List<SWDto> listOfSWDto = new ArrayList<>();
 
         for (SW sw : rsw) {
@@ -51,7 +51,7 @@ public class LectureSWService {
         }
 
         for (SW sw : ssw) {
-            SubscriptionSW subscriptionSW = subscriptionSWService.findSubscriptionSW(sw.getId());
+            SubscriptionSW subscriptionSW = subscriptionSWRepository.findBySwManufacturerAndSwNameAndLicense(sw.getSwManufacturer(), sw.getSwName(), sw.getLicense());
             createLectureMap(lectureSW, subscriptionSW, true);
             listOfSWDto.add(new SWDto(subscriptionSW, true));
         }
@@ -87,7 +87,7 @@ public class LectureSWService {
         for (LectureMap lectureMap : pageOfMap) {
             LectureSW lectureSW = lectureSWRepository.findById(lectureMap.getLectureSWId()).orElseThrow(SWNotFoundException::new);
             if (lectureMap.isSubscriptionSW()) {
-                SubscriptionSW subscriptionSW = subscriptionSWService.findSubscriptionSW(lectureMap.getSwId());
+                SubscriptionSW subscriptionSW = subscriptionSWRepository.findById(lectureMap.getSwId()).orElseThrow(SWNotFoundException::new);
                 listOfLectureSWList.add(new LectureSWList(lectureSW, subscriptionSW));
             } else {
                 RegistrationSW registrationSW = registrationSWRepository.findById(lectureMap.getSwId()).orElseThrow(SWNotFoundException::new);

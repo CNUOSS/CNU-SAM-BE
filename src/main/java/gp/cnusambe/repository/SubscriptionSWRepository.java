@@ -31,4 +31,6 @@ public interface SubscriptionSWRepository extends JpaRepository<SubscriptionSW, 
             }
         };
     }
+
+    SubscriptionSW findBySwManufacturerAndSwNameAndLicense(String swManufacturer, String swName, String license);
 }
