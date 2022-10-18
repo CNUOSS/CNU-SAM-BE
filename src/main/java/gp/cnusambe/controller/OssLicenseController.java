@@ -45,6 +45,7 @@ public class OssLicenseController {
         }else if(licenseTypeName != null) {
             licenseDtoPage = this.ossLicenseService.searchByLicenseTypeName(licenseTypeName,pageable);
         }else if(restrictionName != null){
+            //TODO : restrictionName이 아닌 id로 찾기
             licenseDtoPage = this.ossLicenseService.searchByRestrictionName(restrictionName,pageable);
         }else {
             licenseDtoPage = this.ossLicenseService.searchAll(pageable);
