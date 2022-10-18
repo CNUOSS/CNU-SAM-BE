@@ -38,7 +38,7 @@ public class OssLicenseService {
         //Save Restriction
         List<Restriction> newRestrictionList = new ArrayList<>();
         for(int index = 0; index < restrictionList.size(); index++){
-            Optional<Restriction> restriction = this.restrictionRepository.findById(restrictionList.get(index).getRestrictionName());
+            Optional<Restriction> restriction = this.restrictionRepository.findById(restrictionList.get(index).getId());
             LicenseRestrictionMap newMap = this.licenseRestrictionMapRepository.save(new LicenseRestrictionMap(license,restriction.get()));
             newRestrictionList.add(restriction.get());
         }
