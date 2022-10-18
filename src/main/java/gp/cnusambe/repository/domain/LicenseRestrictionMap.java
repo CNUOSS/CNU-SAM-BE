@@ -27,8 +27,7 @@ public class LicenseRestrictionMap {
 
     //column : restriction
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE})
-    @JoinColumn(name="restriction_name")
-    @JsonProperty("restriction")
+    @JoinColumn
     private Restriction restriction;
 
 
