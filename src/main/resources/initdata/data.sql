@@ -25,12 +25,15 @@ INSERT IGNORE INTO PROJECT_CATEGORY (PROJECT_CATEGORY_NAME) VALUES ('개인'),('
 /*RESTRICTION*/
 create table if not exists restriction
 (
-    restriction_name varchar(50) not null
-        primary key
+    id               bigint auto_increment
+        primary key,
+    restriction_name varchar(50) null,
+    scope            varchar(30) null
 )
     engine = MyISAM;
 
-INSERT IGNORE INTO RESTRICTION (RESTRICTION_NAME) VALUES ('배포시 라이선스사본첨부'),('조합저작물 작성 및 타 라이선스 배포허용'),('저작권 고지사항 또는 Attribution 고지사항 유지'),('수정내용 고지'),('명시적 특허라이선스의 허용'),('이름, 상표, 상호에 대한 사용제한'),('보증의 부인'),('책임의 제한');
+INSERT IGNORE INTO RESTRICTION (ID, RESTRICTION_NAME, SCOPE) VALUES ('1','배포시 라이선스사본첨부',' '),('2','조합저작물 작성 및 타 라이선스 배포허용',' '),('3','저작권 고지사항 또는 Attribution 고지사항 유지',' '),('4','수정내용 고지',' '),('5','명시적 특허라이선스의 허용',' '),('6','이름, 상표, 상호에 대한 사용제한',' '),('7','보증의 부인',' '),('8','책임의 제한',' '),('9','라이선시가 특허소송 제기시 라이선스 종료',' '),('10','배포시 소스코드 제공의무와 범위','모듈 단위'),('11','배포시 소스코드 제공의무와 범위','네트워크
+서비스 포함 전체 코드'),('12','배포시 소스코드 제공의무와 범위','파일 단위'),('13','배포시 소스코드 제공의무와 범위','모듈 단위 2차 저작물'),('14','배포시 소스코드 제공의무와 범위','파일 단위'),('15','배포시 소스코드 제공의무와 범위','전체 코드');
 
 /*LECTURE_TYPE*/
 create table if not exists lecture_type
