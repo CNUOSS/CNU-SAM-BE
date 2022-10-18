@@ -17,8 +17,7 @@ public class AnalysisRestrictionMap {
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
-    @JoinColumn(name = "restriction_name")
-    @JsonProperty("restriction_name")
+    @JoinColumn
     private Restriction restriction;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})

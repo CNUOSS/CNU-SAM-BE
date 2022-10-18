@@ -8,9 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Getter
@@ -21,9 +19,15 @@ import javax.persistence.Id;
 public class Restriction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(length = 50)
     @JsonProperty("restriction_name")
     private String restrictionName;
+
+    @Column(length = 30)
+    private String scope;
 
 
 }
